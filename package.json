@@ -1,0 +1,35 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/bot/bot.js",
+    "dev": "nodemon src/bot/bot.js",
+    "start:api": "node src/api/server.js",
+    "dev:api": "nodemon src/api/server.js",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:api\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/athilalexandre/digibot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/athilalexandre/digibot/issues"
+  },
+  "homepage": "https://github.com/athilalexandre/digibot#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.0",
+    "tmi.js": "^1.8.5"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.10"
+  }
+}
