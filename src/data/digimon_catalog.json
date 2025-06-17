@@ -3,7 +3,7 @@
     "name": "Botamon",
     "stage": "Baby I",
     "type": null,
-    "attribute": "Neutral",
+    "attribute": "Neutro",
     "evolvesFrom": null,
     "evolvesTo": "Koromon",
     "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 }
@@ -12,7 +12,7 @@
     "name": "Koromon",
     "stage": "Baby II",
     "type": null,
-    "attribute": "Neutral",
+    "attribute": "Neutro",
     "evolvesFrom": "Botamon",
     "evolvesTo": "Agumon",
     "baseStats": { "hp": 15, "forca": 2, "defesa": 2, "velocidade": 2, "sabedoria": 2 }
@@ -21,7 +21,7 @@
     "name": "Agumon",
     "stage": "Rookie",
     "type": "Vacina",
-    "attribute": "Fire",
+    "attribute": "Fogo",
     "evolvesFrom": "Koromon",
     "evolvesTo": "Greymon",
     "baseStats": { "hp": 30, "forca": 7, "defesa": 5, "velocidade": 4, "sabedoria": 3 }
@@ -30,7 +30,7 @@
     "name": "Greymon",
     "stage": "Champion",
     "type": "Vacina",
-    "attribute": "Fire",
+    "attribute": "Fogo",
     "evolvesFrom": "Agumon",
     "evolvesTo": "MetalGreymon",
     "baseStats": { "hp": 70, "forca": 15, "defesa": 12, "velocidade": 8, "sabedoria": 6 }
@@ -39,7 +39,7 @@
     "name": "MetalGreymon",
     "stage": "Ultimate",
     "type": "Vacina",
-    "attribute": "Fire",
+    "attribute": "Fogo",
     "evolvesFrom": "Greymon",
     "evolvesTo": "WarGreymon",
     "baseStats": { "hp": 150, "forca": 30, "defesa": 25, "velocidade": 18, "sabedoria": 15 }
@@ -48,7 +48,7 @@
     "name": "WarGreymon",
     "stage": "Mega",
     "type": "Vacina",
-    "attribute": "Fire",
+    "attribute": "Fogo",
     "evolvesFrom": "MetalGreymon",
     "evolvesTo": "Omnimon",
     "baseStats": { "hp": 300, "forca": 60, "defesa": 50, "velocidade": 40, "sabedoria": 30 }
@@ -57,7 +57,7 @@
     "name": "Punimon",
     "stage": "Baby I",
     "type": null,
-    "attribute": "Neutral",
+    "attribute": "Neutro",
     "evolvesFrom": null,
     "evolvesTo": "Tsunomon",
     "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 }
@@ -66,7 +66,7 @@
     "name": "Tsunomon",
     "stage": "Baby II",
     "type": null,
-    "attribute": "Neutral",
+    "attribute": "Neutro",
     "evolvesFrom": "Punimon",
     "evolvesTo": "Gabumon",
     "baseStats": { "hp": 15, "forca": 2, "defesa": 2, "velocidade": 2, "sabedoria": 2 }
@@ -75,7 +75,7 @@
     "name": "Gabumon",
     "stage": "Rookie",
     "type": "Data",
-    "attribute": "Ice",
+    "attribute": "Água",
     "evolvesFrom": "Tsunomon",
     "evolvesTo": "Garurumon",
     "baseStats": { "hp": 30, "forca": 6, "defesa": 4, "velocidade": 5, "sabedoria": 4 }
@@ -84,7 +84,7 @@
     "name": "Garurumon",
     "stage": "Champion",
     "type": "Data",
-    "attribute": "Ice",
+    "attribute": "Água",
     "evolvesFrom": "Gabumon",
     "evolvesTo": "WereGarurumon",
     "baseStats": { "hp": 70, "forca": 14, "defesa": 10, "velocidade": 10, "sabedoria": 7 }
@@ -93,7 +93,7 @@
     "name": "WereGarurumon",
     "stage": "Ultimate",
     "type": "Data",
-    "attribute": "Ice",
+    "attribute": "Água",
     "evolvesFrom": "Garurumon",
     "evolvesTo": "MetalGarurumon",
     "baseStats": { "hp": 150, "forca": 28, "defesa": 22, "velocidade": 25, "sabedoria": 18 }
@@ -102,7 +102,7 @@
     "name": "MetalGarurumon",
     "stage": "Mega",
     "type": "Data",
-    "attribute": "Ice",
+    "attribute": "Água",
     "evolvesFrom": "WereGarurumon",
     "evolvesTo": "Omnimon",
     "baseStats": { "hp": 300, "forca": 55, "defesa": 45, "velocidade": 50, "sabedoria": 35 }
@@ -111,7 +111,7 @@
     "name": "Omnimon",
     "stage": "Mega",
     "type": "Vacina",
-    "attribute": "Light",
+    "attribute": "Luz",
     "evolvesFrom": ["WarGreymon", "MetalGarurumon"],
     "evolvesTo": null,
     "baseStats": { "hp": 700, "forca": 120, "defesa": 100, "velocidade": 90, "sabedoria": 80 }
@@ -120,7 +120,7 @@
     "name": "Poyomon",
     "stage": "Baby I",
     "type": null,
-    "attribute": "Neutral",
+    "attribute": "Neutro",
     "evolvesFrom": null,
     "evolvesTo": "Tokomon",
     "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 }
@@ -129,7 +129,7 @@
     "name": "Tokomon",
     "stage": "Baby II",
     "type": null,
-    "attribute": "Neutral",
+    "attribute": "Neutro",
     "evolvesFrom": "Poyomon",
     "evolvesTo": "Patamon",
     "baseStats": { "hp": 15, "forca": 2, "defesa": 2, "velocidade": 2, "sabedoria": 2 }
@@ -138,7 +138,7 @@
     "name": "Patamon",
     "stage": "Rookie",
     "type": "Data",
-    "attribute": "Wind",
+    "attribute": "Vento",
     "evolvesFrom": "Tokomon",
     "evolvesTo": "Angemon",
     "baseStats": { "hp": 28, "forca": 5, "defesa": 4, "velocidade": 6, "sabedoria": 5 }
@@ -147,7 +147,7 @@
     "name": "Chibomon",
     "stage": "Baby I",
     "type": null,
-    "attribute": "Neutral",
+    "attribute": "Neutro",
     "evolvesFrom": null,
     "evolvesTo": "DemiVeemon",
     "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 }
@@ -156,7 +156,7 @@
     "name": "DemiVeemon",
     "stage": "Baby II",
     "type": null,
-    "attribute": "Neutral",
+    "attribute": "Neutro",
     "evolvesFrom": "Chibomon",
     "evolvesTo": "Veemon",
     "baseStats": { "hp": 15, "forca": 2, "defesa": 2, "velocidade": 2, "sabedoria": 2 }
@@ -165,7 +165,7 @@
     "name": "Veemon",
     "stage": "Rookie",
     "type": "Vacina",
-    "attribute": "Neutral",
+    "attribute": "Neutro",
     "evolvesFrom": "DemiVeemon",
     "evolvesTo": "ExVeemon",
     "baseStats": { "hp": 32, "forca": 7, "defesa": 5, "velocidade": 5, "sabedoria": 3 }
@@ -174,7 +174,7 @@
     "name": "YukimiBotamon",
     "stage": "Baby I",
     "type": null,
-    "attribute": "Neutral",
+    "attribute": "Neutro",
     "evolvesFrom": null,
     "evolvesTo": "Nyaromon",
     "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 }
@@ -183,7 +183,7 @@
     "name": "Nyaromon",
     "stage": "Baby II",
     "type": null,
-    "attribute": "Neutral",
+    "attribute": "Neutro",
     "evolvesFrom": "YukimiBotamon",
     "evolvesTo": "Salamon",
     "baseStats": { "hp": 15, "forca": 2, "defesa": 2, "velocidade": 2, "sabedoria": 2 }
@@ -192,7 +192,7 @@
     "name": "Salamon",
     "stage": "Rookie",
     "type": "Vacina",
-    "attribute": "Light",
+    "attribute": "Luz",
     "evolvesFrom": "Nyaromon",
     "evolvesTo": "Gatomon",
     "baseStats": { "hp": 27, "forca": 4, "defesa": 3, "velocidade": 5, "sabedoria": 6 }
@@ -201,7 +201,7 @@
     "name": "Gatomon",
     "stage": "Champion",
     "type": "Vacina",
-    "attribute": "Light",
+    "attribute": "Luz",
     "evolvesFrom": "Salamon",
     "evolvesTo": "Angewomon",
     "baseStats": { "hp": 65, "forca": 12, "defesa": 10, "velocidade": 12, "sabedoria": 15 }
@@ -210,7 +210,7 @@
     "name": "Guilmon",
     "stage": "Rookie",
     "type": "Virus",
-    "attribute": "Fire",
+    "attribute": "Fogo",
     "evolvesFrom": null,
     "evolvesTo": "Growlmon",
     "baseStats": { "hp": 31, "forca": 8, "defesa": 4, "velocidade": 4, "sabedoria": 3 }
@@ -219,7 +219,7 @@
     "name": "Terriermon",
     "stage": "Rookie",
     "type": "Vacina",
-    "attribute": "Wind",
+    "attribute": "Vento",
     "evolvesFrom": null,
     "evolvesTo": "Gargomon",
     "baseStats": { "hp": 29, "forca": 5, "defesa": 5, "velocidade": 6, "sabedoria": 4 }
@@ -228,7 +228,7 @@
     "name": "Renamon",
     "stage": "Rookie",
     "type": "Data",
-    "attribute": "Neutral",
+    "attribute": "Neutro",
     "evolvesFrom": null,
     "evolvesTo": "Kyubimon",
     "baseStats": { "hp": 28, "forca": 6, "defesa": 3, "velocidade": 7, "sabedoria": 5 }
@@ -237,7 +237,7 @@
     "name": "BlackWarGreymon",
     "stage": "Mega",
     "type": "Virus",
-    "attribute": "Fire",
+    "attribute": "Fogo",
     "evolvesFrom": null,
     "evolvesTo": null,
     "baseStats": { "hp": 320, "forca": 65, "defesa": 55, "velocidade": 40, "sabedoria": 25 }
@@ -246,18 +246,9 @@
     "name": "Paildramon",
     "stage": "Ultimate",
     "type": "Data",
-    "attribute": "Neutral",
+    "attribute": "Neutro",
     "evolvesFrom": ["ExVeemon", "Stingmon"],
-    "evolvesTo": "Imperialdramon Dragon Mode",
-    "baseStats": { "hp": 200, "forca": 40, "defesa": 35, "velocidade": 30, "sabedoria": 25 }
-  },
-  {
-    "name": "Imperialdramon Dragon Mode",
-    "stage": "Mega",
-    "type": "Vacina",
-    "attribute": "Neutral",
-    "evolvesFrom": "Paildramon",
-    "evolvesTo": "Imperialdramon Fighter Mode",
-    "baseStats": { "hp": 350, "forca": 70, "defesa": 60, "velocidade": 50, "sabedoria": 40 }
+    "evolvesTo": "Imperialdramon",
+    "baseStats": { "hp": 160, "forca": 35, "defesa": 30, "velocidade": 35, "sabedoria": 25 }
   }
 ]

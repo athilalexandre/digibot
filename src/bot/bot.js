@@ -11,9 +11,6 @@ const { startSpawner } = require('./wild_digimon_spawner.js');
 const { processBattleCommands } = require('./game_mechanics/battle/battle_commands.js');
 const seedDigimonDatabase = require('../database/seedDigimonData'); // Para !resetdigibot
 
-// Conecta ao MongoDB
-connectDB();
-
 // Configurações do bot
 const opts = {
   identity: {
@@ -23,6 +20,12 @@ const opts = {
   channels: [
     config.twitchChannel,
   ],
+  connection: {
+    secure: true,
+    reconnect: true,
+    maxReconnectAttempts: 5,
+    maxReconnectInterval: 30000
+  }
 };
 
 // Cria o cliente do bot
@@ -31,15 +34,50 @@ const client = new tmi.client(opts);
 // Registra os handlers de eventos
 client.on('message', onMessageHandler);
 client.on('connected', onConnectedHandler);
+client.on('disconnected', onDisconnectedHandler);
+client.on('reconnect', onReconnectHandler);
 
-// Conecta o bot ao chat da Twitch
-client.connect().catch(console.error);
+// Função principal de inicialização
+async function initializeBot() {
+  try {
+    console.log('Iniciando bot com as seguintes configurações:');
+    console.log('Username:', config.twitchUsername);
+    console.log('Canal:', config.twitchChannel);
+    console.log('Token OAuth:', config.twitchOAuth ? 'Presente' : 'Ausente');
+
+    // Conecta ao MongoDB primeiro
+    await connectDB();
+    console.log('Conectado ao MongoDB');
+
+    // Inicia o seed do banco de dados
+    await seedDigimonDatabase();
+    console.log('Banco de dados populado com sucesso');
+
+    // Conecta o bot ao chat da Twitch
+    console.log('Tentando conectar ao chat da Twitch...');
+    await client.connect();
+    console.log('Bot iniciado com sucesso');
+  } catch (error) {
+    console.error('Erro ao inicializar o bot:', error);
+    process.exit(1);
+  }
+}
 
 // Handler para quando o bot conectar
 function onConnectedHandler(addr, port) {
   console.log(`* Conectado a ${addr}:${port} como ${config.twitchUsername} no canal ${config.twitchChannel}`);
   client.say(config.twitchChannel, `Digibot está online e pronto para a aventura! Use !entrar para começar.`);
   startSpawner(client, config.twitchChannel); // Inicia o spawner de Digimon selvagem
+}
+
+// Handler para desconexão
+function onDisconnectedHandler(reason) {
+  console.log('Bot desconectado:', reason);
+}
+
+// Handler para reconexão
+function onReconnectHandler() {
+  console.log('Tentando reconectar...');
 }
 
 // Handler para mensagens
@@ -273,3 +311,6 @@ async function onMessageHandler(target, context, msg, self) {
     return; // Comando tratado
   }
 }
+
+// Inicia o bot
+initializeBot();

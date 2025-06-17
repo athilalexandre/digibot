@@ -1,9 +1,9 @@
 const Tammer = require('../../../models/Tammer');
 const DigimonData = require('../../../models/DigimonData'); // Para buscar atributo do Digimon do Tammer
-const { startBattle, getActiveBattle } = require('./battle_logic.js');
+const { startBattle, getActiveBattle, handlePlayerAttack, endBattle } = require('./battle_logic.js'); // Adicionado handlePlayerAttack e endBattle
 const { getAnnouncedEnemy, clearAnnouncedEnemy } = require('../../wild_digimon_spawner.js');
 
-async function processBattleCommands(target, context, msg, client) {
+async function processBattleCommands(target, context, msg, client) { // A função começa aqui
   const message = msg.trim().toLowerCase();
   const commandParts = message.split(' '); // Divide a mensagem em partes
   const command = commandParts[0];
@@ -68,37 +68,64 @@ async function processBattleCommands(target, context, msg, client) {
     return true; // Comando !batalhar tratado
   }
   else if (command === '!atacar') {
-    const currentBattle = getActiveBattle();
-    if (currentBattle && currentBattle.isActive && currentBattle.tammerUserId === twitchUserId) {
-      if (currentBattle.turn === 'player') {
-        // Lógica de ataque será implementada aqui em uma próxima etapa.
-        // Por agora, apenas acusa o recebimento e simula um turno.
-        client.say(target, `${username}, seu ${currentBattle.tammerDigimon.name} ataca ${currentBattle.enemyDigimon.name}! (Lógica de dano e resultado em desenvolvimento)`);
-        // Simulação de fim de turno do jogador:
-        // currentBattle.turn = 'enemy';
-        // console.log(`${username} atacou. Próximo turno: ${currentBattle.turn}`);
-        // client.say(target, `Turno do ${currentBattle.enemyDigimon.name}! (Lógica do inimigo em desenvolvimento)`);
-      } else {
-        client.say(target, `${username}, não é seu turno para atacar! Aguarde.`);
-      }
-    } else if (currentBattle && currentBattle.isActive && currentBattle.tammerUserId !== twitchUserId) {
-      client.say(target, `${username}, esta não é sua batalha!`);
-    } else if (!currentBattle) {
-      client.say(target, `${username}, não há nenhuma batalha em andamento para atacar.`);
+    const attackResult = handlePlayerAttack(twitchUserId);
+
+    // Envia a mensagem principal do resultado do ataque/turno
+    if (attackResult.message) {
+      client.say(target, `${username}, ${attackResult.message}`);
     }
-    return true; // Comando !atacar (placeholder) tratado
+
+    // Lógica de pós-batalha (salvar dados, etc.)
+    if (attackResult.outcome === 'victory') {
+      client.say(target, `Você ganhou ${attackResult.xpGained} XP e ${attackResult.coinsGained} moedas!`);
+      try {
+        const tammer = await Tammer.findOne({ twitchUserId });
+        if (tammer) {
+          tammer.digimonXp = (tammer.digimonXp || 0) + attackResult.xpGained;
+          tammer.coins = (tammer.coins || 0) + attackResult.coinsGained;
+          // NOTA: O HP do Digimon do Tammer após a vitória precisa ser atualizado.
+          // battle_logic.js pode precisar retornar o HP final do jogador
+          // ou endBattle() ser chamado aqui após o Tammer ser salvo.
+          // Exemplo: tammer.digimonHp = attackResult.tammerFinalHpOnVictory; (se retornado)
+          await tammer.save();
+        }
+      } catch (error) {
+        console.error(`Erro ao atualizar Tammer ${username} após vitória:`, error);
+        client.say(target, "Ocorreu um erro ao salvar seu progresso após a batalha.");
+      }
+    } else if (attackResult.outcome === 'defeat') {
+      // A mensagem de derrota já foi enviada por attackResult.message
+      try {
+        const tammer = await Tammer.findOne({ twitchUserId });
+        if (tammer) {
+          tammer.digimonHp = attackResult.tammerFinalHp; // Geralmente 0
+          await tammer.save();
+        }
+      } catch (error) {
+        console.error(`Erro ao atualizar Tammer ${username} após derrota:`, error);
+      }
+    }
+    // Para 'continue', 'no_battle', 'not_your_battle', 'not_your_turn', a mensagem já foi enviada.
+    return true;
   }
-  // Adicionar !fugir aqui depois
   else if (command === '!fugir') {
     const currentBattle = getActiveBattle();
     if (currentBattle && currentBattle.isActive && currentBattle.tammerUserId === twitchUserId) {
-        // Lógica de fuga será implementada aqui
-        client.say(target, `${username} tenta fugir da batalha com ${currentBattle.enemyDigimon.name}! (Lógica de fuga em desenvolvimento)`);
-        // Exemplo: endBattle(); client.say(target, "Você conseguiu fugir!");
+      // TODO: Implementar handleFleeAttempt(userId) em battle_logic.js para uma lógica de fuga mais robusta (chance de sucesso/falha).
+      // Por agora, uma fuga simples que sempre funciona:
+      const enemyName = currentBattle.enemyDigimon.name; // Salva o nome antes de endBattle
+      if (endBattle()) { // endBattle() limpa currentBattle
+        client.say(target, `${username}, você conseguiu fugir da batalha contra ${enemyName}!`);
+      } else {
+        // Este caso não deveria ocorrer se currentBattle era válido
+        client.say(target, `${username}, não foi possível processar a fuga no momento.`);
+      }
+    } else if (currentBattle && currentBattle.isActive && currentBattle.tammerUserId !== twitchUserId) {
+      client.say(target, `${username}, esta não é sua batalha!`);
     } else {
-        client.say(target, `${username}, não há batalha para fugir ou não é sua batalha.`);
+      client.say(target, `${username}, não há batalha para fugir.`);
     }
-    return true; // Comando !fugir (placeholder) tratado
+    return true;
   }
 
 

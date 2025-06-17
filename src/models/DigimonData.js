@@ -17,7 +17,7 @@ const DigimonDataSchema = new mongoose.Schema({
   },
   attribute: {
     type: String,
-    enum: ['Fogo', 'Planta', 'Água', 'Elétrico', 'Vento', 'Terra', 'Luz', 'Escuridão', 'Neutro', null],
+    enum: ['Fogo', 'Planta', 'Água', 'Elétrico', 'Vento', 'Terra', 'Luz', 'Escuridão', 'Neutro', null], // Certifique-se que 'Neutro' está exatamente assim
     default: 'Neutro'
   },
   baseStats: {
