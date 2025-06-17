@@ -3,13 +3,10 @@ const path = require('path'); // Adicionado para construir caminho absoluto
 const mongoose = require('mongoose');
 const connectDB = require('./connection'); // Assumindo que connection.js exporta connectDB
 const DigimonData = require('../models/DigimonData');
-const config = require('../config'); // Para MONGODB_URI se connectDB não o usar diretamente
 
 async function seedDB() {
   try {
-    // Conectar ao DB. Se connectDB já usa config.mongodbUri, não precisa passar aqui.
-    // Se connectDB não estiver configurado para pegar a URI do config,
-    // você pode precisar passar config.mongodbUri explicitamente ou garantir que mongoose.connect seja chamado com ela.
+    // Conecta ao MongoDB utilizando a configuração centralizada em connection.js
     await connectDB();
 
     // Ler o arquivo JSON
@@ -36,15 +33,17 @@ async function seedDB() {
       name: digimon.name,
       stage: digimon.stage,
       type: digimon.type || null, // Garante null se não especificado
+      attribute: digimon.attribute, // Mapeia o atributo do catálogo
       // baseStats já está aninhado no JSON, o que é bom
       baseStats: digimon.baseStats || { hp: 10, forca: 1, defesa: 1, velocidade: 1, sabedoria: 1 },
-      // evolvesTo deve ser uma string ou null. Se for array (como Omnimon), precisa decidir como tratar.
+      // evolvesTo deve ser uma string ou null.
       // Para o schema atual, evolvesTo é uma String. Se for uma fusão, talvez precise de outro campo ou lógica.
       // Por simplicidade aqui, se evolvesTo for um array, pegaremos o primeiro nome ou null.
       evolvesTo: Array.isArray(digimon.evolvesTo) ? (digimon.evolvesTo.length > 0 ? digimon.evolvesTo[0] : null) : digimon.evolvesTo,
-      // O schema DigimonData não tem 'attribute' ou 'evolvesFrom' diretamente.
-      // Esses campos precisariam ser adicionados ao schema DigimonData.js se forem necessários.
-      // Por enquanto, eles serão ignorados pelo Mongoose se não estiverem no schema.
+      evolvesFrom: Array.isArray(digimon.evolvesFrom) ? (digimon.evolvesFrom.length > 0 ? digimon.evolvesFrom[0] : null) : (digimon.evolvesFrom || null),
+      // 'attribute' foi mapeado acima. Se 'attribute' não estiver definido no schema DigimonData, será ignorado pelo Mongoose.
+      // 'evolvesFrom' é mapeado. Se for um array no catálogo (ex: para fusões como Omnimon),
+      // o primeiro nome da lista é usado, pois o schema DigimonData provavelmente espera uma String para 'evolvesFrom'.
     }));
 
 
