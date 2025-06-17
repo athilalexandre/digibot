@@ -19,15 +19,30 @@ Este projeto é um bot para a Twitch que implementa um minigame de Digimon, perm
     *   **Comandos de Interação do Jogador:**
         *   **`!entrar`**: Permite que um novo jogador entre no jogo. O jogador começa com um Digitama.
         *   **`!treinar <tipo>`**:
-            *   Descrição: Permite ao jogador gastar coins para treinar e melhorar um status específico do seu Digimon.
-            *   Custo: `100 coins` por sessão de treino.
+            *   **Descrição:** Permite ao jogador gastar coins para treinar e melhorar um status específico do seu Digimon. Opcionalmente, pode-se especificar um multiplicador para treinar várias vezes de uma vez.
+            *   **Custo Base:** `100 coins` por sessão de treino (o custo total é Custo Base * Multiplicador).
             *   Tipos de Treino Disponíveis e Efeitos:
-                *   `!treinar forca`: Aumenta a **Força** do Digimon em +1 e o **HP** em +1.
-                *   `!treinar def`: Aumenta a **Defesa** do Digimon em +1 e o **HP** em +1.
-                *   `!treinar vel`: Aumenta a **Velocidade** do Digimon em +1 e o **MP** em +1.
-                *   `!treinar sab`: Aumenta a **Sabedoria** do Digimon em +1 e o **MP** em +1.
-            *   Exemplo: `!treinar vel`
-        *   _(Outros comandos como `!meudigimon` ou `!status` podem ser adicionados aqui conforme implementados)_
+                *   `!treinar for`: Aumenta a **Força** do Digimon em +1 * (multiplicador) e o **HP** em +1 * (multiplicador).
+                *   `!treinar def`: Aumenta a **Defesa** do Digimon em +1 * (multiplicador) e o **HP** em +1 * (multiplicador).
+                *   `!treinar vel`: Aumenta a **Velocidade** do Digimon em +1 * (multiplicador) e o **MP** em +1 * (multiplicador).
+                *   `!treinar sab`: Aumenta a **Sabedoria** do Digimon em +1 * (multiplicador) e o **MP** em +1 * (multiplicador).
+    *   **Multiplicadores Válidos:** 1, 5, 10, 15. Se nenhum multiplicador for especificado ou for inválido, o multiplicador padrão é 1.
+    *   **Quem pode usar:** Qualquer espectador que já tenha usado `!entrar` e possua coins suficientes para o custo total.
+    *   **Exemplos:**
+        *   `!treinar vel` (equivale a `!treinar vel 1`)
+        *   `!treinar for 5`
+        *   `!treinar def 10`
+
+*   **Comandos de Gerenciamento (Moderadores/Broadcaster):**
+    *   `!givecoins <username> <quantidade>`
+    *   `!removecoins <username> <quantidade>` (Novo)
+    *   `!setcoinvalue <valor>`
+    *   `!testxp <quantidade>`
+    *   `!setdigimon <username> <nomeDoDigimon>`
+    *   `!resetdigibot`
+
+*   **Comandos Gerais do Jogador:**
+    *   `!meudigimon` ou `!status`
 
 *   **API RESTful (`Express.js`):**
     *   Endpoint `GET /api/bot/status` para verificar o status da API.

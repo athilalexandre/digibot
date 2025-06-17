@@ -103,6 +103,34 @@ async function onMessageHandler(target, context, msg, self) {
     return;
   }
 
+  // Comando !removecoins <username> <quantidade>
+  if (command === '!removecoins' && isModOrBroadcaster) {
+    const targetUsername = args[0];
+    const amount = parseInt(args[1]);
+
+    if (!targetUsername || isNaN(amount) || amount <= 0) {
+      return client.say(target, "Uso: !removecoins <username> <quantidade>");
+    }
+
+    try {
+      // Buscar o Tammer para garantir que ele existe antes de tentar remover coins
+      const targetTammer = await Tammer.findOne({ username: targetUsername });
+      if (!targetTammer) {
+        return client.say(target, `Usuário ${targetUsername} não encontrado.`);
+      }
+
+      // Usar $inc com valor negativo para remover coins
+      targetTammer.coins -= amount; // Subtrai localmente
+      await targetTammer.save(); // Salva a alteração
+
+      client.say(target, `${amount} coins foram removidas de ${targetUsername}. Saldo atual: ${targetTammer.coins} coins.`);
+    } catch (error) {
+      console.error("Erro no comando !removecoins:", error);
+      client.say(target, "Ocorreu um erro ao remover coins.");
+    }
+    return; // Comando tratado
+  }
+
   // Comandos de Moderador/Broadcaster (isModOrBroadcaster definido abaixo)
   const isModOrBroadcaster = context.mod || username.toLowerCase() === config.twitchChannel.substring(1).toLowerCase();
 
