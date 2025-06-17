@@ -15,6 +15,11 @@ const DigimonDataSchema = new mongoose.Schema({
     enum: ['Data', 'Virus', 'Vacina', null],
     default: null,
   },
+  attribute: {
+    type: String,
+    enum: ['Fogo', 'Planta', 'Água', 'Elétrico', 'Vento', 'Terra', 'Luz', 'Escuridão', 'Neutro', null],
+    default: 'Neutro'
+  },
   baseStats: {
     hp: { type: Number, default: 10 },
     forca: { type: Number, default: 1 },
@@ -26,8 +31,8 @@ const DigimonDataSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
-  evolvesFrom: { // Campo adicionado
-    type: String,
+  evolvesFrom: {
+    type: mongoose.Schema.Types.Mixed, // Tipo alterado
     default: null,
   }
 });

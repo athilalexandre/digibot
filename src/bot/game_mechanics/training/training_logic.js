@@ -1,10 +1,7 @@
-// training_logic.js
-const Tammer = require('../../../models/Tammer');
+const Tammer = require('../../../models/Tammer'); // Caminho ajustado
 
-const TRAINING_COST = 100; // Custo base do treino centralizado
-
-async function handleTrainCommand(twitchUserId, trainType, multiplier, username) {
-  const totalCost = TRAINING_COST * multiplier;
+async function handleTrainCommand(twitchUserId, trainType, username) {
+  const cost = 100; // Custo do treino
   let message = ""; // Mensagem de retorno para o usuário
 
   try {
@@ -14,51 +11,51 @@ async function handleTrainCommand(twitchUserId, trainType, multiplier, username)
       return `${username}, seu Tammer não foi encontrado. Use !entrar primeiro para se registrar.`;
     }
 
-    if (tammer.coins < totalCost) {
-      return `${username}, você não tem coins suficientes para treinar com multiplicador ${multiplier}. Custo total: ${totalCost} coins. Você tem: ${tammer.coins}.`;
+    if (tammer.coins < cost) {
+      return `${username}, você não tem coins suficientes para treinar. Custo: ${cost} coins. Você tem: ${tammer.coins}.`;
     }
 
     // Deduzir coins antes de aplicar o treino
-    tammer.coins -= totalCost;
+    tammer.coins -= cost;
 
     let statGainedMessage = "";
     let secondaryGainMessage = "";
 
     switch (trainType.toLowerCase()) { // Normalizar trainType para minúsculas
-      case "for": // Alterado de "forca" para "for"
-        tammer.digimonStats.forca += 1 * multiplier;
-        tammer.digimonHp += 1 * multiplier; // Ganho secundário
+      case "forca":
+        tammer.digimonStats.forca += 1;
+        tammer.digimonHp += 1; // Ganho secundário
         statGainedMessage = `Força: ${tammer.digimonStats.forca}`;
         secondaryGainMessage = `HP: ${tammer.digimonHp}`;
         break;
       case "def":
-        tammer.digimonStats.defesa += 1 * multiplier;
-        tammer.digimonHp += 1 * multiplier; // Ganho secundário
+        tammer.digimonStats.defesa += 1;
+        tammer.digimonHp += 1; // Ganho secundário
         statGainedMessage = `Defesa: ${tammer.digimonStats.defesa}`;
         secondaryGainMessage = `HP: ${tammer.digimonHp}`;
         break;
       case "vel":
-        tammer.digimonStats.velocidade += 1 * multiplier;
-        tammer.digimonMp += 1 * multiplier; // Ganho secundário
+        tammer.digimonStats.velocidade += 1;
+        tammer.digimonMp += 1; // Ganho secundário
         statGainedMessage = `Velocidade: ${tammer.digimonStats.velocidade}`;
         secondaryGainMessage = `MP: ${tammer.digimonMp}`;
         break;
       case "sab":
-        tammer.digimonStats.sabedoria += 1 * multiplier;
-        tammer.digimonMp += 1 * multiplier; // Ganho secundário
+        tammer.digimonStats.sabedoria += 1;
+        tammer.digimonMp += 1; // Ganho secundário
         statGainedMessage = `Sabedoria: ${tammer.digimonStats.sabedoria}`;
         secondaryGainMessage = `MP: ${tammer.digimonMp}`;
         break;
       default:
         // Se chegar aqui, é um erro, pois a validação do tipo de treino deve ser feita
         // no arquivo de comandos. Reembolsar coins se foram deduzidas indevidamente.
-        tammer.coins += totalCost; // Reembolso
+        tammer.coins += cost; // Reembolso
         // Não precisa salvar aqui, pois a mensagem de erro impede o save mais abaixo.
         return `${username}, tipo de treino inválido: '${trainType}'. Use forca, def, vel, ou sab.`;
     }
 
     await tammer.save();
-    message = `${username} treinou ${trainType} (x${multiplier})! Novos status -> ${statGainedMessage}, ${secondaryGainMessage}. ${totalCost} coins gastas. Coins restantes: ${tammer.coins}.`;
+    message = `${username} treinou ${trainType}! Novos status -> ${statGainedMessage}, ${secondaryGainMessage}. ${cost} coins gastas. Coins restantes: ${tammer.coins}.`;
     return message;
 
   } catch (error) {
@@ -71,5 +68,4 @@ async function handleTrainCommand(twitchUserId, trainType, multiplier, username)
 
 module.exports = {
   handleTrainCommand,
-  TRAINING_COST, // Exportar o custo para ser usado em outros módulos
 };

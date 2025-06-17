@@ -4,7 +4,10 @@ const config = require('../config');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(config.mongodbUri); // Opções useNewUrlParser e useUnifiedTopology são padrão no Mongoose 6+
+    await mongoose.connect(config.mongodbUri, { // Alterado de MONGODB_URI para mongodbUri
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log('Conectado ao MongoDB');
   } catch (err) {
     console.error('Erro ao conectar ao MongoDB:', err.message); // Melhor log de erro

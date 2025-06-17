@@ -19,30 +19,26 @@ Este projeto é um bot para a Twitch que implementa um minigame de Digimon, perm
     *   **Comandos de Interação do Jogador:**
         *   **`!entrar`**: Permite que um novo jogador entre no jogo. O jogador começa com um Digitama.
         *   **`!treinar <tipo>`**:
-            *   **Descrição:** Permite ao jogador gastar coins para treinar e melhorar um status específico do seu Digimon. Opcionalmente, pode-se especificar um multiplicador para treinar várias vezes de uma vez.
-            *   **Custo Base:** `100 coins` por sessão de treino (o custo total é Custo Base * Multiplicador).
+            *   Descrição: Permite ao jogador gastar coins para treinar e melhorar um status específico do seu Digimon.
+            *   Custo: `100 coins` por sessão de treino.
             *   Tipos de Treino Disponíveis e Efeitos:
-                *   `!treinar for`: Aumenta a **Força** do Digimon em +1 * (multiplicador) e o **HP** em +1 * (multiplicador).
-                *   `!treinar def`: Aumenta a **Defesa** do Digimon em +1 * (multiplicador) e o **HP** em +1 * (multiplicador).
-                *   `!treinar vel`: Aumenta a **Velocidade** do Digimon em +1 * (multiplicador) e o **MP** em +1 * (multiplicador).
-                *   `!treinar sab`: Aumenta a **Sabedoria** do Digimon em +1 * (multiplicador) e o **MP** em +1 * (multiplicador).
-    *   **Multiplicadores Válidos:** 1, 5, 10, 15. Se nenhum multiplicador for especificado ou for inválido, o multiplicador padrão é 1.
-    *   **Quem pode usar:** Qualquer espectador que já tenha usado `!entrar` e possua coins suficientes para o custo total.
-    *   **Exemplos:**
-        *   `!treinar vel` (equivale a `!treinar vel 1`)
-        *   `!treinar for 5`
-        *   `!treinar def 10`
+                *   `!treinar forca`: Aumenta a **Força** do Digimon em +1 e o **HP** em +1.
+                *   `!treinar def`: Aumenta a **Defesa** do Digimon em +1 e o **HP** em +1.
+                *   `!treinar vel`: Aumenta a **Velocidade** do Digimon em +1 e o **MP** em +1.
+                *   `!treinar sab`: Aumenta a **Sabedoria** do Digimon em +1 e o **MP** em +1.
+            *   Exemplo: `!treinar vel`
+        *   **`!batalhar`**:
+            *   Descrição: Inicia uma batalha contra o Digimon selvagem que apareceu recentemente no chat.
+            *   Requisitos: Um Digimon selvagem deve estar anunciado; nenhuma outra batalha pode estar em andamento; seu Digimon não pode ser um Digitama e deve ter HP > 0.
+        *   **`!atacar`**:
+            *   Descrição: Durante o seu turno em uma batalha, desfere um ataque básico contra o oponente. O dano considera os stats dos Digimons, bem como vantagens de Tipo (Vacina > Virus > Data > Vacina) e Atributo Elemental (Fogo > Planta > Água > Fogo, Elétrico > Vento > Terra > Elétrico, Luz <> Escuridão).
+            *   Requisitos: Estar em uma batalha ativa e ser o seu turno.
+        *   **`!fugir`** (Placeholder):
+            *   Descrição: Tenta fugir da batalha atual. (Funcionalidade futura)
+        *   _(Outros comandos como `!meudigimon` ou `!status` podem ser adicionados aqui conforme implementados)_
 
-*   **Comandos de Gerenciamento (Moderadores/Broadcaster):**
-    *   `!givecoins <username> <quantidade>`
-    *   `!removecoins <username> <quantidade>` (Novo)
-    *   `!setcoinvalue <valor>`
-    *   `!testxp <quantidade>`
-    *   `!setdigimon <username> <nomeDoDigimon>`
-    *   `!resetdigibot`
-
-*   **Comandos Gerais do Jogador:**
-    *   `!meudigimon` ou `!status`
+    *   **Sistema de Batalha Aleatória:**
+        *   Periodicamente, Digimons selvagens (atualmente Rookies e Champions) podem aparecer no chat! Fique atento e use `!batalhar` para ter a chance de enfrentá-los e ganhar recompensas.
 
 *   **API RESTful (`Express.js`):**
     *   Endpoint `GET /api/bot/status` para verificar o status da API.
@@ -57,7 +53,8 @@ Este projeto é um bot para a Twitch que implementa um minigame de Digimon, perm
         *   Multiplicador de XP para eventos.
         *   Mínimo de Tamers para Raid.
 *   **Banco de Dados (`MongoDB` com `Mongoose`):**
-    *   Schemas para `Tammer`, `DigimonData`, e `BotConfig`.
+    *   Schemas para `Tammer`, `DigimonData` (agora incluindo `attribute` e `evolvesFrom` como Mixed Type), e `BotConfig`.
+        *   Valores possíveis para `attribute`: 'Fogo', 'Planta', 'Água', 'Elétrico', 'Vento', 'Terra', 'Luz', 'Escuridão', 'Neutro', ou `null`.
 
 ## Estrutura do Projeto
 
@@ -112,7 +109,6 @@ Este projeto é um bot para a Twitch que implementa um minigame de Digimon, perm
     npm install
     ```
 2.  **Frontend (pasta `frontend`):**
-    *(Se você estiver usando o dashboard Vue.js)*
     ```bash
     cd frontend
     npm install
@@ -124,7 +120,7 @@ Este projeto é um bot para a Twitch que implementa um minigame de Digimon, perm
 Você precisará de terminais separados para rodar o backend (bot e API) e o frontend.
 
 1.  **Para rodar o Bot da Twitch e a API RESTful simultaneamente (modo de desenvolvimento):**
-    No terminal, na raiz do projeto:
+    Na raiz do projeto:
     ```bash
     npm run dev:all
     ```
@@ -135,13 +131,14 @@ Você precisará de terminais separados para rodar o backend (bot e API) e o fro
     ```bash
     npm run dev
     ```
+
 3.  **Para rodar apenas a API RESTful (modo de desenvolvimento):**
     Na raiz do projeto:
     ```bash
     npm run dev:api
     ```
+
 4.  **Para rodar o Dashboard de Gerenciamento (Frontend Vue.js):**
-    *(Se você estiver usando o dashboard Vue.js)*
     Em um **novo terminal**, navegue até a pasta `frontend`:
     ```bash
     cd frontend
@@ -149,12 +146,11 @@ Você precisará de terminais separados para rodar o backend (bot e API) e o fro
     ```
     Após iniciar, o dashboard estará acessível geralmente em `http://localhost:8080` (verifique o output do comando).
 
-Seu Digibot agora está pronto! Você pode ir ao chat do seu canal na Twitch e testar os comandos.
-
 ## Próximos Passos e TODOs (Sugestões)
 
 *   Implementar verificação de "follower" para o comando `!entrar` usando a API da Twitch.
 *   Expandir o catálogo `DigimonData` com mais Digimons, estágios e atributos.
+*   Implementar a lógica de "chocar" o Digitama com escolha de nome (`!setname`).
 *   Desenvolver as mecânicas de batalha, bosses, raids e treino.
 *   Adicionar mais funcionalidades ao dashboard (ex: editar Tammers, visualizar logs do bot).
 *   Melhorar o tratamento de erros e feedback para o usuário no chat.

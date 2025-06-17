@@ -1,5 +1,4 @@
-// training_commands.js
-const { handleTrainCommand, TRAINING_COST } = require('./training_logic.js');
+const { handleTrainCommand } = require('./training_logic.js');
 
 async function processTrainingCommands(target, context, msg, client) {
   const message = msg.trim().toLowerCase();
@@ -7,32 +6,19 @@ async function processTrainingCommands(target, context, msg, client) {
 
   if (commandParts[0] === '!treinar') {
     const trainType = commandParts[1]; // O tipo de treino (forca, def, etc.)
-    const multiplierArg = commandParts[2]; // O multiplicador (opcional)
-    const validTrainTypes = ['for', 'def', 'vel', 'sab']; // Alterado 'forca' para 'for'
-    const validMultipliers = [1, 5, 10, 15];
-
-    let multiplier = 1; // Multiplicador padrão
-    if (multiplierArg) {
-        const parsedMultiplier = parseInt(multiplierArg);
-        if (!isNaN(parsedMultiplier) && validMultipliers.includes(parsedMultiplier)) {
-            multiplier = parsedMultiplier;
-        } else {
-            // Informa sobre multiplicador inválido, mas ainda processa com multiplicador 1 se o tipo for válido
-            client.say(target, `${context.username}, multiplicador inválido: '${multiplierArg}'. Multiplicadores válidos: 1, 5, 10, 15. Usando multiplicador 1.`);
-        }
-    }
+    const validTrainTypes = ['forca', 'def', 'vel', 'sab'];
 
     if (trainType && validTrainTypes.includes(trainType)) {
-      // Se o tipo de treino for válido, chama handleTrainCommand com o multiplicador
-      const twitchUserId = context['user-id']; // Renomeado para clareza
-      const username = context.username; // Renomeado para clareza
-      const resultMessage = await handleTrainCommand(twitchUserId, trainType, multiplier, username);
+      const twitchUserId = context['user-id'];
+      const username = context.username;
+
+      const resultMessage = await handleTrainCommand(twitchUserId, trainType, username);
       if (resultMessage) {
         client.say(target, resultMessage);
       }
     } else {
       // Se o tipo de treino for inválido ou não fornecido
-      client.say(target, `${context.username}, uso correto: !treinar <for|def|vel|sab> [multiplicador]. Multiplicadores válidos: 1, 5, 10, 15. Custo base: ${TRAINING_COST} coins.`); // Mensagem de ajuda atualizada
+      client.say(target, `${context.username}, uso correto: !treinar <forca|def|vel|sab>. Custo: 100 coins.`);
     }
     return true; // Indica que o comando foi processado (ou tentado)
   }

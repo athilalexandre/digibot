@@ -3,11 +3,11 @@ const tmi = require('tmi.js');
 const connectDB = require('../database/connection');
 const Tammer = require('../models/Tammer');
 const BotConfig = require('../models/BotConfig'); // Adicionado BotConfig
-const DigimonData = require('../models/DigimonData'); // Necessário para !setdigimon
 const config = require('../config');
-const { addXp, xpTable } = require('./xpSystem'); // xpTable para !setdigimon
+const { addXp } = require('./xpSystem'); // Adicionado para !testxp
 const { processTrainingCommands } = require('./game_mechanics/training/training_commands.js');
-const seedDigimonDatabase = require('../database/seedDigimonData'); // Para !resetdigibot
+const { startSpawner } = require('./wild_digimon_spawner.js');
+const { processBattleCommands } = require('./game_mechanics/battle/battle_commands.js');
 
 // Conecta ao MongoDB
 connectDB();
@@ -36,7 +36,7 @@ client.connect().catch(console.error);
 // Handler para quando o bot conectar
 function onConnectedHandler(addr, port) {
   console.log(`* Conectado a ${addr}:${port} como ${config.twitchUsername} no canal ${config.twitchChannel}`);
-  client.say(config.twitchChannel, `Digibot está online e pronto para a aventura! Use !entrar para começar.`);
+  startSpawner(client, config.twitchChannel); // Inicia o spawner de Digimon selvagem
 }
 
 // Handler para mensagens
@@ -48,6 +48,13 @@ async function onMessageHandler(target, context, msg, self) {
   const trainingCommandProcessed = await processTrainingCommands(target, context, msg, client);
   if (trainingCommandProcessed) {
     return; // Comando de treino foi tratado, não precisa continuar
+  }
+
+  // Processa comandos de batalha
+  // msg original é passado para processBattleCommands.
+  const battleCommandProcessed = await processBattleCommands(target, context, msg, client);
+  if (battleCommandProcessed) {
+    return; // Comando de batalha foi tratado, não precisa continuar
   }
 
   // Lógica de parsing de comando existente (adaptada)
@@ -68,7 +75,6 @@ async function onMessageHandler(target, context, msg, self) {
           twitchUserId: twitchUserId,
           username: username,
           digimonName: `Digitama de ${username}`,
-          // Nível e XP iniciais são definidos pelo schema ou pela xpTable no !entrar se necessário.
         });
         await tammer.save();
         client.say(target, `Bem-vindo ao Digibot, ${username}! Você recebeu um Digitama.`);
@@ -82,58 +88,8 @@ async function onMessageHandler(target, context, msg, self) {
     return; // Comando tratado
   }
 
-  // Comando !meudigimon ou !status
-  if (command === '!meudigimon' || command === '!status') {
-    try {
-      const tammer = await Tammer.findOne({ twitchUserId: twitchUserId });
-      if (!tammer) {
-        return client.say(target, `${username}, você ainda não entrou no jogo. Use !entrar para começar.`);
-      }
-      let statusMessage = `${username}, seu Digimon: ${tammer.digimonName} (${tammer.digimonStage} - Nível ${tammer.digimonLevel}). XP: ${tammer.digimonXp}.`;
-      if (tammer.digimonHp && tammer.digimonStats) {
-        // Adicionando MP à mensagem de status
-        statusMessage += ` HP: ${tammer.digimonHp}, MP: ${tammer.digimonMp}, Força: ${tammer.digimonStats.forca}, Defesa: ${tammer.digimonStats.defesa}, Velocidade: ${tammer.digimonStats.velocidade}, Sabedoria: ${tammer.digimonStats.sabedoria}.`;
-      }
-      statusMessage += ` Coins: ${tammer.coins}.`;
-      client.say(target, statusMessage);
-    } catch (error) {
-      console.error("Erro no comando !meudigimon:", error);
-      client.say(target, "Ocorreu um erro ao buscar as informações do seu Digimon.");
-    }
-    return;
-  }
-
-  // Comando !removecoins <username> <quantidade>
-  if (command === '!removecoins' && isModOrBroadcaster) {
-    const targetUsername = args[0];
-    const amount = parseInt(args[1]);
-
-    if (!targetUsername || isNaN(amount) || amount <= 0) {
-      return client.say(target, "Uso: !removecoins <username> <quantidade>");
-    }
-
-    try {
-      // Buscar o Tammer para garantir que ele existe antes de tentar remover coins
-      const targetTammer = await Tammer.findOne({ username: targetUsername });
-      if (!targetTammer) {
-        return client.say(target, `Usuário ${targetUsername} não encontrado.`);
-      }
-
-      // Usar $inc com valor negativo para remover coins
-      targetTammer.coins -= amount; // Subtrai localmente
-      await targetTammer.save(); // Salva a alteração
-
-      client.say(target, `${amount} coins foram removidas de ${targetUsername}. Saldo atual: ${targetTammer.coins} coins.`);
-    } catch (error) {
-      console.error("Erro no comando !removecoins:", error);
-      client.say(target, "Ocorreu um erro ao remover coins.");
-    }
-    return; // Comando tratado
-  }
-
-  // Comandos de Moderador/Broadcaster (isModOrBroadcaster definido abaixo)
+  // Comandos de Moderador/Broadcaster
   const isModOrBroadcaster = context.mod || username.toLowerCase() === config.twitchChannel.substring(1).toLowerCase();
-
 
   if (command === '!givecoins' && isModOrBroadcaster) {
     const targetUsername = args[0]; // Pode ser case-sensitive dependendo da sua lógica de busca
@@ -192,7 +148,7 @@ async function onMessageHandler(target, context, msg, self) {
     }
     try {
       // addXp espera twitchUserId, amount, client, target
-      await addXp(twitchUserId, amount, client, target); 
+      await addXp(twitchUserId, amount, client, target);
     } catch (error) {
       console.error("Erro no comando !testxp:", error);
       client.say(target, "Ocorreu um erro ao adicionar XP.");
@@ -200,72 +156,6 @@ async function onMessageHandler(target, context, msg, self) {
     return; // Comando tratado
   }
 
-  if (command === '!setdigimon' && isModOrBroadcaster) {
-    const targetUsername = args[0];
-    const newDigimonName = args.slice(1).join(' ');
-    if (!targetUsername || !newDigimonName) {
-      return client.say(target, "Uso: !setdigimon <username> <nomeDoDigimon>");
-    }
-    try {
-      const tammerToUpdate = await Tammer.findOne({ username: targetUsername });
-      if (!tammerToUpdate) {
-        return client.say(target, `Tammer ${targetUsername} não encontrado.`);
-      }
-      const newDigimonData = await DigimonData.findOne({ name: new RegExp(`^${newDigimonName}$`, 'i') });
-      if (!newDigimonData) {
-        return client.say(target, `Digimon "${newDigimonName}" não encontrado no catálogo.`);
-      }
-      tammerToUpdate.digimonName = newDigimonData.name;
-      tammerToUpdate.digimonStage = newDigimonData.stage;
-      tammerToUpdate.currentDigimonId = newDigimonData._id;
-      tammerToUpdate.digimonType = newDigimonData.type;
-      if (newDigimonData.baseStats) {
-        tammerToUpdate.digimonHp = newDigimonData.baseStats.hp;
-        tammerToUpdate.digimonMp = tammerToUpdate.digimonMp; // Manter MP ou resetar? Por ora, mantém.
-        tammerToUpdate.digimonStats = { ...newDigimonData.baseStats };
-      }
-      const newStageDataFromTable = xpTable[newDigimonData.stage];
-      if (newStageDataFromTable && newStageDataFromTable.levels) {
-        const stageLevelsSorted = Object.keys(newStageDataFromTable.levels).map(Number).sort((a,b) => a-b);
-        if (stageLevelsSorted.length > 0) {
-            const firstLevelOfNewStage = stageLevelsSorted[0];
-            tammerToUpdate.digimonLevel = firstLevelOfNewStage;
-            tammerToUpdate.digimonXp = newStageDataFromTable.levels[firstLevelOfNewStage];
-        } else {
-            tammerToUpdate.digimonLevel = 1;
-            tammerToUpdate.digimonXp = 0;
-            console.warn(`Estágio ${newDigimonData.stage} não possui níveis definidos na xpTable para !setdigimon.`);
-        }
-      } else {
-        tammerToUpdate.digimonLevel = 1;
-        tammerToUpdate.digimonXp = 0;
-        console.warn(`Estágio ${newDigimonData.stage} não encontrado na xpTable para definir XP/nível inicial para !setdigimon.`);
-      }
-      await tammerToUpdate.save();
-      client.say(target, `O Digimon de ${targetUsername} foi alterado para ${newDigimonData.name} (${newDigimonData.stage} Nível ${tammerToUpdate.digimonLevel}). Status e XP resetados para a base.`);
-    } catch (error) {
-      console.error("Erro no comando !setdigimon:", error);
-      client.say(target, "Ocorreu um erro ao tentar alterar o Digimon.");
-    }
-    return;
-  }
-
-  if (command === '!resetdigibot' && isModOrBroadcaster) {
-    try {
-      client.say(target, `Atenção, ${username}! Iniciando o reset completo do Digibot... Os dados de todos os jogadores serão apagados e o catálogo de Digimons será recarregado. Isso pode levar um momento.`);
-      console.log(`[RESET COMMAND by ${username}] Iniciando o reset do banco de dados.`);
-      const deleteTammersResult = await Tammer.deleteMany({});
-      console.log(`[RESET COMMAND] Tammers deletados: ${deleteTammersResult.deletedCount}`);
-      
-      await BotConfig.deleteMany({});
-      console.log('[RESET COMMAND] Configurações do Bot (BotConfig) foram deletadas.');
-      console.log('[RESET COMMAND] Repopulando a coleção DigimonData...');
-      const seedSuccess = await seedDigimonDatabase(true);
-      client.say(target, seedSuccess ? "Digibot resetado com sucesso! Tudo pronto para um novo começo." : "Ocorreu um problema ao recarregar o catálogo de Digimons durante o reset. Verifique os logs.");
-    } catch (error) {
-      console.error("Erro crítico no comando !resetdigibot:", error);
-      client.say(target, "Ocorreu um erro crítico durante o reset do Digibot. Por favor, verifique os logs do servidor.");
-    }
-    return;
-  }
+  // Adicionar outros comandos aqui usando a mesma estrutura de `if (command === '...' && isModOrBroadcaster)`
+  // ou `if (command === '...')` para comandos públicos.
 }

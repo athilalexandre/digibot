@@ -207,24 +207,6 @@
     "baseStats": { "hp": 65, "forca": 12, "defesa": 10, "velocidade": 12, "sabedoria": 15 }
   },
   {
-    "name": "Angewomon",
-    "stage": "Ultimate",
-    "type": "Vacina",
-    "attribute": "Light",
-    "evolvesFrom": "Gatomon",
-    "evolvesTo": "Ophanimon",
-    "baseStats": { "hp": 140, "forca": 25, "defesa": 22, "velocidade": 28, "sabedoria": 35 }
-  },
-  {
-    "name": "Ophanimon",
-    "stage": "Mega",
-    "type": "Vacina",
-    "attribute": "Light",
-    "evolvesFrom": "Angewomon",
-    "evolvesTo": null,
-    "baseStats": { "hp": 280, "forca": 50, "defesa": 45, "velocidade": 55, "sabedoria": 70 }
-  },
-  {
     "name": "Guilmon",
     "stage": "Rookie",
     "type": "Virus",
@@ -265,14 +247,14 @@
     "stage": "Ultimate",
     "type": "Data",
     "attribute": "Neutral",
-    "evolvesFrom": ["ExVeemon", "Stingmon"], 
+    "evolvesFrom": ["ExVeemon", "Stingmon"],
     "evolvesTo": "Imperialdramon Dragon Mode",
     "baseStats": { "hp": 200, "forca": 40, "defesa": 35, "velocidade": 30, "sabedoria": 25 }
   },
   {
     "name": "Imperialdramon Dragon Mode",
     "stage": "Mega",
-    "type": "Vacina", 
+    "type": "Vacina",
     "attribute": "Neutral",
     "evolvesFrom": "Paildramon",
     "evolvesTo": "Imperialdramon Fighter Mode",
