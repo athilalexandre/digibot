@@ -1,7 +1,7 @@
 const Tammer = require('../../../models/Tammer');
 const DigimonData = require('../../../models/DigimonData'); // Para buscar atributo do Digimon do Tammer
 const { startBattle, getActiveBattle } = require('./battle_logic.js');
-const { getAnnouncedEnemy, clearAnnouncedEnemy } = require('../wild_digimon_spawner.js');
+const { getAnnouncedEnemy, clearAnnouncedEnemy } = require('../../wild_digimon_spawner.js');
 
 async function processBattleCommands(target, context, msg, client) {
   const message = msg.trim().toLowerCase();

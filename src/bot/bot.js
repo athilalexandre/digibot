@@ -3,11 +3,13 @@ const tmi = require('tmi.js');
 const connectDB = require('../database/connection');
 const Tammer = require('../models/Tammer');
 const BotConfig = require('../models/BotConfig'); // Adicionado BotConfig
+const DigimonData = require('../models/DigimonData'); // Para !setdigimon
 const config = require('../config');
-const { addXp } = require('./xpSystem'); // Adicionado para !testxp
+const { addXp, xpTable } = require('./xpSystem'); // Adicionado para !testxp e xpTable para !setdigimon
 const { processTrainingCommands } = require('./game_mechanics/training/training_commands.js');
 const { startSpawner } = require('./wild_digimon_spawner.js');
 const { processBattleCommands } = require('./game_mechanics/battle/battle_commands.js');
+const seedDigimonDatabase = require('../database/seedDigimonData'); // Para !resetdigibot
 
 // Conecta ao MongoDB
 connectDB();
@@ -36,6 +38,7 @@ client.connect().catch(console.error);
 // Handler para quando o bot conectar
 function onConnectedHandler(addr, port) {
   console.log(`* Conectado a ${addr}:${port} como ${config.twitchUsername} no canal ${config.twitchChannel}`);
+  client.say(config.twitchChannel, `Digibot está online e pronto para a aventura! Use !entrar para começar.`);
   startSpawner(client, config.twitchChannel); // Inicia o spawner de Digimon selvagem
 }
 
@@ -88,8 +91,29 @@ async function onMessageHandler(target, context, msg, self) {
     return; // Comando tratado
   }
 
-  // Comandos de Moderador/Broadcaster
+  // Comando !meudigimon ou !status
+  if (command === '!meudigimon' || command === '!status') {
+    try {
+      const tammer = await Tammer.findOne({ twitchUserId });
+      if (!tammer) {
+        return client.say(target, `${username}, você ainda não entrou no jogo. Use !entrar para começar.`);
+      }
+      let statusMessage = `${username}, seu Digimon: ${tammer.digimonName} (${tammer.digimonStage} - Nível ${tammer.digimonLevel}). XP: ${tammer.digimonXp}.`;
+      if (tammer.digimonHp && tammer.digimonStats) {
+        statusMessage += ` HP: ${tammer.digimonHp}, MP: ${tammer.digimonMp}, Força: ${tammer.digimonStats.forca}, Defesa: ${tammer.digimonStats.defesa}, Velocidade: ${tammer.digimonStats.velocidade}, Sabedoria: ${tammer.digimonStats.sabedoria}.`;
+      }
+      statusMessage += ` Coins: ${tammer.coins}.`;
+      client.say(target, statusMessage);
+    } catch (error) {
+      console.error("Erro no comando !meudigimon:", error);
+      client.say(target, "Ocorreu um erro ao buscar as informações do seu Digimon.");
+    }
+    return; // Comando tratado
+  }
+
+  // Comandos de Moderador/Broadcaster (isModOrBroadcaster definido abaixo)
   const isModOrBroadcaster = context.mod || username.toLowerCase() === config.twitchChannel.substring(1).toLowerCase();
+
 
   if (command === '!givecoins' && isModOrBroadcaster) {
     const targetUsername = args[0]; // Pode ser case-sensitive dependendo da sua lógica de busca
@@ -116,6 +140,32 @@ async function onMessageHandler(target, context, msg, self) {
     } catch (error) {
       console.error("Erro no comando !givecoins:", error);
       client.say(target, "Ocorreu um erro ao dar coins.");
+    }
+    return; // Comando tratado
+  }
+
+  if (command === '!removecoins' && isModOrBroadcaster) {
+    const targetUsername = args[0];
+    const amount = parseInt(args[1]);
+
+    if (!targetUsername || isNaN(amount) || amount <= 0) {
+      return client.say(target, "Uso: !removecoins <username> <quantidade>");
+    }
+
+    try {
+      const targetTammer = await Tammer.findOne({ username: targetUsername });
+      if (!targetTammer) {
+        return client.say(target, `Usuário ${targetUsername} não encontrado.`);
+      }
+
+      targetTammer.coins -= amount;
+      if (targetTammer.coins < 0) targetTammer.coins = 0; // Evita coins negativas, opcional
+      await targetTammer.save();
+
+      client.say(target, `${amount} coins foram removidas de ${targetUsername}. Saldo atual: ${targetTammer.coins} coins.`);
+    } catch (error) {
+      console.error("Erro no comando !removecoins:", error);
+      client.say(target, "Ocorreu um erro ao remover coins.");
     }
     return; // Comando tratado
   }
@@ -156,6 +206,70 @@ async function onMessageHandler(target, context, msg, self) {
     return; // Comando tratado
   }
 
-  // Adicionar outros comandos aqui usando a mesma estrutura de `if (command === '...' && isModOrBroadcaster)`
-  // ou `if (command === '...')` para comandos públicos.
+  if (command === '!setdigimon' && isModOrBroadcaster) {
+    const targetUsername = args[0];
+    const newDigimonName = args.slice(1).join(' ');
+    if (!targetUsername || !newDigimonName) {
+      return client.say(target, "Uso: !setdigimon <username> <nomeDoDigimon>");
+    }
+    try {
+      const tammerToUpdate = await Tammer.findOne({ username: targetUsername });
+      if (!tammerToUpdate) {
+        return client.say(target, `Tammer ${targetUsername} não encontrado.`);
+      }
+      const newDigimonData = await DigimonData.findOne({ name: new RegExp(`^${newDigimonName}$`, 'i') });
+      if (!newDigimonData) {
+        return client.say(target, `Digimon "${newDigimonName}" não encontrado no catálogo.`);
+      }
+      tammerToUpdate.digimonName = newDigimonData.name;
+      tammerToUpdate.digimonStage = newDigimonData.stage;
+      tammerToUpdate.currentDigimonId = newDigimonData._id;
+      tammerToUpdate.digimonType = newDigimonData.type;
+      if (newDigimonData.baseStats) {
+        tammerToUpdate.digimonHp = newDigimonData.baseStats.hp;
+        // Mantém o MP atual ou reseta para o base do DigimonData se existir um campo mp nos baseStats
+        tammerToUpdate.digimonMp = newDigimonData.baseStats.mp || tammerToUpdate.digimonMp || 10; 
+        tammerToUpdate.digimonStats = { ...newDigimonData.baseStats };
+      }
+      const newStageDataFromTable = xpTable[newDigimonData.stage];
+      if (newStageDataFromTable && newStageDataFromTable.levels) {
+        const stageLevelsSorted = Object.keys(newStageDataFromTable.levels).map(Number).sort((a,b) => a-b);
+        if (stageLevelsSorted.length > 0) {
+            const firstLevelOfNewStage = stageLevelsSorted[0];
+            tammerToUpdate.digimonLevel = firstLevelOfNewStage;
+            tammerToUpdate.digimonXp = newStageDataFromTable.levels[firstLevelOfNewStage];
+        } else {
+            tammerToUpdate.digimonLevel = 1;
+            tammerToUpdate.digimonXp = 0;
+        }
+      } else {
+        tammerToUpdate.digimonLevel = 1;
+        tammerToUpdate.digimonXp = 0;
+      }
+      await tammerToUpdate.save();
+      client.say(target, `O Digimon de ${targetUsername} foi alterado para ${newDigimonData.name} (${newDigimonData.stage} Nível ${tammerToUpdate.digimonLevel}). Status e XP resetados para a base.`);
+    } catch (error) {
+      console.error("Erro no comando !setdigimon:", error);
+      client.say(target, "Ocorreu um erro ao tentar alterar o Digimon.");
+    }
+    return; // Comando tratado
+  }
+
+  if (command === '!resetdigibot' && isModOrBroadcaster) {
+    try {
+      client.say(target, `Atenção, ${username}! Iniciando o reset completo do Digibot... Os dados de todos os jogadores serão apagados e o catálogo de Digimons será recarregado. Isso pode levar um momento.`);
+      console.log(`[RESET COMMAND by ${username}] Iniciando o reset do banco de dados.`);
+      const deleteTammersResult = await Tammer.deleteMany({});
+      console.log(`[RESET COMMAND] Tammers deletados: ${deleteTammersResult.deletedCount}`);
+      await BotConfig.deleteMany({});
+      console.log('[RESET COMMAND] Configurações do Bot (BotConfig) foram deletadas.');
+      console.log('[RESET COMMAND] Repopulando a coleção DigimonData...');
+      const seedSuccess = await seedDigimonDatabase(true);
+      client.say(target, seedSuccess ? "Digibot resetado com sucesso! Tudo pronto para um novo começo." : "Ocorreu um problema ao recarregar o catálogo de Digimons durante o reset. Verifique os logs.");
+    } catch (error) {
+      console.error("Erro crítico no comando !resetdigibot:", error);
+      client.say(target, "Ocorreu um erro crítico durante o reset do Digibot. Por favor, verifique os logs do servidor.");
+    }
+    return; // Comando tratado
+  }
 }

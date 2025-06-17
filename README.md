@@ -1,50 +1,25 @@
-# Digibot - Bot de Minigame Digimon para Twitch
+# Digibot - Seu Bot de Digimon para a Twitch
 
-Este projeto é um bot para a Twitch que implementa um minigame de Digimon, permitindo que os espectadores interajam, colecionem Digimons, ganhem XP, coins e participem de atividades. Ele também inclui um dashboard de gerenciamento para o streamer.
+Bem-vindo ao Digibot! Este é um bot para a Twitch que permite aos espectadores do seu canal terem seus próprios Digimons, treiná-los, evoluí-los e interagir com um sistema de economia, progressão e batalhas.
 
-## Funcionalidades Implementadas (Fase Inicial)
+## Funcionalidades
 
-*   **Bot da Twitch (`tmi.js`):**
-    *   Conexão com o chat da Twitch.
-    *   Comando `!entrar` para novos jogadores receberem um Digitama.
-    *   Sistema de Coins:
-        *   Comando `!givecoins <username> <amount>` (moderadores).
-        *   Comando `!setcoinvalue <value>` (moderadores) para ajustar valor em eventos.
-    *   Sistema de XP e Evolução:
-        *   Tabela de XP para progressão de níveis e estágios (Digitama, Baby I, Baby II, Rookie).
-        *   Função `addXp` e `checkLevelUp` para gerenciar progressão.
-        *   Comando `!testxp <amount>` (moderadores) para testar o ganho de XP.
-        *   Evolução de Digitama para um estágio Baby I com nome personalizável (futuramente `!setname`).
-
-    *   **Comandos de Interação do Jogador:**
-        *   **`!entrar`**: Permite que um novo jogador entre no jogo. O jogador começa com um Digitama.
-        *   **`!treinar <tipo>`**:
-            *   Descrição: Permite ao jogador gastar coins para treinar e melhorar um status específico do seu Digimon.
-            *   Custo: `100 coins` por sessão de treino.
-            *   Tipos de Treino Disponíveis e Efeitos:
-                *   `!treinar forca`: Aumenta a **Força** do Digimon em +1 e o **HP** em +1.
-                *   `!treinar def`: Aumenta a **Defesa** do Digimon em +1 e o **HP** em +1.
-                *   `!treinar vel`: Aumenta a **Velocidade** do Digimon em +1 e o **MP** em +1.
-                *   `!treinar sab`: Aumenta a **Sabedoria** do Digimon em +1 e o **MP** em +1.
-            *   Exemplo: `!treinar vel`
-        *   **`!batalhar`**:
-            *   Descrição: Inicia uma batalha contra o Digimon selvagem que apareceu recentemente no chat.
-            *   Requisitos: Um Digimon selvagem deve estar anunciado; nenhuma outra batalha pode estar em andamento; seu Digimon não pode ser um Digitama e deve ter HP > 0.
-        *   **`!atacar`**:
-            *   Descrição: Durante o seu turno em uma batalha, desfere um ataque básico contra o oponente. O dano considera os stats dos Digimons, bem como vantagens de Tipo (Vacina > Virus > Data > Vacina) e Atributo Elemental (Fogo > Planta > Água > Fogo, Elétrico > Vento > Terra > Elétrico, Luz <> Escuridão).
-            *   Requisitos: Estar em uma batalha ativa e ser o seu turno.
-        *   **`!fugir`** (Placeholder):
-            *   Descrição: Tenta fugir da batalha atual. (Funcionalidade futura)
-        *   _(Outros comandos como `!meudigimon` ou `!status` podem ser adicionados aqui conforme implementados)_
-
-    *   **Sistema de Batalha Aleatória:**
-        *   Periodicamente, Digimons selvagens (atualmente Rookies e Champions) podem aparecer no chat! Fique atento e use `!batalhar` para ter a chance de enfrentá-los e ganhar recompensas.
-
+*   **Sistema de Tammers e Digimons:** Jogadores (`Tammers`) possuem Digimons que progridem.
+*   **XP e Nível Global:** Sistema de experiência (XP) com níveis globais de 1 a 20. O estágio Mega é alcançável a partir do nível global 18.
+*   **Evolução:** Digimons evoluem para diferentes estágios (Digitama, Baby I, Baby II, Rookie, Champion, Ultimate, Mega) com base no XP acumulado. A evolução de Digitama para Baby I resulta em um Digimon aleatório desse estágio.
+*   **Atributos do Digimon:** Inclui HP, MP, e stats base (Força, Defesa, Velocidade, Sabedoria).
+*   **Sistema de Treino:** Jogadores podem gastar `coins` para treinar e aumentar os stats de seus Digimons, com opção de multiplicadores.
+*   **Sistema de Moedas (Coins):** Moeda interna do jogo para atividades como treino.
+*   **Catálogo de Digimons:** Personalizável através do arquivo `src/data/digimon_catalog.json`.
+*   **Comandos de Chat:** Diversos comandos para interação dos jogadores e gerenciamento dos moderadores.
+*   **Spawner de Digimons Selvagens:** Digimons selvagens aparecem periodicamente no chat.
+*   **Sistema de Batalha (Turnos):** Jogadores podem batalhar contra Digimons selvagens.
 *   **API RESTful (`Express.js`):**
     *   Endpoint `GET /api/bot/status` para verificar o status da API.
     *   Endpoints `GET /api/tammers` e `GET /api/tammers/:twitchUserId` para listar e visualizar Tammers.
     *   Endpoints `GET /api/config` e `PUT /api/config` para gerenciar configurações do bot.
 *   **Dashboard de Gerenciamento (`Vue.js`):**
+    *(Nota: A configuração e execução do frontend Vue.js estão descritas abaixo, mas o foco principal das atualizações recentes foi no backend/bot.)*
     *   Página de Status da API.
     *   Página para listar todos os Tammers e seus detalhes.
     *   Página de Configurações para ajustar:
@@ -56,6 +31,74 @@ Este projeto é um bot para a Twitch que implementa um minigame de Digimon, perm
     *   Schemas para `Tammer`, `DigimonData` (agora incluindo `attribute` e `evolvesFrom` como Mixed Type), e `BotConfig`.
         *   Valores possíveis para `attribute`: 'Fogo', 'Planta', 'Água', 'Elétrico', 'Vento', 'Terra', 'Luz', 'Escuridão', 'Neutro', ou `null`.
 
+## Comandos In-Game (Chat da Twitch)
+
+Aqui estão os comandos que podem ser usados no chat da Twitch:
+
+### Comandos Gerais do Jogador
+
+*   **`!entrar`**
+    *   **Descrição:** Permite que um espectador entre no jogo e receba seu primeiro Digimon (um Digitama no nível 1, 0 XP). Se o espectador já estiver no jogo, ele será informado.
+    *   **Quem pode usar:** Qualquer espectador.
+
+*   **`!meudigimon`** ou **`!status`**
+    *   **Descrição:** Exibe as informações atuais do Digimon do espectador, incluindo nome, estágio, nível global, XP, HP, MP, stats e saldo de moedas.
+    *   **Quem pode usar:** Qualquer espectador que já tenha usado `!entrar`.
+
+*   **`!treinar <tipo> [multiplicador]`**
+    *   **Descrição:** Permite ao jogador gastar coins para treinar e melhorar um status específico do seu Digimon. Opcionalmente, pode-se especificar um multiplicador para treinar várias vezes de uma vez.
+    *   **Custo Base:** `100 coins` por sessão de treino (o custo total é Custo Base * Multiplicador).
+    *   **Tipos de Treino Disponíveis e Efeitos:**
+        *   `!treinar for`: Aumenta a **Força** do Digimon em +1 * (multiplicador) e o **HP** em +1 * (multiplicador).
+        *   `!treinar def`: Aumenta a **Defesa** do Digimon em +1 * (multiplicador) e o **HP** em +1 * (multiplicador).
+        *   `!treinar vel`: Aumenta a **Velocidade** do Digimon em +1 * (multiplicador) e o **MP** em +1 * (multiplicador).
+        *   `!treinar sab`: Aumenta a **Sabedoria** do Digimon em +1 * (multiplicador) e o **MP** em +1 * (multiplicador).
+    *   **Multiplicadores Válidos:** 1, 5, 10, 15. Se nenhum multiplicador for especificado ou for inválido, o multiplicador padrão é 1.
+    *   **Quem pode usar:** Qualquer espectador que já tenha usado `!entrar` e possua coins suficientes para o custo total.
+    *   **Exemplos:**
+        *   `!treinar vel` (equivale a `!treinar vel 1`)
+        *   `!treinar for 5`
+        *   `!treinar def 10`
+
+*   **`!batalhar`**:
+    *   **Descrição:** Inicia uma batalha contra o Digimon selvagem que apareceu recentemente no chat.
+    *   **Requisitos:** Um Digimon selvagem deve estar anunciado; nenhuma outra batalha pode estar em andamento; seu Digimon não pode ser um Digitama e deve ter HP > 0.
+    *   **Quem pode usar:** Qualquer espectador que já tenha usado `!entrar`.
+
+*   **`!atacar`**:
+    *   **Descrição:** Durante o seu turno em uma batalha, desfere um ataque básico contra o oponente. O dano considera os stats dos Digimons, bem como vantagens de Tipo (Vacina > Virus > Data > Vacina) e Atributo Elemental (Fogo > Planta > Água > Fogo, Elétrico > Vento > Terra > Elétrico, Luz <> Escuridão).
+    *   **Requisitos:** Estar em uma batalha ativa e ser o seu turno.
+    *   **Quem pode usar:** O jogador atualmente em batalha e em seu turno.
+
+*   **`!fugir`** (Placeholder):
+    *   **Descrição:** Tenta fugir da batalha atual. (Funcionalidade futura)
+    *   **Quem pode usar:** O jogador atualmente em batalha.
+
+### Comandos de Gerenciamento (Moderadores/Broadcaster)
+
+*   **`!givecoins <username> <quantidade>`**
+    *   **Descrição:** Dá uma quantidade especificada de moedas para o `<username>` alvo.
+    *   **Exemplo:** `!givecoins espectadorLegal 100`
+
+*   **`!removecoins <username> <quantidade>`**
+    *   **Descrição:** Remove uma quantidade especificada de moedas do `<username>` alvo.
+    *   **Exemplo:** `!removecoins espectadorRuim 50`
+
+*   **`!setcoinvalue <valor>`**
+    *   **Descrição:** Define o valor base das moedas para eventos futuros.
+    *   **Exemplo:** `!setcoinvalue 50`
+
+*   **`!testxp <quantidade>`**
+    *   **Descrição:** Adiciona uma `<quantidade>` de XP ao Digimon do usuário que digitou o comando. Usado principalmente para testes de evolução e subida de nível.
+    *   **Exemplo:** `!testxp 500`
+
+*   **`!setdigimon <username> <nomeDoDigimon>`**
+    *   **Descrição:** Altera o Digimon do `<username>` alvo para o `<nomeDoDigimon>` especificado. O Digimon do usuário será resetado para o nível e XP base do novo Digimon/estágio, conforme a `xpTable`.
+    *   **Exemplo:** `!setdigimon espectadorLegal Agumon`
+
+*   **`!resetdigibot`**
+    *   **Descrição:** Realiza um reset completo do jogo. Todos os dados dos Tammers (jogadores) e configurações do bot são apagados, e o catálogo de Digimons é recarregado a partir do arquivo `src/data/digimon_catalog.json`. **Use com cuidado!**
+
 ## Estrutura do Projeto
 
 ```
@@ -66,7 +109,7 @@ Este projeto é um bot para a Twitch que implementa um minigame de Digimon, perm
 │   └── package.json
 ├── src/              # Código do Backend Node.js
 │   ├── api/          # Servidor Express e endpoints da API
-│   ├── bot/          # Lógica do bot da Twitch (tmi.js)
+│   ├── bot/          # Lógica do bot da Twitch (tmi.js), incluindo xpSystem.js, game_mechanics/, etc.
 │   ├── config/       # Carregamento de variáveis de ambiente
 │   ├── database/     # Conexão com MongoDB
 │   └── models/       # Schemas Mongoose

@@ -1,4 +1,4 @@
-const DigimonData = require('../../models/DigimonData'); // Ajustado para o caminho correto
+const DigimonData = require('../models/DigimonData');
 const { getActiveBattle } = require('./game_mechanics/battle/battle_logic.js');
 
 let announcedEnemy = null; // Armazena o DigimonData do inimigo anunciado
