@@ -207,6 +207,24 @@
     "baseStats": { "hp": 65, "forca": 12, "defesa": 10, "velocidade": 12, "sabedoria": 15 }
   },
   {
+    "name": "Angewomon",
+    "stage": "Ultimate",
+    "type": "Vacina",
+    "attribute": "Light",
+    "evolvesFrom": "Gatomon",
+    "evolvesTo": "Ophanimon",
+    "baseStats": { "hp": 140, "forca": 25, "defesa": 22, "velocidade": 28, "sabedoria": 35 }
+  },
+  {
+    "name": "Ophanimon",
+    "stage": "Mega",
+    "type": "Vacina",
+    "attribute": "Light",
+    "evolvesFrom": "Angewomon",
+    "evolvesTo": null,
+    "baseStats": { "hp": 280, "forca": 50, "defesa": 45, "velocidade": 55, "sabedoria": 70 }
+  },
+  {
     "name": "Guilmon",
     "stage": "Rookie",
     "type": "Virus",

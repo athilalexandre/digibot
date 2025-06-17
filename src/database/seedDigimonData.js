@@ -4,10 +4,14 @@ const mongoose = require('mongoose');
 const connectDB = require('./connection'); // Assumindo que connection.js exporta connectDB
 const DigimonData = require('../models/DigimonData');
 
-async function seedDB() {
+async function seedDB(keepConnectionAlive = false) {
   try {
     // Conecta ao MongoDB utilizando a configuração centralizada em connection.js
-    await connectDB();
+    // Se keepConnectionAlive for true (chamado pelo bot), assume-se que a conexão já existe.
+    // Se for chamado como script standalone, connectDB() garante a conexão.
+    if (mongoose.connection.readyState === 0) { // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
+      await connectDB();
+    }
 
     // Ler o arquivo JSON
     // __dirname aponta para src/database, então precisamos voltar um nível para src/ e depois data/
@@ -17,8 +21,10 @@ async function seedDB() {
 
     if (!digimonCatalog || digimonCatalog.length === 0) {
       console.log('Arquivo do catálogo de Digimons está vazio ou não foi encontrado. Abortando o seed.');
-      await mongoose.disconnect();
-      return;
+      if (!keepConnectionAlive) {
+        await mongoose.disconnect();
+      }
+      return false; // Indica falha ou nenhuma ação
     }
 
     // Limpar a coleção
@@ -49,15 +55,26 @@ async function seedDB() {
 
     await DigimonData.insertMany(digimonDataToInsert);
     console.log(`${digimonCatalog.length} Digimons inseridos com sucesso!`);
+    return true; // Indica sucesso
 
   } catch (error) {
     console.error('Erro ao popular o banco de dados:', error);
+    return false; // Indica falha
   } finally {
-    // Fechar a conexão
-    console.log('Desconectando do MongoDB...');
-    await mongoose.disconnect();
-    console.log('Desconectado.');
+    // Fechar a conexão apenas se não for para manter viva (script standalone)
+    if (!keepConnectionAlive && mongoose.connection.readyState !== 0) {
+      console.log('Desconectando do MongoDB...');
+      await mongoose.disconnect();
+      console.log('Desconectado.');
+    } else if (keepConnectionAlive) {
+      console.log('SeedDB concluído, mantendo conexão MongoDB ativa.');
+    }
   }
 }
 
-seedDB();
+// Se o script for executado diretamente (ex: npm run db:seed:digimon), chama seedDB()
+if (require.main === module) {
+  seedDB().then(success => process.exit(success ? 0 : 1));
+}
+
+module.exports = seedDB; // Exportar a função para ser usada por outros módulos (ex: bot)

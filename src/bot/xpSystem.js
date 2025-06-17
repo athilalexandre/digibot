@@ -2,13 +2,43 @@ const Tammer = require('../models/Tammer');
 const DigimonData = require('../models/DigimonData'); // Adicionado
 
 const xpTable = {
-  "Digitama": { levels: { 1: 0, 2: 100, 3: 200, 4: 300, 5: 400 }, nextStageXp: 500, evolvesTo: "Baby I" },
-  "Baby I":   { levels: { 1: 500, 2: 600, 3: 700, 4: 800, 5: 900 }, nextStageXp: 1000, evolvesTo: "Baby II" },
-  "Baby II":  { levels: { 1: 1000, 2: 1100, 3: 1200, 4: 1300, 5: 1400}, nextStageXp: 1500, evolvesTo: "Rookie" },
-  "Rookie":   { levels: { 1: 1500, 2: 1600, 3: 1700, 4: 1800, 5: 1900}, nextStageXp: 2000, evolvesTo: "Champion" },
-  "Champion": { levels: { 1: 2000, 2: 2100, 3: 2200, 4: 2300, 5: 2400}, nextStageXp: 2500, evolvesTo: "Ultimate" },
-  "Ultimate": { levels: { 1: 2500, 2: 2600, 3: 2700, 4: 2800, 5: 2900}, nextStageXp: 3000, evolvesTo: "Mega" },
-  "Mega":     { levels: { 1: 3000, 2: 3100, 3: 3200, 4: 3300, 5: 3400}, nextStageXp: Infinity, evolvesTo: null }
+  // Níveis são globais (1-20). XP é o total acumulado para atingir aquele nível.
+  // nextStageXp é o XP total necessário para iniciar o próximo estágio.
+  "Digitama": { // Níveis 1-2
+    levels: { 1: 0, 2: 100 },
+    nextStageXp: 250, // XP para Nível 3 (início Baby I)
+    evolvesTo: "Baby I"
+  },
+  "Baby I":   { // Níveis 3-4
+    levels: { 3: 250, 4: 400 },
+    nextStageXp: 600, // XP para Nível 5 (início Baby II)
+    evolvesTo: "Baby II"
+  },
+  "Baby II":  { // Níveis 5-7
+    levels: { 5: 600, 6: 800, 7: 1000 },
+    nextStageXp: 1250, // XP para Nível 8 (início Rookie)
+    evolvesTo: "Rookie"
+  },
+  "Rookie":   { // Níveis 8-10
+    levels: { 8: 1250, 9: 1500, 10: 1750 },
+    nextStageXp: 2050, // XP para Nível 11 (início Champion)
+    evolvesTo: "Champion"
+  },
+  "Champion": { // Níveis 11-13
+    levels: { 11: 2050, 12: 2350, 13: 2650 },
+    nextStageXp: 3000, // XP para Nível 14 (início Ultimate)
+    evolvesTo: "Ultimate"
+  },
+  "Ultimate": { // Níveis 14-17
+    levels: { 14: 3000, 15: 3350, 16: 3700, 17: 4050 },
+    nextStageXp: 4450, // XP para Nível 18 (início Mega)
+    evolvesTo: "Mega"
+  },
+  "Mega":     { // Níveis 18-20
+    levels: { 18: 4450, 19: 4850, 20: 5250 },
+    nextStageXp: Infinity, // Não evolui mais
+    evolvesTo: null
+  }
 };
 
 async function addXp(twitchUserId, amount, client, target) {
@@ -19,8 +49,13 @@ async function addXp(twitchUserId, amount, client, target) {
       return;
     }
 
+    const oldLevel = tammer.digimonLevel;
     tammer.digimonXp += amount;
     client.say(target, `${tammer.username} recebeu ${amount} XP! XP atual: ${tammer.digimonXp}.`);
+
+    if (tammer.digimonLevel === 20 && tammer.digimonXp > xpTable["Mega"].levels[20]) {
+        tammer.digimonXp = xpTable["Mega"].levels[20]; // Cap XP no máximo do nível 20
+    }
 
     await checkLevelUp(tammer, client, target);
     await tammer.save();
@@ -33,6 +68,7 @@ async function addXp(twitchUserId, amount, client, target) {
 
 async function checkLevelUp(tammer, client, target) {
   let changedInLoop = true;
+  const MAX_LEVEL = 20;
   while (changedInLoop) {
     changedInLoop = false;
     const currentTammerStage = tammer.digimonStage; // Estágio atual do Tammer
@@ -43,8 +79,8 @@ async function checkLevelUp(tammer, client, target) {
       return; 
     }
 
-    // Verifica evolução para o próximo estágio
-    if (stageDataFromXpTable.evolvesTo && tammer.digimonXp >= stageDataFromXpTable.nextStageXp) {
+    // 1. Tenta evoluir para o próximo estágio
+    if (stageDataFromXpTable.evolvesTo && tammer.digimonXp >= stageDataFromXpTable.nextStageXp && tammer.digimonStage !== "Mega") {
       const previousDigimonName = tammer.digimonName; // Nome antes da tentativa de evolução
       const previousStage = currentTammerStage; // Estágio antes da tentativa de evolução
       const targetNewStage = stageDataFromXpTable.evolvesTo; // Estágio para o qual tentará evoluir (da xpTable)
@@ -55,8 +91,11 @@ async function checkLevelUp(tammer, client, target) {
         try {
           const currentDigimonInfo = await DigimonData.findById(tammer.currentDigimonId);
           if (currentDigimonInfo && currentDigimonInfo.evolvesTo) {
+            console.log(`[XP LOG] Prioridade 1: Buscando por nome "${currentDigimonInfo.evolvesTo}" e estágio "${targetNewStage}"`);
             // Tenta encontrar o próximo Digimon pelo nome exato em evolvesTo e que seja do estágio correto
-            newDigimonEntry = await DigimonData.findOne({ name: currentDigimonInfo.evolvesTo, stage: targetNewStage });
+            newDigimonEntry = await DigimonData.findOne({ name: currentDigimonInfo.evolvesTo, stage: targetNewStage });            
+            if (newDigimonEntry) console.log(`[XP LOG] Prioridade 1: Encontrado ${newDigimonEntry.name} (ID: ${newDigimonEntry._id})`);
+            else console.log(`[XP LOG] Prioridade 1: Não encontrado.`);
           }
         } catch (err) {
           console.error(`Erro ao buscar DigimonData atual (ID: ${tammer.currentDigimonId}):`, err);
@@ -66,17 +105,34 @@ async function checkLevelUp(tammer, client, target) {
       // Prioridade 2 (Fallback): Se não encontrado acima, buscar por um DigimonData que evolua do NOME do Digimon anterior
       // e que seja do estágio correto. Isso é útil se currentDigimonId não estava setado ou a linha evolutiva direta falhou.
       if (!newDigimonEntry) {
-        newDigimonEntry = await DigimonData.findOne({ stage: targetNewStage, evolvesFrom: previousDigimonName });
+        console.log(`[XP LOG] Prioridade 2: Buscando por estágio "${targetNewStage}" e evolvesFrom "${previousDigimonName}"`);
+        newDigimonEntry = await DigimonData.findOne({ stage: targetNewStage, evolvesFrom: previousDigimonName });        
+        if (newDigimonEntry) console.log(`[XP LOG] Prioridade 2: Encontrado ${newDigimonEntry.name} (ID: ${newDigimonEntry._id})`);
+        else console.log(`[XP LOG] Prioridade 2: Não encontrado.`);
       }
       
-      // Prioridade 3 (Fallback mais genérico): Se ainda não encontrado, buscar pelo estágio anterior.
-      // Esta lógica foi removida por ser muito genérica e propensa a erros.
-      // Se as duas primeiras prioridades falharem, o fallback abaixo será usado.
+      // Prioridade Especial: Se evoluindo de Digitama e nenhum entry encontrado pelas prioridades 1 ou 2,
+      // pegar um Baby I aleatório que não evolua de ninguém (evolvesFrom: null).
+      if (!newDigimonEntry && previousStage === "Digitama" && targetNewStage === "Baby I") {
+        try {
+          const initialBabyIForms = await DigimonData.find({ stage: "Baby I", evolvesFrom: null });
+          if (initialBabyIForms.length > 0) {
+            newDigimonEntry = initialBabyIForms[Math.floor(Math.random() * initialBabyIForms.length)];
+            console.log(`Evolução de Digitama: ${tammer.username} recebeu ${newDigimonEntry.name} (${newDigimonEntry.stage}) aleatoriamente.`);
+          } else {
+            console.warn(`Nenhum Digimon 'Baby I' com 'evolvesFrom: null' encontrado no catálogo para ${tammer.username} ao evoluir de Digitama.`);
+          }
+        } catch (err) {
+          console.error(`Erro ao buscar Baby I inicial para ${tammer.username} ao evoluir de Digitama:`, err);
+        }
+      }
 
       if (newDigimonEntry) {
         // Atualizar o Tammer com os dados do newDigimonEntry
+        const oldDigimonNameForMessage = tammer.digimonName; // Guardar nome antigo para a mensagem
+
         tammer.digimonStage = newDigimonEntry.stage; // Deve corresponder a targetNewStage
-        tammer.digimonLevel = 1; // Reseta o nível para 1 no novo estágio
+        // tammer.digimonLevel NÃO é resetado, é o nível global. Será recalculado abaixo.
         tammer.currentDigimonId = newDigimonEntry._id;
         tammer.digimonName = newDigimonEntry.name;
         
@@ -91,47 +147,59 @@ async function checkLevelUp(tammer, client, target) {
         }
         tammer.digimonType = newDigimonEntry.type;
 
-        client.say(target, `Parabéns, ${tammer.username}! Seu ${previousDigimonName} evoluiu para ${tammer.digimonName} (${tammer.digimonStage})!`);
+        client.say(target, `Parabéns, ${tammer.username}! Seu ${oldDigimonNameForMessage} evoluiu para ${tammer.digimonName} (${tammer.digimonStage})!`);
       } else {
-        // Fallback: newDigimonEntry NÃO foi encontrado, comportamento antigo/genérico
+        // Fallback se não encontrar Digimon específico para evoluir
         tammer.digimonStage = targetNewStage; // Atualiza para o estágio da xpTable
-        tammer.digimonLevel = 1;
-        // Não reseta currentDigimonId aqui, pois não temos um novo entry.
-        // Pode ser que o usuário precise de um item ou condição especial para evoluir para um Digimon específico.
-
-        if (previousStage === "Digitama") {
-          tammer.digimonName = `${targetNewStage} de ${tammer.username}`;
-        }
-        // Se não era Digitama, o nome do Digimon não muda genericamente, a menos que um newDigimonEntry seja encontrado.
-        // O nome antigo (previousDigimonName) ainda seria o nome do Digimon, mas agora em um novo estágio (targetNewStage).
-        // Isso pode ser confuso, então é melhor que o nome mude apenas se newDigimonEntry for encontrado.
-        // A mensagem abaixo reflete isso.
+        // Como não encontramos uma entrada específica, o Digimon evoluiu genericamente.
+        // Resetar currentDigimonId para null e atualizar o nome para algo genérico do novo estágio.
+        tammer.currentDigimonId = null; 
+        tammer.digimonName = `${targetNewStage} de ${tammer.username}`; // Ex: "Ultimate de 0baratta"
+        // Os stats base não são atualizados para um Digimon específico, mantendo os anteriores ou genéricos.
 
         console.warn(`Aviso: DigimonData específico não encontrado para evolução de ${previousDigimonName} (Estágio: ${previousStage}) para ${targetNewStage}. O Digimon progrediu para o estágio ${targetNewStage} com atributos base do estágio anterior ou genéricos.`);
         client.say(target, `Parabéns, ${tammer.username}! Seu ${previousDigimonName} progrediu para o estágio ${targetNewStage}! (Stats podem não ter sido atualizados para um novo Digimon específico).`);
       }
       
       changedInLoop = true;
-      continue; // Continua o loop para verificar level up no novo estágio ou outras evoluções
+      // Após a evolução de estágio, o loop continua para recalcular o nível global.
     }
 
-    // Verifica level up dentro do estágio atual (lógica inalterada)
-    const stageLevels = stageDataFromXpTable.levels;
-    let newLevel = tammer.digimonLevel;
-    for (const level in stageLevels) {
-      // Garante que o XP para este nível na tabela seja alcançado E que o nível seja maior que o atual
-      if (tammer.digimonXp >= stageLevels[level] && parseInt(level) > tammer.digimonLevel) {
-        newLevel = parseInt(level); // Atualiza para o maior nível alcançado
+    // 2. Sempre recalcular o nível global (tammer.digimonLevel) com base no XP total e no estágio ATUAL do Tammer.
+    const stageDataForLevelCalc = xpTable[tammer.digimonStage];
+    let determinedLevel = 0;
+
+    if (stageDataForLevelCalc && stageDataForLevelCalc.levels) {
+      const levelsForStage = stageDataForLevelCalc.levels;
+      const sortedStageLevels = Object.keys(levelsForStage).map(Number).sort((a, b) => a - b);
+      
+      for (const lvl of sortedStageLevels) {
+        if (tammer.digimonXp >= levelsForStage[lvl]) {
+          determinedLevel = lvl;
+        } else {
+          break; // XP não é suficiente para este nível, então não será para os próximos.
+        }
+      }
+      // Se determinedLevel ainda for 0 (XP menor que o XP do primeiro nível do estágio),
+      // mas o estágio tem níveis definidos, define para o primeiro nível do estágio.
+      // Isso cobre o caso de !setdigimon ou quando o XP é exatamente o do primeiro nível.
+      if (determinedLevel === 0 && sortedStageLevels.length > 0 && tammer.digimonXp >= levelsForStage[sortedStageLevels[0]]) {
+        determinedLevel = sortedStageLevels[0];
       }
     }
+    
+    if (determinedLevel === 0) determinedLevel = 1; // Fallback geral para nível 1 se nada for encontrado
+    if (determinedLevel > MAX_LEVEL) determinedLevel = MAX_LEVEL; // Garante o teto de nível
 
-    if (newLevel > tammer.digimonLevel) {
-      tammer.digimonLevel = newLevel;
+    if (tammer.digimonLevel !== determinedLevel) {
+      if (determinedLevel > tammer.digimonLevel) {
+        client.say(target, `${tammer.username}, seu ${tammer.digimonName} (${tammer.digimonStage}) subiu para o nível ${determinedLevel}!`);
+      }
+      tammer.digimonLevel = determinedLevel;
       // TODO: Atualizar HP e Stats baseados no novo nível (ganhos por nível, não por evolução)
-      client.say(target, `${tammer.username}, seu ${tammer.digimonName} (${tammer.digimonStage}) subiu para o nível ${tammer.digimonLevel}!`);
       changedInLoop = true;
     }
   }
 }
 
-module.exports = { addXp, xpTable };
+module.exports = { addXp, xpTable }; // Exportando xpTable
