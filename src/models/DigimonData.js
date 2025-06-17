@@ -26,6 +26,10 @@ const DigimonDataSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  evolvesFrom: { // Campo adicionado
+    type: String,
+    default: null,
+  }
 });
 
 module.exports = mongoose.model('DigimonData', DigimonDataSchema);

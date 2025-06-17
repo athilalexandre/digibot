@@ -1,0 +1,34 @@
+name: New rule
+version: 0.0.1
+schema: v1
+rules:
+  - "Foco na Intenção, Contexto Dinâmico, Iteração Constante."
+
+Explicação e Aplicação (com o Continue.dev):
+
+Foco na Intenção ("O Quê" vs. "Como"):
+
+Diretriz: Sempre comece descrevendo claramente o resultado ou a funcionalidade desejada em linguagem natural. Evite ditar a sintaxe específica ou os detalhes de implementação no primeiro momento. Deixe a IA preencher o "como".
+No Continue.dev (Chat):
+Em vez de: "Crie uma div com id 'container' e dentro dela um p com texto 'Hello World'."
+Tente: "Crie a estrutura HTML básica para uma página de boas-vindas com um cabeçalho e um parágrafo introdutório."
+Benefício: Libera sua mente para o design e a lógica de alto nível, acelerando prototipagem e desenvolvimento de features.
+Contexto Dinâmico (Usando @ e Indexação):
+
+Diretriz: Garanta que a IA tenha acesso ao contexto relevante do seu projeto no momento certo para gerar código preciso e coeso.
+No Continue.dev (Chat):
+Use @codebase para perguntas gerais sobre o projeto ou para tarefas que exigem conhecimento amplo. Ex: "Resuma o propósito desta aplicação, considerando toda a @codebase."
+Use @file ou @folder para direcionar a IA a arquivos ou módulos específicos ao pedir refatorações, adições de funcionalidades ou explicações. Ex: "Adicione um formulário de contato com validação básica no @frontend/public/index.html."
+Use @selection para focar a IA em trechos de código que você está trabalhando ativamente. Ex: "Refatore esta função para ser mais legível, considerando a @selection."
+No Continue.dev (Tab Autocomplete):
+Mantenha o "Enable Indexing" ativado nas configurações do Continue. Isso faz com que a IA entenda o seu projeto em segundo plano, fornecendo sugestões de Tab Autocomplete mais relevantes baseadas no contexto geral, mesmo sem um @ explícito.
+Benefício: Reduz a necessidade de copiar e colar código, permite que a IA entenda seu projeto em um nível mais profundo e oferece sugestões mais inteligentes.
+Iteração Constante (Refinar e Ajustar):
+
+Diretriz: A "vibe coding" é um processo iterativo. Comece com uma descrição ampla, observe a saída da IA, e refine seus prompts para ajustar o código gerado.
+No Continue.dev (Chat):
+Não espere a perfeição na primeira tentativa. Se a saída da IA não for exatamente o que você quer, continue o diálogo. Ex: "Isso é bom, mas o botão precisa ser verde e ter um ícone de 'enviar'." ou "Agora, adicione tratamento de erro para a chamada da API."
+Use o chat para depurar: "Por que este erro está acontecendo? @file src/App.js"
+No Continue.dev (Auto-Accept Agent Edits - experimental):
+Você pode experimentar com essa função nas "Experimental Settings" para ver se ela se encaixa na sua "vibe". Ela permite que a IA faça edições diretas no seu código, que você pode aceitar ou rejeitar.
+Benefício: Transforma a codificação em uma conversa, permitindo ajustes rápidos e explorando diferentes abordagens sem reescrever tudo do zero.
