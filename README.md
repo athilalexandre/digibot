@@ -1,178 +1,146 @@
-# Digibot - Seu Bot de Digimon para a Twitch
+# Digibot - Bot de Minigame Digimon para Twitch
 
-Bem-vindo ao Digibot! Este é um bot para a Twitch que permite aos espectadores do seu canal terem seus próprios Digimons, treiná-los, evoluí-los e interagir com um sistema de economia básico.
+Este projeto é um bot para a Twitch que implementa um minigame de Digimon, permitindo que os espectadores interajam, colecionem Digimons, ganhem XP, coins e participem de atividades. Ele também inclui um dashboard de gerenciamento para o streamer.
 
-## Funcionalidades
+## Funcionalidades Implementadas (Fase Inicial)
 
-*   Sistema de Tammers (jogadores) com Digimons.
-*   Evolução de Digimons baseada em XP.
-*   Níveis globais para Digimons (1-20).
-*   Catálogo de Digimons personalizável via arquivo JSON.
-*   Comandos de chat para interação.
-*   API para gerenciamento e visualização de dados.
-*   Sistema de moedas (coins).
+*   **Bot da Twitch (`tmi.js`):**
+    *   Conexão com o chat da Twitch.
+    *   Comando `!entrar` para novos jogadores receberem um Digitama.
+    *   Sistema de Coins:
+        *   Comando `!givecoins <username> <amount>` (moderadores).
+        *   Comando `!setcoinvalue <value>` (moderadores) para ajustar valor em eventos.
+    *   Sistema de XP e Evolução:
+        *   Tabela de XP para progressão de níveis e estágios (Digitama, Baby I, Baby II, Rookie).
+        *   Função `addXp` e `checkLevelUp` para gerenciar progressão.
+        *   Comando `!testxp <amount>` (moderadores) para testar o ganho de XP.
+        *   Evolução de Digitama para um estágio Baby I com nome personalizável (futuramente `!setname`).
 
-## Comandos In-Game (Chat da Twitch)
+    *   **Comandos de Interação do Jogador:**
+        *   **`!entrar`**: Permite que um novo jogador entre no jogo. O jogador começa com um Digitama.
+        *   **`!treinar <tipo>`**:
+            *   Descrição: Permite ao jogador gastar coins para treinar e melhorar um status específico do seu Digimon.
+            *   Custo: `100 coins` por sessão de treino.
+            *   Tipos de Treino Disponíveis e Efeitos:
+                *   `!treinar forca`: Aumenta a **Força** do Digimon em +1 e o **HP** em +1.
+                *   `!treinar def`: Aumenta a **Defesa** do Digimon em +1 e o **HP** em +1.
+                *   `!treinar vel`: Aumenta a **Velocidade** do Digimon em +1 e o **MP** em +1.
+                *   `!treinar sab`: Aumenta a **Sabedoria** do Digimon em +1 e o **MP** em +1.
+            *   Exemplo: `!treinar vel`
+        *   _(Outros comandos como `!meudigimon` ou `!status` podem ser adicionados aqui conforme implementados)_
 
-Aqui estão os comandos que podem ser usados no chat da Twitch:
+*   **API RESTful (`Express.js`):**
+    *   Endpoint `GET /api/bot/status` para verificar o status da API.
+    *   Endpoints `GET /api/tammers` e `GET /api/tammers/:twitchUserId` para listar e visualizar Tammers.
+    *   Endpoints `GET /api/config` e `PUT /api/config` para gerenciar configurações do bot.
+*   **Dashboard de Gerenciamento (`Vue.js`):**
+    *   Página de Status da API.
+    *   Página para listar todos os Tammers e seus detalhes.
+    *   Página de Configurações para ajustar:
+        *   Taxa de conversão de coins.
+        *   Valor das coins em eventos.
+        *   Multiplicador de XP para eventos.
+        *   Mínimo de Tamers para Raid.
+*   **Banco de Dados (`MongoDB` com `Mongoose`):**
+    *   Schemas para `Tammer`, `DigimonData`, e `BotConfig`.
 
-*   **`!entrar`**
-    *   **Descrição:** Permite que um espectador entre no jogo e receba seu primeiro Digimon (um Digitama). Se o espectador já estiver no jogo, ele será informado.
-    *   **Quem pode usar:** Qualquer espectador.
+## Estrutura do Projeto
 
-*   **`!meudigimon`** ou **`!status`**
-    *   **Descrição:** Exibe as informações atuais do Digimon do espectador, incluindo nome, estágio, nível, XP, HP, stats e saldo de moedas.
-    *   **Quem pode usar:** Qualquer espectador que já tenha usado `!entrar`.
+```
+.
+├── frontend/         # Código do Dashboard Vue.js
+│   ├── public/
+│   ├── src/
+│   └── package.json
+├── src/              # Código do Backend Node.js
+│   ├── api/          # Servidor Express e endpoints da API
+│   ├── bot/          # Lógica do bot da Twitch (tmi.js)
+│   ├── config/       # Carregamento de variáveis de ambiente
+│   ├── database/     # Conexão com MongoDB
+│   └── models/       # Schemas Mongoose
+├── .env.example      # Arquivo de exemplo para variáveis de ambiente
+├── package.json
+└── README.md
+```
 
-*   **`!givecoins <username> <quantidade>`**
-    *   **Descrição:** Dá uma quantidade especificada de moedas para o `<username>` alvo.
-    *   **Quem pode usar:** Moderadores do canal e o Broadcaster.
-    *   **Exemplo:** `!givecoins espectadorLegal 100`
+## Pré-requisitos
 
-*   **`!setcoinvalue <valor>`**
-    *   **Descrição:** Define o valor base das moedas para eventos futuros (esta funcionalidade pode ser expandida).
-    *   **Quem pode usar:** Moderadores do canal e o Broadcaster.
-    *   **Exemplo:** `!setcoinvalue 50`
+*   [Node.js](https://nodejs.org/) (versão LTS recomendada, ex: 18.x ou superior)
+*   [npm](https://www.npmjs.com/) (geralmente vem com o Node.js)
+*   [MongoDB](https://www.mongodb.com/try/download/community) (uma instância rodando localmente ou acessível remotamente)
 
-*   **`!testxp <quantidade>`**
-    *   **Descrição:** Adiciona uma `<quantidade>` de XP ao Digimon do usuário que digitou o comando. Usado principalmente para testes de evolução.
-    *   **Quem pode usar:** Moderadores do canal e o Broadcaster.
-    *   **Exemplo:** `!testxp 500`
+## Configuração do Ambiente
 
-*   **`!setdigimon <username> <nomeDoDigimon>`**
-    *   **Descrição:** Altera o Digimon do `<username>` alvo para o `<nomeDoDigimon>` especificado. O Digimon do usuário será resetado para o nível e XP base do novo Digimon/estágio.
-    *   **Quem pode usar:** Moderadores do canal e o Broadcaster.
-    *   **Exemplo:** `!setdigimon espectadorLegal Agumon`
-
-*   **`!resetdigibot`**
-    *   **Descrição:** Realiza um reset completo do jogo. Todos os dados dos Tammers (jogadores) e configurações do bot são apagados, e o catálogo de Digimons é recarregado a partir do arquivo `digimon_catalog.json`. **Use com cuidado!**
-    *   **Quem pode usar:** Moderadores do canal e o Broadcaster.
-
-## Guia de Instalação e Configuração
-
-Siga os passos abaixo para configurar e rodar o Digibot localmente.
-
-### Pré-requisitos
-
-*   Node.js (versão LTS recomendada)
-*   MongoDB
-*   Um editor de código (ex: VS Code)
-*   Git
-
-### Passo 1: Criar uma Conta de Bot na Twitch
-
-1.  Acesse Twitch.tv e crie uma nova conta que será usada exclusivamente pelo seu bot.
-    *   **Dica:** Escolha um nome de usuário que identifique claramente que é um bot (ex: `NomeDoSeuCanalBot`).
-2.  (Opcional, mas recomendado) Habilite a Autenticação de Dois Fatores (2FA) nesta conta para maior segurança.
-
-### Passo 2: Gerar um Token OAuth para o Bot
-
-Seu bot precisa de um token OAuth para se conectar ao chat da Twitch.
-
-1.  Acesse um gerador de tokens confiável, como o TwitchTokenGenerator.com.
-2.  Clique para gerar um "Custom Scope Token" ou similar.
-3.  Selecione os seguintes escopos (permissões):
-    *   `chat:read` (para ler mensagens do chat)
-    *   `chat:edit` (para enviar mensagens no chat)
-4.  Clique em "Generate Token!".
-5.  Você será redirecionado para a Twitch. **Faça login com a conta do BOT criada no Passo 1.**
-6.  Autorize a aplicação.
-7.  Você será redirecionado de volta, e o **Access Token** (começando com `oauth:`) e o **Client ID** serão exibidos.
-    *   **Guarde esses dois valores em um local seguro.** Você precisará deles para o arquivo de configuração.
-
-### Passo 3: Instalar e Configurar o MongoDB
-
-1.  **Baixe e Instale o MongoDB Community Server:**
-    *   Acesse o site oficial do MongoDB.
-    *   Baixe o instalador para o seu sistema operacional (Windows, macOS, Linux).
-    *   Siga as instruções de instalação. Durante a instalação no Windows, você pode optar por instalar o MongoDB como um serviço, o que é recomendado para que ele inicie automaticamente com o sistema.
-2.  **Verifique se o MongoDB está rodando:**
-    *   **Windows:** Procure por "Serviços" no menu Iniciar, encontre "MongoDB Server" e verifique se o status é "Em Execução".
-    *   **macOS/Linux:** Use comandos como `sudo systemctl status mongod` ou `brew services list` (se instalado via Homebrew).
-3.  (Opcional) Instale o MongoDB Compass, uma GUI para gerenciar seus bancos de dados MongoDB.
-
-### Passo 4: Clonar o Repositório e Instalar Dependências
-
-1.  Abra seu terminal ou prompt de comando.
-2.  Navegue até o diretório onde você deseja clonar o projeto.
-3.  Clone o repositório:
+1.  Clone o repositório (se ainda não o fez).
+2.  Na raiz do projeto, copie o arquivo `.env.example` para um novo arquivo chamado `.env`:
     ```bash
-    git clone https://github.com/athilalexandre/digibot.git
+    cp .env.example .env
     ```
-4.  Entre no diretório do projeto:
-    ```bash
-    cd digibot
-    ```
-5.  Instale as dependências do Node.js:
+3.  Edite o arquivo `.env` com suas configurações:
+
+    *   `MONGODB_URI`: A URI de conexão do seu MongoDB.
+        *   Exemplo local: `mongodb://localhost:27017/digibot`
+    *   `TWITCH_CHANNEL`: O nome do canal da Twitch onde o bot vai operar (sem o `#`).
+        *   Exemplo: `nomedoseustreamer`
+    *   `TWITCH_USERNAME`: O nome de usuário da conta Twitch que o bot usará para se conectar.
+        *   Exemplo: `meu_digibot`
+    *   `TWITCH_OAUTH_TOKEN`: O token OAuth para a conta do bot.
+        *   **Importante:** Inclua o prefixo `oauth:`. Exemplo: `oauth:abcdef1234567890`
+        *   Você pode gerar um em [https://twitchtokengenerator.com/](https://twitchtokengenerator.com/) (selecione "Bot Chat Token").
+    *   `API_PORT`: A porta em que a API RESTful irá rodar.
+        *   Padrão: `3000`
+
+## Instalação de Dependências
+
+1.  **Backend (raiz do projeto):**
     ```bash
     npm install
     ```
-
-### Passo 5: Configurar o Bot
-
-1.  No diretório raiz do projeto (`digibot`), você encontrará um arquivo chamado `src/config.js`. Este arquivo contém as configurações essenciais.
-2.  Edite o arquivo `src/config.js` com os seus dados:
-    ```javascript
-    // config.js
-    module.exports = {
-      // Nome de usuário da conta do BOT da Twitch (Passo 1)
-      twitchUsername: 'nomedoseubot',
-      // Token OAuth gerado para o BOT (Passo 2 - Access Token)
-      twitchOAuth: 'oauth:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-      // Canal da Twitch onde o bot vai operar (prefixado com #)
-      twitchChannel: '#nomedoseucanalprincipal',
-      // String de conexão do MongoDB (deve funcionar se o MongoDB estiver rodando localmente na porta padrão)
-      mongodbUri: 'mongodb://localhost:27017/digibot',
-      // Porta para a API (pode deixar 3000 ou alterar se necessário)
-      apiPort: 3000,
-      // Client ID obtido junto com o token OAuth (Passo 2)
-      twitchClientId: 'seu_client_id_aqui',
-      // Outras configurações globais que seu bot/api possam precisar
-    };
+2.  **Frontend (pasta `frontend`):**
+    *(Se você estiver usando o dashboard Vue.js)*
+    ```bash
+    cd frontend
+    npm install
+    cd ..
     ```
-    *   Substitua `nomedoseubot`, `oauth:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`, `#nomedoseucanalprincipal`, e `seu_client_id_aqui` pelos valores corretos.
-    *   O `mongodbUri` padrão (`mongodb://localhost:27017/digibot`) deve funcionar se você instalou o MongoDB localmente com as configurações padrão. O banco de dados `digibot` será criado automaticamente na primeira conexão se não existir.
 
-### Passo 6: Popular o Banco de Dados com o Catálogo de Digimons
+## Como Rodar o Projeto
 
-O bot usa um catálogo de Digimons definido no arquivo `src/data/digimon_catalog.json`. Para carregar esses dados no MongoDB, execute o seguinte comando no terminal, na raiz do projeto:
+Você precisará de terminais separados para rodar o backend (bot e API) e o frontend.
 
-```bash
-npm run db:seed:digimon
-```
-Você deve ver mensagens no console indicando que a coleção `DigimonData` foi limpa e populada.
+1.  **Para rodar o Bot da Twitch e a API RESTful simultaneamente (modo de desenvolvimento):**
+    No terminal, na raiz do projeto:
+    ```bash
+    npm run dev:all
+    ```
+    Isso iniciará o bot da Twitch e o servidor da API. Você verá logs de ambos no terminal.
 
-### Passo 7: Iniciar o Bot e a API
-
-Para iniciar o bot da Twitch e a API simultaneamente, use o seguinte comando no terminal:
-
-```bash
-npm run dev:all
-```
-Você deverá ver mensagens no console indicando:
-*   Conexão bem-sucedida ao MongoDB.
-*   O bot conectado ao chat da Twitch.
-*   A API rodando (ex: `API server running on http://localhost:3000`).
+2.  **Para rodar apenas o Bot da Twitch (modo de desenvolvimento):**
+    Na raiz do projeto:
+    ```bash
+    npm run dev
+    ```
+3.  **Para rodar apenas a API RESTful (modo de desenvolvimento):**
+    Na raiz do projeto:
+    ```bash
+    npm run dev:api
+    ```
+4.  **Para rodar o Dashboard de Gerenciamento (Frontend Vue.js):**
+    *(Se você estiver usando o dashboard Vue.js)*
+    Em um **novo terminal**, navegue até a pasta `frontend`:
+    ```bash
+    cd frontend
+    npm run serve
+    ```
+    Após iniciar, o dashboard estará acessível geralmente em `http://localhost:8080` (verifique o output do comando).
 
 Seu Digibot agora está pronto! Você pode ir ao chat do seu canal na Twitch e testar os comandos.
 
-## Estrutura do Projeto (Simplificada)
+## Próximos Passos e TODOs (Sugestões)
 
-*   `src/`
-    *   `api/`: Contém a lógica do servidor Express para a API.
-    *   `bot/`: Contém a lógica principal do bot da Twitch (`bot.js`, `xpSystem.js`).
-    *   `config/`: Arquivo de configuração (`config.js`).
-    *   `data/`: Contém o catálogo de Digimons (`digimon_catalog.json`).
-    *   `database/`: Contém a lógica de conexão com o MongoDB (`connection.js`) e o script de seeding (`seedDigimonData.js`).
-    *   `models/`: Contém os schemas do Mongoose para as coleções do banco de dados (Tammer, DigimonData, BotConfig).
-*   `package.json`: Define os scripts e dependências do projeto.
-*   `README.md`: Este arquivo.
-
-## Contribuindo
-
-Sinta-se à vontade para abrir issues ou pull requests se tiver sugestões de melhoria ou encontrar bugs.
-
----
-
-Divirta-se com seu Digibot!
-```
+*   Implementar verificação de "follower" para o comando `!entrar` usando a API da Twitch.
+*   Expandir o catálogo `DigimonData` com mais Digimons, estágios e atributos.
+*   Desenvolver as mecânicas de batalha, bosses, raids e treino.
+*   Adicionar mais funcionalidades ao dashboard (ex: editar Tammers, visualizar logs do bot).
+*   Melhorar o tratamento de erros e feedback para o usuário no chat.
+*   Adicionar testes unitários e de integração.

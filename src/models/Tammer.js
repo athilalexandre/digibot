@@ -43,6 +43,10 @@ const TammerSchema = new mongoose.Schema({
     type: Number,
     default: 10,
   },
+  digimonMp: { // Novo campo
+    type: Number,
+    default: 10,
+  },
   digimonStats: {
     forca: { type: Number, default: 1 },
     defesa: { type: Number, default: 1 },
