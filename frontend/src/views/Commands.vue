@@ -175,6 +175,7 @@ export default {
 <style scoped>
 .commands {
   padding: 1rem;
+  padding-bottom: 4rem; /* Garante espaço para o footer */
 }
 
 .commands-container {
@@ -182,45 +183,30 @@ export default {
   grid-template-columns: 1fr 400px;
   gap: 2rem;
   height: calc(100vh - 150px);
+  align-items: start;
 }
 
-@media (max-width: 1100px) {
-  .commands-container {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    height: auto;
-  }
+.commands-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .commands-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
-}
-
-@media (max-width: 600px) {
-  .commands {
-    padding: 0.5rem;
-  }
-  .commands-grid {
-    gap: 0.5rem;
-  }
-}
-
-.search-bar {
-  margin-bottom: 1rem;
-}
-
-.search-bar input {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: var(--sidebar-color);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  color: var(--text-color);
+  align-items: stretch;
+  justify-items: center;
 }
 
 .command-card {
+  width: 100%;
+  max-width: 340px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: var(--sidebar-color);
   padding: 1.5rem;
   border-radius: 8px;
@@ -298,11 +284,12 @@ export default {
 }
 
 .test-terminal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   background-color: var(--sidebar-color);
   border-radius: 8px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
 
 .terminal-header {
@@ -327,9 +314,12 @@ export default {
 
 .terminal {
   flex: 1;
+  min-height: 200px;
   padding: 1rem;
   font-family: 'Fira Code', monospace;
   overflow-y: auto;
+  background: var(--sidebar-color);
+  border-radius: 0 0 8px 8px;
 }
 
 .terminal-line {
@@ -350,5 +340,29 @@ export default {
 
 .response {
   color: var(--secondary-color);
+}
+
+@media (max-width: 1100px) {
+  .commands-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    height: auto;
+  }
+  .test-terminal {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .commands {
+    padding: 0.5rem;
+  }
+  .commands-grid {
+    gap: 0.5rem;
+  }
+  .command-card {
+    min-height: 220px;
+    max-width: 100%;
+  }
 }
 </style> 

@@ -78,25 +78,19 @@ export default {
   grid-template-columns: 350px 1fr;
   gap: 2rem;
   height: calc(100vh - 150px);
+  align-items: stretch;
 }
 
-@media (max-width: 900px) {
-  .chat-container {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    height: auto;
-  }
-  .twitch-chat iframe {
-    width: 100% !important;
-    min-width: 0;
-    height: 300px !important;
-  }
+.twitch-chat, .bot-terminal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-.twitch-chat {
-  background-color: var(--sidebar-color);
-  border-radius: 8px;
-  overflow: hidden;
+.twitch-chat iframe {
+  flex: 1;
+  min-height: 300px;
+  border: none;
 }
 
 .bot-terminal {
@@ -105,6 +99,17 @@ export default {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
+}
+
+.terminal {
+  flex: 1;
+  min-height: 200px;
+  padding: 1rem;
+  font-family: 'Fira Code', monospace;
+  overflow-y: auto;
+  background: var(--sidebar-color);
+  border-radius: 0 0 8px 8px;
 }
 
 .terminal-header {
@@ -127,11 +132,17 @@ export default {
   padding: 0.5rem;
 }
 
-.terminal {
-  flex: 1;
-  padding: 1rem;
-  font-family: 'Fira Code', monospace;
-  overflow-y: auto;
+@media (max-width: 900px) {
+  .chat-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    height: auto;
+  }
+  .twitch-chat iframe {
+    width: 100% !important;
+    min-width: 0;
+    height: 300px !important;
+  }
 }
 
 @media (max-width: 600px) {
