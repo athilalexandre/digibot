@@ -80,6 +80,19 @@ export default {
   height: calc(100vh - 150px);
 }
 
+@media (max-width: 900px) {
+  .chat-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    height: auto;
+  }
+  .twitch-chat iframe {
+    width: 100% !important;
+    min-width: 0;
+    height: 300px !important;
+  }
+}
+
 .twitch-chat {
   background-color: var(--sidebar-color);
   border-radius: 8px;
@@ -119,6 +132,15 @@ export default {
   padding: 1rem;
   font-family: 'Fira Code', monospace;
   overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+  .chat {
+    padding: 0.5rem;
+  }
+  .terminal {
+    padding: 0.5rem;
+  }
 }
 
 .terminal-line {

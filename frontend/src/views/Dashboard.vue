@@ -127,6 +127,12 @@ export default {
   margin-bottom: 2rem;
 }
 
+@media (max-width: 900px) {
+  .status-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
 .card {
   background-color: var(--sidebar-color);
   padding: 1.5rem;
@@ -163,6 +169,12 @@ export default {
   overflow: hidden;
 }
 
+@media (max-width: 900px) {
+  .terminal-container {
+    margin-top: 1rem;
+  }
+}
+
 .terminal-header {
   display: flex;
   justify-content: space-between;
@@ -184,6 +196,19 @@ export default {
   font-family: 'Fira Code', monospace;
   height: 300px;
   overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 0.5rem;
+  }
+  .terminal {
+    padding: 0.5rem;
+    height: 200px;
+  }
+  .status-cards {
+    gap: 0.5rem;
+  }
 }
 
 .terminal-line {

@@ -184,6 +184,29 @@ export default {
   height: calc(100vh - 150px);
 }
 
+@media (max-width: 1100px) {
+  .commands-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    height: auto;
+  }
+}
+
+.commands-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .commands {
+    padding: 0.5rem;
+  }
+  .commands-grid {
+    gap: 0.5rem;
+  }
+}
+
 .search-bar {
   margin-bottom: 1rem;
 }
@@ -195,14 +218,6 @@ export default {
   border: 1px solid var(--border-color);
   border-radius: 4px;
   color: var(--text-color);
-}
-
-.commands-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-  overflow-y: auto;
-  padding-right: 1rem;
 }
 
 .command-card {

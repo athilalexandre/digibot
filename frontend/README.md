@@ -77,3 +77,25 @@ frontend/
 - Axios
 - SASS
 - Font Awesome 
+
+## 📱 Responsividade
+
+A interface do DigiBot é totalmente responsiva, adaptando-se a diferentes tamanhos de tela (desktop, tablet e mobile) para garantir uma ótima experiência em qualquer dispositivo.
+
+## 🤖 Inteligência Artificial
+
+O DigiBot utiliza tecnologias de Inteligência Artificial para enriquecer a experiência dos usuários e moderadores. Entre as principais aplicações de IA estão:
+
+- **Processamento de comandos inteligentes**
+- **Respostas automáticas contextuais**
+- **Análise de mensagens do chat**
+- **Sugestão de comandos e automações**
+
+### Tecnologias de IA utilizadas
+- **OpenAI GPT** (para geração de respostas e análise de contexto)
+- **APIs de Machine Learning** (para automação e sugestões)
+- **Integração com serviços de IA customizados**
+
+> O uso de IA permite que o DigiBot evolua constantemente, tornando-se mais útil, interativo e eficiente para a comunidade!
+
+--- 

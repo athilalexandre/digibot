@@ -155,6 +155,22 @@ export default {
   margin-bottom: 2rem;
 }
 
+@media (max-width: 900px) {
+  .config-sections {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .config {
+    padding: 0.5rem;
+  }
+  .config-section {
+    padding: 1rem;
+  }
+}
+
 .config-section {
   background-color: var(--sidebar-color);
   padding: 1.5rem;
