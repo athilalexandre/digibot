@@ -1,6 +1,6 @@
 // Arquivo principal do bot da Twitch
 const tmi = require('tmi.js');
-const connectDB = require('../database/connection');
+const connectDB = require('../database/mongodb');
 const Tammer = require('../models/Tammer');
 const BotConfig = require('../models/BotConfig'); // Adicionado BotConfig
 const DigimonData = require('../models/DigimonData'); // Para !setdigimon

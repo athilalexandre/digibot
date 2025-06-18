@@ -1,254 +1,3257 @@
 [
   {
-    "name": "Botamon",
-    "stage": "Baby I",
+    "name": "Koromon",
+    "stage": "Child",
     "type": null,
     "attribute": "Neutro",
-    "evolvesFrom": null,
-    "evolvesTo": "Koromon",
-    "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 }
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Agumon"],
+    "evolvesFrom": ["Botamon"]
   },
   {
-    "name": "Koromon",
-    "stage": "Baby II",
+    "name": "Tsunomon",
+    "stage": "Child",
     "type": null,
     "attribute": "Neutro",
-    "evolvesFrom": "Botamon",
-    "evolvesTo": "Agumon",
-    "baseStats": { "hp": 15, "forca": 2, "defesa": 2, "velocidade": 2, "sabedoria": 2 }
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Gabumon"],
+    "evolvesFrom": ["Punimon"]
+  },
+  {
+    "name": "Yokomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Biyomon"],
+    "evolvesFrom": ["Poyomon"]
+  },
+  {
+    "name": "Motimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Tentomon"],
+    "evolvesFrom": ["Punimon"]
+  },
+  {
+    "name": "Tanemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Palmon"],
+    "evolvesFrom": ["Poyomon"]
+  },
+  {
+    "name": "Bukamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Gomamon"],
+    "evolvesFrom": ["Poyomon"]
+  },
+  {
+    "name": "Tokomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Patamon"],
+    "evolvesFrom": ["Poyomon"]
   },
   {
     "name": "Agumon",
-    "stage": "Rookie",
-    "type": "Vacina",
-    "attribute": "Fogo",
-    "evolvesFrom": "Koromon",
-    "evolvesTo": "Greymon",
-    "baseStats": { "hp": 30, "forca": 7, "defesa": 5, "velocidade": 4, "sabedoria": 3 }
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Greymon", "Tyrannomon", "Meramon"],
+    "evolvesFrom": ["Koromon"]
+  },
+  {
+    "name": "Gabumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Garurumon", "Kabuterimon", "Seadramon"],
+    "evolvesFrom": ["Tsunomon"]
+  },
+  {
+    "name": "Biyomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Birdramon", "Airdramon", "Kabuterimon"],
+    "evolvesFrom": ["Yokomon"]
+  },
+  {
+    "name": "Tentomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Kabuterimon", "Kuwagamon", "Seadramon"],
+    "evolvesFrom": ["Motimon"]
+  },
+  {
+    "name": "Palmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Togemon", "Kabuterimon", "Seadramon"],
+    "evolvesFrom": ["Tanemon"]
+  },
+  {
+    "name": "Gomamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Ikkakumon", "Seadramon", "Kabuterimon"],
+    "evolvesFrom": ["Bukamon"]
+  },
+  {
+    "name": "Patamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Angemon", "Devimon", "Airdramon"],
+    "evolvesFrom": ["Tokomon"]
+  },
+  {
+    "name": "Kuwagamon",
+    "stage": "Adult",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Okuwamon", "MegaKabuterimon"],
+    "evolvesFrom": ["Tentomon", "Kunemon"]
   },
   {
     "name": "Greymon",
-    "stage": "Champion",
-    "type": "Vacina",
-    "attribute": "Fogo",
-    "evolvesFrom": "Agumon",
-    "evolvesTo": "MetalGreymon",
-    "baseStats": { "hp": 70, "forca": 15, "defesa": 12, "velocidade": 8, "sabedoria": 6 }
+    "stage": "Adult",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["MetalGreymon", "SkullGreymon"],
+    "evolvesFrom": ["Agumon"]
+  },
+  {
+    "name": "Shellmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Garurumon",
+    "stage": "Adult",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["WereGarurumon", "MetalGarurumon"],
+    "evolvesFrom": ["Gabumon"]
+  },
+  {
+    "name": "Seadramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Monochromon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Birdramon",
+    "stage": "Adult",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Garudamon", "Phoenixmon"],
+    "evolvesFrom": ["Biyomon"]
+  },
+  {
+    "name": "Meramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Kabuterimon",
+    "stage": "Adult",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["MegaKabuterimon", "AtlurKabuterimon"],
+    "evolvesFrom": ["Tentomon"]
+  },
+  {
+    "name": "Andromon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Togemon",
+    "stage": "Adult",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Lillymon", "Pumpkinmon"],
+    "evolvesFrom": ["Palmon"]
+  },
+  {
+    "name": "Numemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Monzaemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Ikkakumon",
+    "stage": "Adult",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Zudomon", "MegaSeadramon"],
+    "evolvesFrom": ["Gomamon"]
+  },
+  {
+    "name": "Unimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Leomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Ogremon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Devimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Frigimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Mojyamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Sukamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Centarumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Bakemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Elecmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Botamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Punimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Poyomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Yuramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Angemon",
+    "stage": "Adult",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["MagnaAngemon", "Seraphimon"],
+    "evolvesFrom": ["Patamon"]
+  },
+  {
+    "name": "Whamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Drimogemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Etemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Gazimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Pagumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "SkullGreymon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Kokatorimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Tyrannomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Piximon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Datamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
   },
   {
     "name": "MetalGreymon",
-    "stage": "Ultimate",
-    "type": "Vacina",
-    "attribute": "Fogo",
-    "evolvesFrom": "Greymon",
-    "evolvesTo": "WarGreymon",
-    "baseStats": { "hp": 150, "forca": 30, "defesa": 25, "velocidade": 18, "sabedoria": 15 }
+    "stage": "Perfect",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["WarGreymon", "BlackWarGreymon"],
+    "evolvesFrom": ["Greymon"]
+  },
+  {
+    "name": "DemiDevimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "WereGarurumon",
+    "stage": "Perfect",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["MetalGarurumon"],
+    "evolvesFrom": ["Garurumon"]
+  },
+  {
+    "name": "Digitamamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Vegiemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Myotismon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Vademon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Pabumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Gekomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Otamamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "ShogunGekomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Garudamon",
+    "stage": "Perfect",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Phoenixmon", "Hououmon"],
+    "evolvesFrom": ["Birdramon"]
+  },
+  {
+    "name": "Flymon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Gatomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Nanimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Devidramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Dokugumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Mammothmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Gesomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Raremon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "SkullMeramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Wizardmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Pumpkinmon",
+    "stage": "Perfect",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Rosemon"],
+    "evolvesFrom": ["Togemon"]
+  },
+  {
+    "name": "Gotsumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Lillymon",
+    "stage": "Perfect",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Rosemon"],
+    "evolvesFrom": ["Togemon"]
+  },
+  {
+    "name": "Phantomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "DarkTyrannomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Gizamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Zudomon",
+    "stage": "Perfect",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Vikemon"],
+    "evolvesFrom": ["Ikkakumon"]
+  },
+  {
+    "name": "MegaSeadramon",
+    "stage": "Perfect",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Angewomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Tuskmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Snimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "MegaKabuterimon",
+    "stage": "Perfect",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["HerculesKabuterimon"],
+    "evolvesFrom": ["Kabuterimon", "Kuwagamon"]
+  },
+  {
+    "name": "MagnaAngemon",
+    "stage": "Perfect",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Seraphimon", "MagnaAngemon X"],
+    "evolvesFrom": ["Angemon"]
+  },
+  {
+    "name": "VenomMyotismon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "WarGreymon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "MetalGarurumon",
+    "stage": "Perfect",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["WarGreymon", "BlackWarGreymon"],
+    "evolvesFrom": ["MetalGreymon"]
+  },
+  {
+    "name": "Nyaromon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Salamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Parrotmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Chuumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "MetalSeadramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Machinedramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Piedmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Puppetmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Scorpiomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Divermon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Kiwimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Mushroomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Blossomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Floramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Deramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Cherrymon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Garbagemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "MetalEtemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "SaberLeomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "RedVegiemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Mekanorimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Tankmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Hagurumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "WaruMonzaemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "LadyDevimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Vilemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Apocalymon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Kunemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Musyamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Starmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "HerculesKabuterimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Candlemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Hanumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Kokuwamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Revolvermon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Plesiomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Megadramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "BlueMeramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Magnadramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Gorillamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Syakomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "MarineAngemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Boltmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Mamemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "ExTyrannomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Veedramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "AeroVeedramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Phoenixmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Betamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Guardromon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Penguinmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "PlatinumSukamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Psychemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Tsukaimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "ModokiBetamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Saberdramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "SnowAgumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Icemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Airdramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "MetalTyrannomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Akatorimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Geremon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Vermilimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Meteormon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Jijimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Babamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "FlareRizamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Thunderballmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Muchomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Goldramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Soulmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Rosemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Piddomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Gigadramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Cyberdramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "SkullSatamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Milleniummon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Daemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "KingEtemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Chibomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Pururumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Tsubumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "DemiVeemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Poromon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Upamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Hawkmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Armadillomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Wormmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Flamedramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Raidramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Magnamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Sethmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Halsemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Shurimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Toucanmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Submarimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Bucchiemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Stegomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Pegasusmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Nefertimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "ExVeemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Stingmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Aquillamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Ankylomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Paildramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Dinobeemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Silphymon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Shakkoumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Imperialdramon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "GranKuwagamon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Valkyrimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Vikemon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Seraphimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Zhuqiaomon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Azulongmon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Baihumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Mokumon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
+  },
+  {
+    "name": "Omnimon",
+    "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": null,
+    "evolvesFrom": null
   },
   {
     "name": "WarGreymon",
     "stage": "Mega",
-    "type": "Vacina",
-    "attribute": "Fogo",
-    "evolvesFrom": "MetalGreymon",
-    "evolvesTo": "Omnimon",
-    "baseStats": { "hp": 300, "forca": 60, "defesa": 50, "velocidade": 40, "sabedoria": 30 }
-  },
-  {
-    "name": "Punimon",
-    "stage": "Baby I",
     "type": null,
     "attribute": "Neutro",
-    "evolvesFrom": null,
-    "evolvesTo": "Tsunomon",
-    "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 }
-  },
-  {
-    "name": "Tsunomon",
-    "stage": "Baby II",
-    "type": null,
-    "attribute": "Neutro",
-    "evolvesFrom": "Punimon",
-    "evolvesTo": "Gabumon",
-    "baseStats": { "hp": 15, "forca": 2, "defesa": 2, "velocidade": 2, "sabedoria": 2 }
-  },
-  {
-    "name": "Gabumon",
-    "stage": "Rookie",
-    "type": "Data",
-    "attribute": "Água",
-    "evolvesFrom": "Tsunomon",
-    "evolvesTo": "Garurumon",
-    "baseStats": { "hp": 30, "forca": 6, "defesa": 4, "velocidade": 5, "sabedoria": 4 }
-  },
-  {
-    "name": "Garurumon",
-    "stage": "Champion",
-    "type": "Data",
-    "attribute": "Água",
-    "evolvesFrom": "Gabumon",
-    "evolvesTo": "WereGarurumon",
-    "baseStats": { "hp": 70, "forca": 14, "defesa": 10, "velocidade": 10, "sabedoria": 7 }
-  },
-  {
-    "name": "WereGarurumon",
-    "stage": "Ultimate",
-    "type": "Data",
-    "attribute": "Água",
-    "evolvesFrom": "Garurumon",
-    "evolvesTo": "MetalGarurumon",
-    "baseStats": { "hp": 150, "forca": 28, "defesa": 22, "velocidade": 25, "sabedoria": 18 }
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Omnimon", "WarGreymon X"],
+    "evolvesFrom": ["MetalGreymon"]
   },
   {
     "name": "MetalGarurumon",
     "stage": "Mega",
-    "type": "Data",
-    "attribute": "Água",
-    "evolvesFrom": "WereGarurumon",
-    "evolvesTo": "Omnimon",
-    "baseStats": { "hp": 300, "forca": 55, "defesa": 45, "velocidade": 50, "sabedoria": 35 }
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Omnimon", "MetalGarurumon X"],
+    "evolvesFrom": ["WereGarurumon"]
+  },
+  {
+    "name": "Phoenixmon",
+    "stage": "Mega",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Phoenixmon X"],
+    "evolvesFrom": ["Garudamon"]
+  },
+  {
+    "name": "HerculesKabuterimon",
+    "stage": "Mega",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["HerculesKabuterimon X"],
+    "evolvesFrom": ["MegaKabuterimon"]
+  },
+  {
+    "name": "Rosemon",
+    "stage": "Mega",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Rosemon X"],
+    "evolvesFrom": ["Lillymon"]
+  },
+  {
+    "name": "Vikemon",
+    "stage": "Mega",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Vikemon X"],
+    "evolvesFrom": ["Zudomon"]
+  },
+  {
+    "name": "Seraphimon",
+    "stage": "Mega",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Seraphimon X"],
+    "evolvesFrom": ["MagnaAngemon"]
   },
   {
     "name": "Omnimon",
-    "stage": "Mega",
-    "type": "Vacina",
-    "attribute": "Luz",
-    "evolvesFrom": ["WarGreymon", "MetalGarurumon"],
-    "evolvesTo": null,
-    "baseStats": { "hp": 700, "forca": 120, "defesa": 100, "velocidade": 90, "sabedoria": 80 }
-  },
-  {
-    "name": "Poyomon",
-    "stage": "Baby I",
-    "type": null,
-    "attribute": "Neutro",
-    "evolvesFrom": null,
-    "evolvesTo": "Tokomon",
-    "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 }
-  },
-  {
-    "name": "Tokomon",
-    "stage": "Baby II",
-    "type": null,
-    "attribute": "Neutro",
-    "evolvesFrom": "Poyomon",
-    "evolvesTo": "Patamon",
-    "baseStats": { "hp": 15, "forca": 2, "defesa": 2, "velocidade": 2, "sabedoria": 2 }
-  },
-  {
-    "name": "Patamon",
-    "stage": "Rookie",
-    "type": "Data",
-    "attribute": "Vento",
-    "evolvesFrom": "Tokomon",
-    "evolvesTo": "Angemon",
-    "baseStats": { "hp": 28, "forca": 5, "defesa": 4, "velocidade": 6, "sabedoria": 5 }
-  },
-  {
-    "name": "Chibomon",
-    "stage": "Baby I",
-    "type": null,
-    "attribute": "Neutro",
-    "evolvesFrom": null,
-    "evolvesTo": "DemiVeemon",
-    "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 }
-  },
-  {
-    "name": "DemiVeemon",
-    "stage": "Baby II",
-    "type": null,
-    "attribute": "Neutro",
-    "evolvesFrom": "Chibomon",
-    "evolvesTo": "Veemon",
-    "baseStats": { "hp": 15, "forca": 2, "defesa": 2, "velocidade": 2, "sabedoria": 2 }
-  },
-  {
-    "name": "Veemon",
-    "stage": "Rookie",
-    "type": "Vacina",
-    "attribute": "Neutro",
-    "evolvesFrom": "DemiVeemon",
-    "evolvesTo": "ExVeemon",
-    "baseStats": { "hp": 32, "forca": 7, "defesa": 5, "velocidade": 5, "sabedoria": 3 }
-  },
-  {
-    "name": "YukimiBotamon",
-    "stage": "Baby I",
-    "type": null,
-    "attribute": "Neutro",
-    "evolvesFrom": null,
-    "evolvesTo": "Nyaromon",
-    "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 }
-  },
-  {
-    "name": "Nyaromon",
-    "stage": "Baby II",
-    "type": null,
-    "attribute": "Neutro",
-    "evolvesFrom": "YukimiBotamon",
-    "evolvesTo": "Salamon",
-    "baseStats": { "hp": 15, "forca": 2, "defesa": 2, "velocidade": 2, "sabedoria": 2 }
-  },
-  {
-    "name": "Salamon",
-    "stage": "Rookie",
-    "type": "Vacina",
-    "attribute": "Luz",
-    "evolvesFrom": "Nyaromon",
-    "evolvesTo": "Gatomon",
-    "baseStats": { "hp": 27, "forca": 4, "defesa": 3, "velocidade": 5, "sabedoria": 6 }
-  },
-  {
-    "name": "Gatomon",
-    "stage": "Champion",
-    "type": "Vacina",
-    "attribute": "Luz",
-    "evolvesFrom": "Salamon",
-    "evolvesTo": "Angewomon",
-    "baseStats": { "hp": 65, "forca": 12, "defesa": 10, "velocidade": 12, "sabedoria": 15 }
-  },
-  {
-    "name": "Guilmon",
-    "stage": "Rookie",
-    "type": "Virus",
-    "attribute": "Fogo",
-    "evolvesFrom": null,
-    "evolvesTo": "Growlmon",
-    "baseStats": { "hp": 31, "forca": 8, "defesa": 4, "velocidade": 4, "sabedoria": 3 }
-  },
-  {
-    "name": "Terriermon",
-    "stage": "Rookie",
-    "type": "Vacina",
-    "attribute": "Vento",
-    "evolvesFrom": null,
-    "evolvesTo": "Gargomon",
-    "baseStats": { "hp": 29, "forca": 5, "defesa": 5, "velocidade": 6, "sabedoria": 4 }
-  },
-  {
-    "name": "Renamon",
-    "stage": "Rookie",
-    "type": "Data",
-    "attribute": "Neutro",
-    "evolvesFrom": null,
-    "evolvesTo": "Kyubimon",
-    "baseStats": { "hp": 28, "forca": 6, "defesa": 3, "velocidade": 7, "sabedoria": 5 }
-  },
-  {
-    "name": "BlackWarGreymon",
-    "stage": "Mega",
-    "type": "Virus",
-    "attribute": "Fogo",
-    "evolvesFrom": null,
-    "evolvesTo": null,
-    "baseStats": { "hp": 320, "forca": 65, "defesa": 55, "velocidade": 40, "sabedoria": 25 }
-  },
-  {
-    "name": "Paildramon",
     "stage": "Ultimate",
-    "type": "Data",
+    "type": null,
     "attribute": "Neutro",
-    "evolvesFrom": ["ExVeemon", "Stingmon"],
-    "evolvesTo": "Imperialdramon",
-    "baseStats": { "hp": 160, "forca": 35, "defesa": 30, "velocidade": 35, "sabedoria": 25 }
+    "baseStats": {
+      "hp": 10,
+      "forca": 1,
+      "defesa": 1,
+      "velocidade": 1,
+      "sabedoria": 1
+    },
+    "evolvesTo": ["Omnimon X", "Omnimon Zwart"],
+    "evolvesFrom": ["WarGreymon", "MetalGarurumon"]
   }
 ]

@@ -1,11 +1,19 @@
-import { createApp } from 'vue';
-import App from './App.vue';
-import router from './router';
-import axios from 'axios';
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+import './assets/css/main.css'
 
-axios.defaults.baseURL = 'http://localhost:3000/api'; // Ajuste se sua API estiver em outra porta
+// Importa Font Awesome
+import '@fortawesome/fontawesome-free/css/all.css'
 
-const app = createApp(App);
-app.use(router);
-app.config.globalProperties.$http = axios;
-app.mount('#app');
+// Importa fontes
+import '@fontsource/roboto'
+import '@fontsource/poppins'
+import '@fontsource/fira-code'
+
+Vue.config.productionTip = false
+
+new Vue({
+  router,
+  render: h => h(App)
+}).$mount('#app')
