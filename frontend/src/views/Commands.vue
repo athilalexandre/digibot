@@ -1,68 +1,70 @@
 <template>
   <div class="commands">
-    <h1>Comandos</h1>
+    <div class="commands-inner">
+      <h1>Comandos</h1>
 
-    <div class="commands-container">
-      <!-- Lista de Comandos -->
-      <div class="commands-list">
-        <div class="search-bar">
-          <input 
-            v-model="searchQuery" 
-            placeholder="Buscar comando..."
-            @input="filterCommands"
-          />
-        </div>
+      <div class="commands-container">
+        <!-- Lista de Comandos -->
+        <div class="commands-list">
+          <div class="search-bar">
+            <input 
+              v-model="searchQuery" 
+              placeholder="Buscar comando..."
+              @input="filterCommands"
+            />
+          </div>
 
-        <div class="commands-grid">
-          <div 
-            v-for="command in filteredCommands" 
-            :key="command.name"
-            class="command-card"
-            :class="{ 'mod-only': command.modOnly }"
-          >
-            <div class="command-header">
-              <h3>{{ command.name }}</h3>
-              <span class="permission-badge" v-if="command.modOnly">Mod</span>
-            </div>
-            <p class="description">{{ command.description }}</p>
-            <div class="usage">
-              <strong>Uso:</strong> {{ command.usage }}
-            </div>
-            <div class="examples" v-if="command.examples">
-              <strong>Exemplos:</strong>
-              <ul>
-                <li v-for="(example, index) in command.examples" :key="index">
-                  {{ example }}
-                </li>
-              </ul>
-            </div>
-            <button 
-              class="test-button"
-              @click="testCommand(command)"
-              :disabled="command.modOnly && !isMod"
+          <div class="commands-grid">
+            <div 
+              v-for="command in filteredCommands" 
+              :key="command.name"
+              class="command-card"
+              :class="{ 'mod-only': command.modOnly }"
             >
-              <i class="fas fa-play"></i>
-              Testar
-            </button>
+              <div class="command-header">
+                <h3>{{ command.name }}</h3>
+                <span class="permission-badge" v-if="command.modOnly">Mod</span>
+              </div>
+              <p class="description">{{ command.description }}</p>
+              <div class="usage">
+                <strong>Uso:</strong> {{ command.usage }}
+              </div>
+              <div class="examples" v-if="command.examples">
+                <strong>Exemplos:</strong>
+                <ul>
+                  <li v-for="(example, index) in command.examples" :key="index">
+                    {{ example }}
+                  </li>
+                </ul>
+              </div>
+              <button 
+                class="test-button"
+                @click="testCommand(command)"
+                :disabled="command.modOnly && !isMod"
+              >
+                <i class="fas fa-play"></i>
+                Testar
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Terminal de Teste -->
-      <div class="test-terminal">
-        <div class="terminal-header">
-          <h3>Terminal de Teste</h3>
-          <div class="terminal-controls">
-            <button @click="clearTerminal">
-              <i class="fas fa-trash"></i>
-            </button>
+        <!-- Terminal de Teste -->
+        <div class="test-terminal">
+          <div class="terminal-header">
+            <h3>Terminal de Teste</h3>
+            <div class="terminal-controls">
+              <button @click="clearTerminal">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="terminal" ref="terminal">
-          <div v-for="(line, index) in terminalLines" :key="index" class="terminal-line">
-            <span class="timestamp">{{ line.timestamp }}</span>
-            <span class="command">{{ line.command }}</span>
-            <span class="response">{{ line.response }}</span>
+          <div class="terminal" ref="terminal">
+            <div v-for="(line, index) in terminalLines" :key="index" class="terminal-line">
+              <span class="timestamp">{{ line.timestamp }}</span>
+              <span class="command">{{ line.command }}</span>
+              <span class="response">{{ line.response }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -175,7 +177,6 @@ export default {
 <style scoped>
 .commands {
   padding: 1rem;
-  padding-bottom: 4rem; /* Garante espaço para o footer */
 }
 
 .commands-container {
@@ -342,6 +343,48 @@ export default {
   color: var(--secondary-color);
 }
 
+.search-bar {
+  margin-bottom: 1rem;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: #232428;
+  border: 1.5px solid #7b2ff2;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  transition: border 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-shadow: 0 2px 8px 0 rgba(123,47,242,0.04);
+}
+.search-bar input:focus {
+  border-color: #f357a8;
+  box-shadow: 0 0 0 2px #f357a880;
+}
+
+/* Inputs genéricos para a página */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input:not([type]),
+select {
+  background-color: #232428;
+  border: 1.5px solid #33343a;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  margin-bottom: 0.5rem;
+}
+input:focus, select:focus {
+  border-color: #7b2ff2;
+  box-shadow: 0 0 0 2px #7b2ff280;
+}
+
 @media (max-width: 1100px) {
   .commands-container {
     grid-template-columns: 1fr;
@@ -364,5 +407,10 @@ export default {
     min-height: 220px;
     max-width: 100%;
   }
+}
+
+.commands-inner {
+  max-width: 1600px;
+  margin: 0 auto;
 }
 </style> 

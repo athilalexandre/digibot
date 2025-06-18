@@ -2,3 +2,8 @@
 {"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-18 10:32:15"}
 {"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-18 10:35:59"}
 {"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-18 10:35:59"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-18 11:47:39"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-18 11:47:39"}
+{"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-18 11:53:44"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-18 11:53:58"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-18 11:53:58"}
