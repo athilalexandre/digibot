@@ -12,18 +12,23 @@ const xpTable = {
 };
 
 async function addXp(twitchUserId, amount, client, target) {
+  console.log(`[DEBUG] addXp chamado para userId: ${twitchUserId}, amount: ${amount}`);
   try {
     const tammer = await Tammer.findOne({ twitchUserId });
+    console.log(`[DEBUG] Tammer encontrado:`, tammer);
     if (!tammer) {
       client.say(target, "Tammer não encontrado para adicionar XP.");
       return;
     }
 
+    const xpAntes = tammer.digimonXp;
     tammer.digimonXp += amount;
+    console.log(`[DEBUG] XP antes: ${xpAntes}, XP depois: ${tammer.digimonXp}`);
     client.say(target, `${tammer.username} recebeu ${amount} XP! XP atual: ${tammer.digimonXp}.`);
 
     await checkLevelUp(tammer, client, target);
     await tammer.save();
+    console.log(`[DEBUG] Tammer salvo com novo XP.`);
 
   } catch (error) {
     console.error("Erro em addXp:", error);
