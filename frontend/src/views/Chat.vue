@@ -64,24 +64,6 @@ export default {
         terminal.scrollTop = terminal.scrollHeight;
       });
     }
-  },
-  mounted() {
-    // Simula mensagens do bot
-    setInterval(() => {
-      const types = ['INFO', 'WARN', 'ERROR', 'SUCCESS'];
-      const messages = [
-        'Bot iniciado com sucesso',
-        'Novo usuário entrou no chat',
-        'Digimon selvagem apareceu!',
-        'Erro ao processar comando',
-        'XP adicionado com sucesso'
-      ];
-      
-      const type = types[Math.floor(Math.random() * types.length)];
-      const message = messages[Math.floor(Math.random() * messages.length)];
-      
-      this.addTerminalLine(type, message);
-    }, 5000);
   }
 }
 </script>

@@ -153,14 +153,12 @@ export default {
     testCommand(command) {
       const now = new Date();
       const timestamp = now.toLocaleTimeString();
-      
-      // Simula a execução do comando
+      // Apenas exibe o comando enviado, sem resposta simulada
       this.terminalLines.push({
         timestamp,
         command: command.name,
-        response: `Comando ${command.name} executado com sucesso!`
+        response: ''
       });
-
       // Auto-scroll to bottom
       this.$nextTick(() => {
         const terminal = this.$refs.terminal;

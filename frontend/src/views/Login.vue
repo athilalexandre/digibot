@@ -67,10 +67,6 @@
         </div>
       </div>
     </div>
-    <footer class="login-footer">
-      DigiBot © 2025 – Desenvolvido com <span class="heart">♥</span> por
-      <a href="https://github.com/athilalexandre" target="_blank" class="author">Athila Alexandre</a>
-    </footer>
   </div>
 </template>
 
@@ -283,32 +279,6 @@ h1 {
   transition: color 0.2s;
 }
 .register-link .register:hover {
-  color: #f357a8;
-}
-.login-footer {
-  width: 100%;
-  background: #232428;
-  color: #bdbdbd;
-  text-align: center;
-  padding: 1rem 0 0.5rem 0;
-  font-size: 1rem;
-  letter-spacing: 0.01em;
-  border-top: 1px solid #222;
-  margin-top: 2rem;
-}
-.login-footer .heart {
-  color: #f357a8;
-  font-size: 1.1em;
-  margin: 0 0.15em;
-}
-.login-footer .author {
-  color: #7b2ff2;
-  font-weight: 600;
-  text-decoration: none;
-  margin-left: 0.2em;
-  transition: color 0.2s;
-}
-.login-footer .author:hover {
   color: #f357a8;
 }
 </style> 

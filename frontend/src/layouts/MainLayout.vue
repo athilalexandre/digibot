@@ -41,7 +41,10 @@
     </main>
     
     <footer class="footer">
-      <p>DigiBot &copy; {{ new Date().getFullYear() }} - Desenvolvido com <i class="fas fa-heart"></i> por <a href="https://github.com/seu-usuario" target="_blank">Seu Nome</a></p>
+      <p>
+        DigiBot &copy; 2025 – Desenvolvido com <span class="heart">♥</span> por
+        <a href="https://github.com/athilalexandre" target="_blank" class="author">Athila Alexandre</a>
+      </p>
     </footer>
   </div>
 </template>
@@ -179,5 +182,32 @@ export default {
   .main-content {
     padding: 1rem;
   }
+}
+
+.footer {
+  width: 100%;
+  background: #232428;
+  color: #bdbdbd;
+  text-align: center;
+  padding: 1rem 0 0.5rem 0;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  border-top: 1px solid #222;
+  margin-top: 2rem;
+}
+.footer .heart {
+  color: #f357a8;
+  font-size: 1.1em;
+  margin: 0 0.15em;
+}
+.footer .author {
+  color: #7b2ff2;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 0.2em;
+  transition: color 0.2s;
+}
+.footer .author:hover {
+  color: #f357a8;
 }
 </style> 

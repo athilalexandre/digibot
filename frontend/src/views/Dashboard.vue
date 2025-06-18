@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard">
     <h1>Dashboard</h1>
+    <div v-if="statusError" class="status-error">{{ statusError }}</div>
     
     <div class="status-cards">
       <div class="card">
@@ -55,6 +56,8 @@
 </template>
 
 <script>
+import api from '@/services/api'
+
 export default {
   name: 'Dashboard',
   data() {
@@ -63,10 +66,25 @@ export default {
       mongodbStatus: false,
       activeUsers: 0,
       terminalLines: [],
-      currentCommand: ''
+      currentCommand: '',
+      statusError: null
     }
   },
   methods: {
+    async fetchStatus() {
+      try {
+        const res = await api.get('/health')
+        this.botStatus = res.data.botOnline ?? false
+        this.mongodbStatus = res.data.mongodbConnected ?? false
+        this.activeUsers = res.data.activeUsers ?? 0
+        this.statusError = null
+      } catch (err) {
+        this.statusError = 'Não foi possível obter o status do sistema.'
+        this.botStatus = false
+        this.mongodbStatus = false
+        this.activeUsers = 0
+      }
+    },
     async executeCommand() {
       if (!this.currentCommand) return;
       
@@ -87,12 +105,12 @@ export default {
     }
   },
   mounted() {
-    // Simula verificação de status
-    setInterval(() => {
-      this.botStatus = Math.random() > 0.5;
-      this.mongodbStatus = Math.random() > 0.5;
-      this.activeUsers = Math.floor(Math.random() * 100);
-    }, 5000);
+    this.fetchStatus()
+    // Atualiza status a cada 10 segundos
+    this._statusInterval = setInterval(this.fetchStatus, 10000)
+  },
+  beforeDestroy() {
+    clearInterval(this._statusInterval)
   }
 }
 </script>
@@ -190,5 +208,15 @@ export default {
   font-family: 'Fira Code', monospace;
   padding: 0.5rem;
   outline: none;
+}
+
+.status-error {
+  color: #ff4d4f;
+  background: #2a1a1a;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-align: center;
 }
 </style> 

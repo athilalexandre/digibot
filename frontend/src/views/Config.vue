@@ -1,6 +1,8 @@
 <template>
   <div class="config">
     <h1>Configurações</h1>
+    <div v-if="statusMessage" class="status-message">{{ statusMessage }}</div>
+    <div v-if="statusError" class="status-error">{{ statusError }}</div>
 
     <div class="config-sections">
       <!-- Configurações do Bot -->
@@ -86,6 +88,8 @@
 </template>
 
 <script>
+import api from '@/services/api'
+
 export default {
   name: 'Config',
   data() {
@@ -99,44 +103,40 @@ export default {
         showChat: true,
         chatMode: 'embed'
       },
-      window: window
+      window: window,
+      statusMessage: '',
+      statusError: ''
     }
   },
   methods: {
     async saveConfig() {
       try {
-        // Aqui você implementaria a lógica para salvar as configurações
-        console.log('Salvando configurações:', this.config);
-        // Simula uma resposta do servidor
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        alert('Configurações salvas com sucesso!');
+        // Futuramente: await api.post('/config', this.config)
+        this.statusMessage = 'Configurações salvas com sucesso!';
+        this.statusError = '';
       } catch (error) {
-        console.error('Erro ao salvar configurações:', error);
-        alert('Erro ao salvar configurações. Por favor, tente novamente.');
+        this.statusError = 'Erro ao salvar configurações.';
+        this.statusMessage = '';
       }
     },
     async testMongoDB() {
       try {
-        // Aqui você implementaria a lógica para testar a conexão com o MongoDB
-        console.log('Testando conexão com MongoDB:', this.config.mongodbPath);
-        // Simula uma resposta do servidor
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        alert('Conexão com MongoDB testada com sucesso!');
+        // Futuramente: await api.post('/config/test-mongodb', { path: this.config.mongodbPath })
+        this.statusMessage = 'Conexão com MongoDB testada com sucesso!';
+        this.statusError = '';
       } catch (error) {
-        console.error('Erro ao testar MongoDB:', error);
-        alert('Erro ao conectar com MongoDB. Verifique o caminho e tente novamente.');
+        this.statusError = 'Erro ao conectar com MongoDB.';
+        this.statusMessage = '';
       }
     },
     async startBot() {
       try {
-        // Aqui você implementaria a lógica para iniciar o bot
-        console.log('Iniciando bot com configurações:', this.config);
-        // Simula uma resposta do servidor
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        alert('Bot iniciado com sucesso!');
+        // Futuramente: await api.post('/bot/start', this.config)
+        this.statusMessage = 'Bot iniciado com sucesso!';
+        this.statusError = '';
       } catch (error) {
-        console.error('Erro ao iniciar bot:', error);
-        alert('Erro ao iniciar bot. Verifique as configurações e tente novamente.');
+        this.statusError = 'Erro ao iniciar bot.';
+        this.statusMessage = '';
       }
     }
   }
@@ -299,5 +299,24 @@ export default {
 .start-button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.status-message {
+  color: #4CAF50;
+  background: #1a2a1a;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-align: center;
+}
+.status-error {
+  color: #ff4d4f;
+  background: #2a1a1a;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-align: center;
 }
 </style> 
