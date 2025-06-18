@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login-page">
     <div class="login-container">
       <div class="login-card">
         <div class="logo">
@@ -61,12 +61,16 @@
           <i class="fas fa-exclamation-circle"></i>
           {{ error }}
         </div>
-      </div>
-      
-      <div class="login-footer">
-        <p>Não tem uma conta? <a href="#" @click.prevent="register">Registre-se</a></p>
+        <div class="register-link">
+          Não tem uma conta?
+          <a href="#" class="register">Registre-se</a>
+        </div>
       </div>
     </div>
+    <footer class="login-footer">
+      DigiBot © 2025 – Desenvolvido com <span class="heart">♥</span> por
+      <a href="https://github.com/athilalexandre" target="_blank" class="author">Athila Alexandre</a>
+    </footer>
   </div>
 </template>
 
@@ -137,142 +141,174 @@ export default {
 </script>
 
 <style scoped>
-.login {
+.login-page {
   min-height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--background-color);
-  padding: 1rem;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #18191c;
 }
-
 .login-container {
-  background-color: var(--sidebar-color);
-  border-radius: 8px;
-  padding: 2rem;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.logo {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
 }
-
+.login-card {
+  background: #232428;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  width: 100%;
+  max-width: 370px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .logo img {
-  width: 48px;
-  height: 48px;
-}
-
-.logo h1 {
-  font-size: 2rem;
-  color: var(--primary-color);
-  margin: 0;
-}
-
-.login-form {
-  margin-bottom: 2rem;
-}
-
-.login-form h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.form-group {
+  width: 64px;
+  height: 64px;
   margin-bottom: 1rem;
 }
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--text-color);
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.25rem;
 }
-
-.form-group input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  transition: border-color 0.3s ease;
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: var(--primary-color);
-}
-
-.btn-login {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 4px;
+.subtitle {
+  color: #bdbdbd;
   font-size: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.form-group {
+  width: 100%;
+}
+.input-group {
+  display: flex;
+  align-items: center;
+  background: #18191c;
+  border-radius: 6px;
+  border: 1px solid #33343a;
+  padding: 0.5rem 0.75rem;
+  gap: 0.5rem;
+}
+.input-group i {
+  color: #888;
+  font-size: 1rem;
+}
+.input-group input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 1rem;
+  flex: 1;
+}
+.toggle-password {
+  background: none;
+  border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  color: #888;
+  font-size: 1rem;
+  padding: 0 0.25rem;
 }
-
-.btn-login:hover {
-  background-color: #7c3cff;
-}
-
-.btn-login:disabled {
-  background-color: #666;
-  cursor: not-allowed;
-}
-
-.error-message {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  background-color: rgba(255, 68, 68, 0.1);
-  border: 1px solid #ff4444;
-  border-radius: 4px;
-  color: #ff4444;
-  text-align: center;
-}
-
-.login-footer {
-  text-align: center;
-  color: var(--text-color);
-}
-
-.login-footer a {
-  color: var(--primary-color);
-  text-decoration: none;
-}
-
-.login-footer a:hover {
-  text-decoration: underline;
-}
-
 .remember-me {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 }
-
 .checkbox-label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
   user-select: none;
+  font-size: 0.95rem;
+  color: #bdbdbd;
 }
-
 .checkbox-label input[type="checkbox"] {
   width: 1rem;
   height: 1rem;
   cursor: pointer;
 }
-
 .checkbox-label span {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
+  font-size: 0.95rem;
+  color: #bdbdbd;
+}
+.login-button {
+  width: 100%;
+  background: linear-gradient(90deg, #7b2ff2 0%, #f357a8 100%);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.5rem;
+}
+.login-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+.error-message {
+  color: #ff4d4f;
+  background: #2a1a1a;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  font-size: 0.98rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.register-link {
+  margin-top: 1.5rem;
+  color: #bdbdbd;
+  font-size: 0.98rem;
+  text-align: center;
+}
+.register-link .register {
+  color: #7b2ff2;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 0.25rem;
+  transition: color 0.2s;
+}
+.register-link .register:hover {
+  color: #f357a8;
+}
+.login-footer {
+  width: 100%;
+  background: #232428;
+  color: #bdbdbd;
+  text-align: center;
+  padding: 1rem 0 0.5rem 0;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  border-top: 1px solid #222;
+  margin-top: 2rem;
+}
+.login-footer .heart {
+  color: #f357a8;
+  font-size: 1.1em;
+  margin: 0 0.15em;
+}
+.login-footer .author {
+  color: #7b2ff2;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 0.2em;
+  transition: color 0.2s;
+}
+.login-footer .author:hover {
+  color: #f357a8;
 }
 </style> 
