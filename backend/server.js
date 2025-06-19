@@ -6,6 +6,7 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const config = require('./config')
 const logger = require('./utils/logger').createModuleLogger('Server')
+const botService = require('./services/bot')
 
 // Importando rotas
 const authRoutes = require('./routes/auth')
@@ -51,7 +52,8 @@ app.use('/api/users', userRoutes)
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
-    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    botOnline: botService.getStatus().isConnected === true
   })
 })
 

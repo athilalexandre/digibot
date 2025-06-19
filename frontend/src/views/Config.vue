@@ -154,18 +154,17 @@ export default {
           oauth: this.config.twitchOAuth,
           channel: this.config.twitchChannel
         });
-        if (response.data?.message === 'Bot já está conectado.' || response.data?.message === 'Bot iniciado com sucesso!') {
-          this.statusMessage = response.data.message;
+        // Se status 200, sempre mostrar mensagem de sucesso
+        if (response.status === 200) {
+          this.statusMessage = response.data?.message || 'Bot iniciado com sucesso!';
           this.statusError = '';
         } else {
           this.statusMessage = '';
           this.statusError = response.data?.message || 'Erro ao iniciar bot.';
         }
-      } catch (error) {
-        if (error.response?.status !== 200) {
-          this.statusError = error.response?.data?.message || 'Erro ao iniciar bot.';
-          this.statusMessage = '';
-        }
+      } catch (err) {
+        this.statusMessage = '';
+        this.statusError = err.response?.data?.message || 'Erro ao iniciar bot.';
       } finally {
         this.isStartingBot = false;
       }

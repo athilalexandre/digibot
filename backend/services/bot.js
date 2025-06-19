@@ -8,6 +8,7 @@ class BotService {
     this.client = null
     this.isConnected = false
     this.commands = new Map()
+    this.isConnecting = false
   }
 
   // Inicializa o cliente Twitch
@@ -74,37 +75,40 @@ class BotService {
         logger.warn('Tentativa de iniciar bot, mas ele já está conectado.')
         throw new Error('Bot já está conectado')
       }
-
+      if (this.isConnecting) {
+        logger.warn('Tentativa de iniciar bot, mas ele já está em processo de conexão.')
+        throw new Error('Bot está conectando')
+      }
+      this.isConnecting = true;
       logger.info('Inicializando cliente Twitch...')
       const client = this.initClient()
       logger.info('Conectando cliente Twitch...')
       await client.connect()
       logger.info('Cliente Twitch conectado.')
-
-      // Garante que o mongoose está conectado antes de carregar comandos
+      // Garante que o mongoose está conectado antes de carregar comandos, mas não bloqueia resposta
       const mongoose = require('mongoose')
       logger.info('Verificando conexão com MongoDB...')
       if (mongoose.connection.readyState !== 1) {
         logger.warn('MongoDB não está conectado, aguardando evento de conexão...')
-        await new Promise((resolve, reject) => {
-          mongoose.connection.once('connected', () => {
-            logger.info('MongoDB conectado (evento).')
-            resolve()
-          })
-          mongoose.connection.once('error', (err) => {
-            logger.error('Erro ao conectar ao MongoDB:', err)
-            reject(new Error('Erro ao conectar ao MongoDB: ' + err))
-          })
+        mongoose.connection.once('connected', async () => {
+          logger.info('MongoDB conectado, carregando comandos...')
+          await this.loadCommands()
+          this.isConnected = true
+          this.isConnecting = false
         })
-      } else {
-        logger.info('MongoDB já está conectado.')
+        mongoose.connection.once('error', (err) => {
+          logger.error('Erro ao conectar ao MongoDB: ' + err)
+          this.isConnecting = false
+        })
+        // Retorna sucesso imediatamente, comandos serão carregados em background
+        return 'Bot está conectando (MongoDB em background)';
       }
-      logger.info('Carregando comandos do banco de dados...')
       await this.loadCommands()
-      logger.info('Comandos carregados com sucesso.')
-
+      this.isConnected = true
+      this.isConnecting = false
       return true
     } catch (error) {
+      this.isConnecting = false
       logger.error('Erro ao iniciar bot (detalhado):', error)
       throw error
     }

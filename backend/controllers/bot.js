@@ -10,14 +10,16 @@ exports.startBot = async (req, res) => {
     if (username) config.botUsername = username;
     if (oauth) config.botOauthToken = oauth;
     if (channel) config.channelName = channel;
-    await botService.start()
-    res.json({ message: 'Bot iniciado com sucesso!' })
+    const result = await botService.start();
+    console.log('[startBot] Sucesso:', result);
+    res.status(200).json({ message: 'Bot iniciado com sucesso!' });
   } catch (error) {
     if (error.message === 'Bot já está conectado') {
-      res.status(200).json({ message: 'Bot já está conectado.' })
+      console.log('[startBot] Bot já está conectado.');
+      res.status(200).json({ message: 'Bot já está conectado.' });
     } else {
-      logger.error('Erro ao iniciar bot:', error)
-      res.status(500).json({ message: 'Erro ao iniciar bot' })
+      console.error('[startBot] Erro inesperado:', error);
+      res.status(500).json({ message: 'Erro ao iniciar bot', error: error.message });
     }
   }
 }
