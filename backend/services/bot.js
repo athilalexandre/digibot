@@ -176,31 +176,36 @@ class BotService {
       return
     }
 
+    // Log avançado de recebimento de mensagem
+    logger.info(`[handleMessage] Mensagem recebida | Canal: ${channel} | Usuário: ${userstate.username} | Mensagem: ${message}`)
+
     try {
       // Verifica se é um comando
       if (!message.startsWith('!')) return
 
       const [commandName, ...args] = message.slice(1).split(' ')
+      logger.info(`[handleMessage] Comando detectado: ${commandName} | Args: ${args.join(' ')} | Usuário: ${userstate.username}`)
       const command = this.commands.get(commandName)
       const username = userstate.username
       const twitchUserId = userstate['user-id']
 
       // Lógica real dos comandos principais
       if (commandName === 'entrar') {
-        // Verifica se já existe Tammer
+        logger.info(`[handleMessage] Executando !entrar para ${username} (${twitchUserId})`)
         let tammer = await Tammer.findOne({ twitchUserId })
+        logger.info(`[handleMessage] Tammer encontrado: ${!!tammer}`)
         if (tammer) {
           await this.client.say(channel, `@${username}, você já iniciou sua jornada! Use !digimon para ver seu status.`)
           return
         }
-        // Sorteia Digimon inicial
         const starter = getRandomStarterDigimon()
-        // Cria DigimonData se não existir
+        logger.info(`[handleMessage] Starter sorteado: ${starter.name}`)
         let digimonData = await DigimonData.findOne({ name: starter.name })
+        logger.info(`[handleMessage] DigimonData encontrado: ${!!digimonData}`)
         if (!digimonData) {
           digimonData = await DigimonData.create(starter)
+          logger.info(`[handleMessage] DigimonData criado: ${digimonData.name}`)
         }
-        // Cria Tammer
         tammer = await Tammer.create({
           twitchUserId,
           username,
@@ -218,16 +223,20 @@ class BotService {
           },
           coins: 100
         })
+        logger.info(`[handleMessage] Tammer criado: ${tammer.username}`)
         await this.client.say(channel, `@${username}, parabéns! Você entrou no DigiBot e recebeu um Digitama: ${digimonData.name}. Use !digimon para ver seu status.`)
         return
       }
       if (commandName === 'digimon') {
+        logger.info(`[handleMessage] Executando !digimon para ${username} (${twitchUserId})`)
         const tammer = await Tammer.findOne({ twitchUserId })
+        logger.info(`[handleMessage] Tammer encontrado: ${!!tammer}`)
         if (!tammer) {
           await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`)
           return
         }
         const digimon = await DigimonData.findById(tammer.currentDigimonId)
+        logger.info(`[handleMessage] DigimonData encontrado: ${!!digimon}`)
         if (!digimon) {
           await this.client.say(channel, `@${username}, seu Digimon não foi encontrado. Contate um admin.`)
           return

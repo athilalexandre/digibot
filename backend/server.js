@@ -91,32 +91,39 @@ async function startServer() {
     logger.info('Conectado ao MongoDB')
 
     // Seed admin automático
-    require('./utils/seedAdmin')
+    //require('./utils/seedAdmin')
+    //require('./utils/seedCommands')
 
     const server = app.listen(config.port, () => {
       logger.info(`Servidor rodando na porta ${config.port}`)
     })
 
     // Graceful shutdown
-    process.on('SIGINT', () => {
+    process.on('SIGINT', async () => {
       logger.info('Encerrando servidor...')
-      server.close(() => {
+      server.close(async () => {
         logger.info('Servidor encerrado')
-        mongoose.connection.close(false, () => {
+        try {
+          await mongoose.connection.close(false)
           logger.info('Conexão com MongoDB encerrada')
-          process.exit(0)
-        })
+        } catch (err) {
+          logger.error('Erro ao fechar conexão do MongoDB:', err)
+        }
+        process.exit(0)
       })
     })
 
-    process.on('SIGTERM', () => {
+    process.on('SIGTERM', async () => {
       logger.info('Encerrando servidor...')
-      server.close(() => {
+      server.close(async () => {
         logger.info('Servidor encerrado')
-        mongoose.connection.close(false, () => {
+        try {
+          await mongoose.connection.close(false)
           logger.info('Conexão com MongoDB encerrada')
-          process.exit(0)
-        })
+        } catch (err) {
+          logger.error('Erro ao fechar conexão do MongoDB:', err)
+        }
+        process.exit(0)
       })
     })
   } catch (error) {
@@ -124,5 +131,12 @@ async function startServer() {
     process.exit(1)
   }
 }
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+});
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
 
 startServer() 
