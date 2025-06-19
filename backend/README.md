@@ -1,123 +1,137 @@
-# DigiBot - Bot de Digimon para Twitch
+# 🟦🐾 DigiBot - Bot de Digimon para Twitch 🐉🟨
 
-## Visão Geral
-DigiBot é um bot de chat para Twitch com temática Digimon, focado em progressão, batalhas, economia, ranks e interação entre viewers. Ele utiliza Node.js, Express e MongoDB no backend.
+<div align="center">
+  <img src="https://digimon.shadowsmith.com/img/agumon.jpg" width="120" alt="Agumon"/>
+  <img src="https://digimon.shadowsmith.com/img/gabumon.jpg" width="120" alt="Gabumon"/>
+  <img src="https://digimon.shadowsmith.com/img/patamon.jpg" width="120" alt="Patamon"/>
+  <img src="https://digimon.shadowsmith.com/img/gatomon.jpg" width="120" alt="Gatomon"/>
+</div>
 
 ---
 
-## Funcionalidades Principais
+## ✨ Visão Geral
 
-- **Sistema de Digitama:**
-  - Usuário entra como Digitama (!entrar).
-  - Só pode chocar após 1 hora (!chocar).
+DigiBot é um bot de chat para Twitch com temática Digimon, focado em progressão, batalhas, economia, ranks e interação entre viewers. Ele utiliza **Node.js**, **Express** e **MongoDB** no backend, e **Vue.js** no frontend.
+
+---
+
+## 🦖 Funcionalidades Principais
+
+- 🥚 **Sistema de Digitama:**
+  - Usuário entra como Digitama (`!entrar`).
+  - Só pode chocar após 1 hora (`!chocar`).
   - Não pode batalhar/treinar enquanto for Digitama.
 
-- **Evolução de Digimon:**
+- 🐣 **Evolução de Digimon:**
   - Após chocar, evolui para Baby I e pode progredir de estágio conforme XP.
   - Estágios: Digitama, Baby I, Baby II, Rookie, Champion, Ultimate, Mega.
 
-- **Sistema de XP e Estágios:**
+- ⭐ **Sistema de XP e Estágios:**
   - XP ganho em batalhas, raids, bosses, treinos.
   - Cada estágio tem 5 níveis, com requisitos de XP para evoluir.
 
-- **Sistema de Rank de Tammer:**
+- 🏆 **Sistema de Rank de Tammer:**
   - Ranks: Normal, Bronze, Silver, Gold, Platinum, Elite, Legendary.
-  - Subida de rank depende de XP, coins e tempo de conta (!rankup).
-  - Veja seu rank com !rank.
+  - Subida de rank depende de XP, bits e tempo de conta (`!rankup`).
+  - Veja seu rank com `!rank`.
 
-- **Sistema de Coins:**
-  - Coins são comprados via !comprarcoins <quantidade> (simulação).
-  - Coins são usados para treinos, eventos e podem ser dados/removidos por mods (!givecoins, !removecoins).
-  - Valor base das coins pode ser alterado (!setcoinvalue).
+- 💰 **Sistema de Bits:**
+  - Bits são comprados via `!comprarbits <quantidade>` (simulação).
+  - Bits são usados para treinos, eventos e podem ser dados/removidos por mods (`!givebits`, `!removebits`).
+  - Valor base dos bits pode ser alterado (`!setbitvalue`).
 
-- **Sistema de Treino:**
-  - !treinar <for|def|vel|sab> [multiplicador]
-  - Aumenta status do Digimon e consome coins.
+- 🏋️ **Sistema de Treino:**
+  - `!treinar <for|def|vel|sab> [multiplicador]`
+  - Aumenta status do Digimon e consome bits.
 
-- **Sistema de Batalha:**
-  - !batalhar: enfrenta Digimon selvagem quando disponível.
-  - !atacar, !fugir: comandos de batalha.
+- ⚔️ **Sistema de Batalha:**
+  - `!batalhar`: enfrenta Digimon selvagem quando disponível.
+  - `!atacar`, `!fugir`: comandos de batalha.
 
-- **Sistema de Boss:**
-  - !summonboss (mod/admin): invoca boss aleatório.
-  - !boss: enfrenta o boss ativo. Recompensa XP e coins.
+- 👹 **Sistema de Boss:**
+  - `!summonboss` (mod/admin): invoca boss aleatório.
+  - `!boss`: enfrenta o boss ativo. Recompensa XP e bits.
 
-- **Sistema de Raid:**
-  - !raid: entra na fila da raid. Quando 3 ou mais participam, inicia a raid coletiva.
-  - Recompensa XP e coins para todos se vencerem.
+- 🥇 **Sistema de Raid:**
+  - `!raid`: entra na fila da raid. Quando 3 ou mais participam, inicia a raid coletiva.
+  - Recompensa XP e bits para todos se vencerem.
 
-- **Sistema de Duelo:**
-  - !duelo <nick>: desafia outro usuário.
-  - !aceitar: aceita o duelo. Lógica baseada em status.
-  - Vencedor ganha coins, perdedor perde coins e pode regredir para Digitama.
+- ⚡ **Sistema de Duelo:**
+  - `!duelo <nick>`: desafia outro usuário.
+  - `!aceitar`: aceita o duelo. Lógica baseada em status.
+  - Vencedor ganha bits, perdedor perde bits e pode regredir para Digitama.
 
-- **Ficha Tammer:**
-  - !ficha: mostra Digimon, Rank, XP, Coins, Estágio, Status.
+- 📜 **Ficha Tammer:**
+  - `!ficha`: mostra Digimon, Rank, XP, Bits, Estágio, Status.
 
-- **Admin/Mod:**
-  - !resetgame: reseta todos os jogadores (apenas mod/admin).
-  - !summonboss: invoca boss (apenas mod/admin).
-  - !givecoins, !removecoins, !setcoinvalue: apenas mod/admin.
-
----
-
-## Comandos Disponíveis
-
-- `!entrar` — Inicia sua jornada (requer follow do canal).
-- `!chocar` — Choca o Digitama após 1h.
-- `!digimon` — Mostra status do seu Digimon.
-- `!ficha` — Mostra ficha completa do Tammer.
-- `!treinar <for|def|vel|sab> [multiplicador]` — Treina status do Digimon.
-- `!comprarcoins <quantidade>` — Compra coins (simulação).
-- `!givecoins <username> <quantidade>` — Dá coins para outro jogador (mod).
-- `!removecoins <username> <quantidade>` — Remove coins de um jogador (mod).
-- `!setcoinvalue <valor>` — Define valor base das coins (mod).
-- `!rank` — Mostra seu rank.
-- `!rankup` — Tenta subir de rank.
-- `!batalhar` — Inicia batalha contra Digimon selvagem.
-- `!atacar` — Ataca em batalha.
-- `!fugir` — Foge da batalha.
-- `!summonboss` — Invoca boss (mod).
-- `!boss` — Enfrenta o boss ativo.
-- `!raid` — Entra na raid coletiva.
-- `!duelo <nick>` — Desafia outro usuário para duelo.
-- `!aceitar` — Aceita duelo.
-- `!resetgame` — Reseta todos os jogadores (mod).
+- 🛡️ **Admin/Mod:**
+  - `!resetgame`: reseta todos os jogadores (apenas mod/admin).
+  - `!summonboss`: invoca boss (apenas mod/admin).
+  - `!givebits`, `!removebits`, `!setbitvalue`: apenas mod/admin.
 
 ---
 
-## Permissões
-- Comandos de economia, reset, boss e coinvalue são restritos a moderadores/admins.
+## 🎮 Comandos Disponíveis
+
+| Comando | Descrição |
+|---------|-----------|
+| `!entrar` | Inicia sua jornada (requer follow do canal) |
+| `!chocar` | Choca o Digitama após 1h |
+| `!digimon` | Mostra status do seu Digimon |
+| `!ficha` | Mostra ficha completa do Tammer |
+| `!treinar <for|def|vel|sab> [multiplicador]` | Treina status do Digimon |
+| `!comprarbits <quantidade>` | Compra bits (simulação) |
+| `!givebits <username> <quantidade>` | Dá bits para outro jogador (mod) |
+| `!removebits <username> <quantidade>` | Remove bits de um jogador (mod) |
+| `!setbitvalue <valor>` | Define valor base dos bits (mod) |
+| `!rank` | Mostra seu rank |
+| `!rankup` | Tenta subir de rank |
+| `!batalhar` | Inicia batalha contra Digimon selvagem |
+| `!atacar` | Ataca em batalha |
+| `!fugir` | Foge da batalha |
+| `!summonboss` | Invoca boss (mod) |
+| `!boss` | Enfrenta o boss ativo |
+| `!raid` | Entra na raid coletiva |
+| `!duelo <nick>` | Desafia outro usuário para duelo |
+| `!aceitar` | Aceita duelo |
+| `!resetgame` | Reseta todos os jogadores (mod) |
+
+---
+
+## 🔒 Permissões
+- Comandos de economia, reset, boss e bitvalue são restritos a moderadores/admins.
 - Demais comandos são abertos a todos os viewers.
 
 ---
 
-## Observações
+## 💡 Observações
 - O bot utiliza MongoDB para persistência de dados.
 - Todos os comandos respondem no chat da Twitch.
 - O sistema de evolução, batalhas, raids e bosses é totalmente dinâmico e pode ser expandido.
 
 ---
 
-## Exemplo de Fluxo de Jogo
-1. Viewer usa `!entrar` e recebe um Digitama.
-2. Após 1h, usa `!chocar` para evoluir para Baby I.
-3. Treina, batalha, participa de raids, bosses e duelos para ganhar XP e coins.
+## 🗺️ Exemplo de Fluxo de Jogo
+1. Viewer usa `!entrar` e recebe um Digitama 🥚.
+2. Após 1h, usa `!chocar` para evoluir para Baby I 🐣.
+3. Treina, batalha, participa de raids, bosses e duelos para ganhar XP e bits.
 4. Sobe de rank com `!rankup` conforme evolui.
 5. Usa `!ficha` para acompanhar seu progresso.
 
 ---
 
-## Dúvidas ou sugestões?
+## ❓ Dúvidas ou sugestões?
 Abra uma issue ou entre em contato com o desenvolvedor!
 
-## Requisitos
+---
+
+## ⚙️ Requisitos
 
 - Node.js 14.x ou superior
 - npm 6.x ou superior
 - MongoDB 6.0 ou superior
 
-## Instalação
+## 🚀 Instalação
 
 1. Clone o repositório
 2. Navegue até a pasta do backend:
@@ -145,7 +159,7 @@ BOT_OAUTH_TOKEN=seu_oauth_token
 CHANNEL_NAME=seu_canal
 ```
 
-## Desenvolvimento
+## 👾 Desenvolvimento
 
 Para iniciar o servidor em modo de desenvolvimento:
 
@@ -155,7 +169,7 @@ npm run dev
 
 O servidor estará disponível em `http://localhost:3000`.
 
-## Produção
+## 🏁 Produção
 
 Para iniciar o servidor em modo de produção:
 
@@ -163,7 +177,7 @@ Para iniciar o servidor em modo de produção:
 npm start
 ```
 
-## Testes
+## 🧪 Testes
 
 Para executar os testes:
 
@@ -171,24 +185,24 @@ Para executar os testes:
 npm test
 ```
 
-## Estrutura do Projeto
+## 📁 Estrutura do Projeto
 
 ```
 backend/
 ├── config/             # Configurações
 ├── controllers/        # Controladores
 ├── middleware/         # Middlewares
-├── models/            # Modelos do MongoDB
-├── routes/            # Rotas da API
-├── services/          # Serviços
-├── utils/             # Utilitários
-├── .env               # Variáveis de ambiente
-├── .gitignore         # Arquivos ignorados pelo git
-├── package.json       # Dependências e scripts
-└── server.js          # Ponto de entrada
+├── models/             # Modelos do MongoDB
+├── routes/             # Rotas da API
+├── services/           # Serviços
+├── utils/              # Utilitários
+├── .env                # Variáveis de ambiente
+├── .gitignore          # Arquivos ignorados pelo git
+├── package.json        # Dependências e scripts
+└── server.js           # Ponto de entrada
 ```
 
-## API Endpoints
+## 🌐 API Endpoints
 
 ### Autenticação
 - `POST /api/auth/login` - Login
