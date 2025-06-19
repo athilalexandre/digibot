@@ -79,9 +79,10 @@
         <i class="fas fa-save"></i>
         Salvar Configurações
       </button>
-      <button @click="startBot" class="start-button" :disabled="!config.twitchUsername || !config.twitchOAuth || !config.twitchChannel">
+      <button @click="startBot" class="start-button" :disabled="!config.twitchUsername || !config.twitchOAuth || !config.twitchChannel || isStartingBot">
         <i class="fas fa-play"></i>
-        Iniciar Bot
+        <span v-if="isStartingBot">Iniciando...</span>
+        <span v-else>Iniciar Bot</span>
       </button>
     </div>
   </div>
@@ -89,6 +90,8 @@
 
 <script>
 import api from '@/services/api'
+
+const CONFIG_KEY = 'digibot_config';
 
 export default {
   name: 'Config',
@@ -105,13 +108,24 @@ export default {
       },
       window: window,
       statusMessage: '',
-      statusError: ''
+      statusError: '',
+      isStartingBot: false
+    }
+  },
+  created() {
+    // Carregar configurações do localStorage se existirem
+    const saved = localStorage.getItem(CONFIG_KEY);
+    if (saved) {
+      try {
+        this.config = { ...this.config, ...JSON.parse(saved) };
+      } catch (e) {}
     }
   },
   methods: {
     async saveConfig() {
       try {
-        // Futuramente: await api.post('/config', this.config)
+        localStorage.setItem(CONFIG_KEY, JSON.stringify(this.config));
+        // (Opcional) Salvar no backend futuramente
         this.statusMessage = 'Configurações salvas com sucesso!';
         this.statusError = '';
       } catch (error) {
@@ -130,13 +144,30 @@ export default {
       }
     },
     async startBot() {
+      if (this.isStartingBot) return;
+      this.isStartingBot = true;
+      this.statusMessage = '';
+      this.statusError = '';
       try {
-        // Futuramente: await api.post('/bot/start', this.config)
-        this.statusMessage = 'Bot iniciado com sucesso!';
-        this.statusError = '';
+        const response = await api.post('/bot/start', {
+          username: this.config.twitchUsername,
+          oauth: this.config.twitchOAuth,
+          channel: this.config.twitchChannel
+        });
+        if (response.data?.message === 'Bot já está conectado.' || response.data?.message === 'Bot iniciado com sucesso!') {
+          this.statusMessage = response.data.message;
+          this.statusError = '';
+        } else {
+          this.statusMessage = '';
+          this.statusError = response.data?.message || 'Erro ao iniciar bot.';
+        }
       } catch (error) {
-        this.statusError = 'Erro ao iniciar bot.';
-        this.statusMessage = '';
+        if (error.response?.status !== 200) {
+          this.statusError = error.response?.data?.message || 'Erro ao iniciar bot.';
+          this.statusMessage = '';
+        }
+      } finally {
+        this.isStartingBot = false;
       }
     }
   }

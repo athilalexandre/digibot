@@ -17,17 +17,27 @@ const app = express()
 
 // Middlewares
 app.use(helmet())
-app.use(cors({
-  origin: config.corsOrigin,
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Permite requisições sem origin (ex: mobile, curl)
+    if (!origin) return callback(null, true);
+    if (config.corsOrigin.includes(origin)) {
+      return callback(null, true);
+    } else {
+      logger.warn(`CORS bloqueado para origem: ${origin}`);
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
-}))
+};
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(morgan('dev'))
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: config.rateLimitWindow,
-  max: config.rateLimitMax
+  windowMs: 60 * 1000, // 1 minuto
+  max: 5000 // Limite alto para evitar 429 em ambiente local
 })
 app.use(limiter)
 
@@ -38,7 +48,7 @@ app.use('/api/commands', commandRoutes)
 app.use('/api/users', userRoutes)
 
 // Health check
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
     mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
@@ -56,11 +66,11 @@ app.use((err, req, res, next) => {
 // Inicialização do servidor
 async function startServer() {
   try {
-    await mongoose.connect(config.mongoUri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    })
+    await mongoose.connect(config.mongoUri)
     logger.info('Conectado ao MongoDB')
+
+    // Seed admin automático
+    require('./utils/seedAdmin')
 
     const server = app.listen(config.port, () => {
       logger.info(`Servidor rodando na porta ${config.port}`)

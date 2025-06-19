@@ -37,6 +37,23 @@ class BotService {
     this.client.on('connected', (addr, port) => {
       logger.info(`Conectado ao Twitch em ${addr}:${port}`)
       this.isConnected = true
+      // Logs avançados para diagnóstico
+      logger.info(`Bot username: ${config.botUsername}`)
+      logger.info(`Canal configurado: ${config.channelName}`)
+      if (config.botOauthToken) {
+        logger.info(`Token OAuth: ${config.botOauthToken.slice(0, 8)}...${config.botOauthToken.slice(-4)} (tamanho: ${config.botOauthToken.length})`)
+      } else {
+        logger.warn('Token OAuth não configurado!')
+      }
+      logger.info(`Status de conexão do client: ${this.client.readyState}`)
+      // Mensagem automática de boas-vindas no chat, com tratamento de erro
+      this.client.say(config.channelName, '🤖 DigiBot está online! Use !entrar para começar sua aventura.')
+        .then(() => {
+          logger.info('Mensagem de boas-vindas enviada com sucesso.')
+        })
+        .catch(err => {
+          logger.error('Erro ao enviar mensagem de boas-vindas no chat da Twitch:', err && (err.stack || err.message || err))
+        })
     })
 
     this.client.on('disconnected', (reason) => {
@@ -52,17 +69,43 @@ class BotService {
   // Inicia o bot
   async start() {
     try {
+      logger.info('Iniciando processo de start do bot...')
       if (this.isConnected) {
+        logger.warn('Tentativa de iniciar bot, mas ele já está conectado.')
         throw new Error('Bot já está conectado')
       }
 
+      logger.info('Inicializando cliente Twitch...')
       const client = this.initClient()
+      logger.info('Conectando cliente Twitch...')
       await client.connect()
+      logger.info('Cliente Twitch conectado.')
+
+      // Garante que o mongoose está conectado antes de carregar comandos
+      const mongoose = require('mongoose')
+      logger.info('Verificando conexão com MongoDB...')
+      if (mongoose.connection.readyState !== 1) {
+        logger.warn('MongoDB não está conectado, aguardando evento de conexão...')
+        await new Promise((resolve, reject) => {
+          mongoose.connection.once('connected', () => {
+            logger.info('MongoDB conectado (evento).')
+            resolve()
+          })
+          mongoose.connection.once('error', (err) => {
+            logger.error('Erro ao conectar ao MongoDB:', err)
+            reject(new Error('Erro ao conectar ao MongoDB: ' + err))
+          })
+        })
+      } else {
+        logger.info('MongoDB já está conectado.')
+      }
+      logger.info('Carregando comandos do banco de dados...')
       await this.loadCommands()
+      logger.info('Comandos carregados com sucesso.')
 
       return true
     } catch (error) {
-      logger.error('Erro ao iniciar bot:', error)
+      logger.error('Erro ao iniciar bot (detalhado):', error)
       throw error
     }
   }

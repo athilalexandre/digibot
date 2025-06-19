@@ -2,11 +2,14 @@ const mongoose = require('mongoose')
 const config = require('./config')
 const { spawn } = require('child_process')
 const path = require('path')
+const logger = require('./utils/logger')
 
 class Database {
   constructor() {
     this.mongoProcess = null
     this.isConnected = false
+    this.connectionAttempts = 0
+    this.maxConnectionAttempts = 5
   }
 
   async startMongo() {
@@ -14,38 +17,45 @@ class Database {
       try {
         // Verifica se o MongoDB já está rodando
         if (this.mongoProcess) {
-          console.log('MongoDB já está em execução')
+          logger.info('MongoDB já está em execução')
           resolve()
           return
         }
 
+        // Verifica se o diretório de dados existe
+        const dbPath = path.join(__dirname, '../data/db')
+        if (!require('fs').existsSync(dbPath)) {
+          require('fs').mkdirSync(dbPath, { recursive: true })
+          logger.info('Diretório de dados do MongoDB criado')
+        }
+
         // Inicia o processo do MongoDB
         this.mongoProcess = spawn(config.mongoPath, [
-          '--dbpath', path.join(__dirname, '../data/db'),
+          '--dbpath', dbPath,
           '--logpath', path.join(__dirname, '../logs/mongodb.log'),
           '--fork'
         ])
 
         this.mongoProcess.stdout.on('data', (data) => {
-          console.log(`MongoDB: ${data}`)
+          logger.info(`MongoDB: ${data}`)
         })
 
         this.mongoProcess.stderr.on('data', (data) => {
-          console.error(`MongoDB Error: ${data}`)
+          logger.error(`MongoDB Error: ${data}`)
         })
 
         this.mongoProcess.on('close', (code) => {
-          console.log(`MongoDB process exited with code ${code}`)
+          logger.info(`MongoDB process exited with code ${code}`)
           this.mongoProcess = null
         })
 
         // Aguarda 2 segundos para o MongoDB iniciar
         setTimeout(() => {
-          console.log('MongoDB iniciado com sucesso')
+          logger.info('MongoDB iniciado com sucesso')
           resolve()
         }, 2000)
       } catch (error) {
-        console.error('Erro ao iniciar MongoDB:', error)
+        logger.error('Erro ao iniciar MongoDB:', error)
         reject(error)
       }
     })
@@ -55,17 +65,17 @@ class Database {
     return new Promise((resolve, reject) => {
       try {
         if (!this.mongoProcess) {
-          console.log('MongoDB não está em execução')
+          logger.info('MongoDB não está em execução')
           resolve()
           return
         }
 
         this.mongoProcess.kill()
         this.mongoProcess = null
-        console.log('MongoDB encerrado com sucesso')
+        logger.info('MongoDB encerrado com sucesso')
         resolve()
       } catch (error) {
-        console.error('Erro ao encerrar MongoDB:', error)
+        logger.error('Erro ao encerrar MongoDB:', error)
         reject(error)
       }
     })
@@ -76,16 +86,30 @@ class Database {
       // Inicia o MongoDB se necessário
       await this.startMongo()
 
-      // Conecta ao MongoDB
-      await mongoose.connect(config.mongoUri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      })
+      // Tenta conectar ao MongoDB com retry
+      while (this.connectionAttempts < this.maxConnectionAttempts) {
+        try {
+          await mongoose.connect(config.mongoUri, {
+            serverSelectionTimeoutMS: 5000
+          })
 
-      this.isConnected = true
-      console.log('Conectado ao MongoDB')
+          this.isConnected = true
+          logger.info('Conectado ao MongoDB com sucesso')
+          return
+        } catch (error) {
+          this.connectionAttempts++
+          logger.warn(`Tentativa ${this.connectionAttempts} de ${this.maxConnectionAttempts} falhou`)
+          
+          if (this.connectionAttempts === this.maxConnectionAttempts) {
+            throw new Error('Não foi possível conectar ao MongoDB após várias tentativas')
+          }
+          
+          // Espera 2 segundos antes da próxima tentativa
+          await new Promise(resolve => setTimeout(resolve, 2000))
+        }
+      }
     } catch (error) {
-      console.error('Erro ao conectar ao MongoDB:', error)
+      logger.error('Erro ao conectar ao MongoDB:', error)
       throw error
     }
   }
@@ -95,13 +119,13 @@ class Database {
       if (this.isConnected) {
         await mongoose.disconnect()
         this.isConnected = false
-        console.log('Desconectado do MongoDB')
+        logger.info('Desconectado do MongoDB')
       }
 
       // Encerra o processo do MongoDB
       await this.stopMongo()
     } catch (error) {
-      console.error('Erro ao desconectar do MongoDB:', error)
+      logger.error('Erro ao desconectar do MongoDB:', error)
       throw error
     }
   }

@@ -50,17 +50,23 @@ O bot pode iniciar o MongoDB automaticamente. Você tem duas opções:
 
 1. Iniciar tudo de uma vez:
 ```bash
-npm run start:all
+npm run setup
 ```
 
 2. Iniciar separadamente:
 ```bash
-# Terminal 1 - MongoDB
-npm run start:mongodb
+# Terminal 1 - Backend
+cd backend
+npm run dev
 
-# Terminal 2 - Bot
-npm run start
+# Terminal 2 - Frontend
+cd frontend
+npm run serve:auto
 ```
+
+- O comando `npm run serve:auto` tentará rodar o frontend na porta 8080, mas se estiver ocupada, usará 8081, 8082, etc., automaticamente e abrirá o navegador na porta correta.
+
+Acesse o painel no endereço informado no terminal (ex: http://localhost:8080 ou http://localhost:8081).
 
 ### Comandos Disponíveis
 

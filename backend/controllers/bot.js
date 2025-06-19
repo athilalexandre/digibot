@@ -5,11 +5,20 @@ const logger = require('../utils/logger').createModuleLogger('BotController')
 // Iniciar bot
 exports.startBot = async (req, res) => {
   try {
+    // Atualize as configs globais do backend com os dados recebidos do frontend
+    const { username, oauth, channel } = req.body;
+    if (username) config.botUsername = username;
+    if (oauth) config.botOauthToken = oauth;
+    if (channel) config.channelName = channel;
     await botService.start()
-    res.json({ message: 'Bot iniciado com sucesso' })
+    res.json({ message: 'Bot iniciado com sucesso!' })
   } catch (error) {
-    logger.error('Erro ao iniciar bot:', error)
-    res.status(500).json({ message: 'Erro ao iniciar bot' })
+    if (error.message === 'Bot já está conectado') {
+      res.status(200).json({ message: 'Bot já está conectado.' })
+    } else {
+      logger.error('Erro ao iniciar bot:', error)
+      res.status(500).json({ message: 'Erro ao iniciar bot' })
+    }
   }
 }
 

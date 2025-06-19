@@ -12,7 +12,7 @@ const DigimonDataSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['Data', 'Virus', 'Vacina', null],
+    enum: ['Data', 'Virus', 'Vacina'],
     default: null,
   },
   attribute: {
@@ -28,8 +28,8 @@ const DigimonDataSchema = new mongoose.Schema({
     sabedoria: { type: Number, default: 1 },
   },
   evolvesTo: {
-    type: String,
-    default: null,
+    type: [String],
+    default: [],
   },
   evolvesFrom: {
     type: mongoose.Schema.Types.Mixed, // Tipo alterado

@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store'
+import Dashboard from '../views/Dashboard.vue'
+import Chat from '../views/Chat.vue'
+import Commands from '../views/Commands.vue'
+import Config from '../views/Config.vue'
 
 Vue.use(VueRouter)
 
@@ -8,26 +12,22 @@ const routes = [
   {
     path: '/',
     name: 'Dashboard',
-    component: () => import('@/views/Dashboard.vue'),
-    meta: { requiresAuth: true }
+    component: Dashboard
   },
   {
     path: '/chat',
     name: 'Chat',
-    component: () => import('@/views/Chat.vue'),
-    meta: { requiresAuth: true }
+    component: Chat
   },
   {
     path: '/commands',
     name: 'Commands',
-    component: () => import('@/views/Commands.vue'),
-    meta: { requiresAuth: true }
+    component: Commands
   },
   {
     path: '/config',
     name: 'Config',
-    component: () => import('@/views/Config.vue'),
-    meta: { requiresAuth: true }
+    component: Config
   },
   {
     path: '/login',

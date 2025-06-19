@@ -18,7 +18,9 @@ module.exports = {
   jwtExpiresIn: '7d',
   
   // Configurações do CORS
-  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:8080',
+  corsOrigin: process.env.CORS_ORIGIN
+    ? process.env.CORS_ORIGIN.split(',')
+    : ['http://localhost:8080', 'http://localhost:8081', 'http://localhost:3000'],
   
   // Configurações do bot
   botUsername: process.env.BOT_USERNAME,
@@ -30,7 +32,7 @@ module.exports = {
   
   // Configurações de segurança
   rateLimit: {
-    windowMs: 15 * 60 * 1000, // 15 minutos
-    max: 100 // limite de 100 requisições por windowMs
+    windowMs: 1 * 60 * 1000, // 1 minuto
+    max: 1000 // limite de 1000 requisições por windowMs
   }
 } 
