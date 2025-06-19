@@ -89,20 +89,21 @@ export default {
           modOnly: false
         },
         {
-          name: '!meudigimon',
+          name: '!digimon',
           description: 'Mostra o status atual do seu Digimon',
-          usage: '!meudigimon',
-          examples: ['!meudigimon'],
+          usage: '!digimon',
+          examples: ['!digimon'],
           modOnly: false
         },
         {
           name: '!treinar',
-          description: 'Treina seu Digimon para aumentar seus atributos',
-          usage: '!treinar <tipo> [multiplicador]',
+          description: 'Treina o status do Digimon',
+          usage: '!treinar <for|def|vel|sab> [multiplicador]',
           examples: [
             '!treinar for',
             '!treinar def 5',
-            '!treinar vel 10'
+            '!treinar vel 10',
+            '!treinar sab 15'
           ],
           modOnly: false
         },

@@ -331,3 +331,65 @@
 {"level":"info","message":"Verificando conexão com MongoDB...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:22:17"}
 {"level":"warn","message":"MongoDB não está conectado, aguardando evento de conexão...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:22:17"}
 {"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-19 00:24:26"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-19 00:24:34"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-19 00:24:34"}
+{"level":"info","message":"Iniciando processo de start do bot...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:24:51"}
+{"level":"info","message":"Inicializando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:24:51"}
+{"level":"info","message":"Conectando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:24:51"}
+{"level":"info","message":"Conectado ao Twitch em irc-ws.chat.twitch.tv:443","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:24:51"}
+{"level":"info","message":"Bot username: rpgbotdigimon","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:24:51"}
+{"level":"info","message":"Canal configurado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:24:51"}
+{"level":"info","message":"Token OAuth: oauth:62...96lz (tamanho: 36)","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:24:51"}
+{"level":"info","message":"Status de conexão do client: function readyState() {\r\n\tif(this.ws === null) { return 'CLOSED'; }\r\n\treturn [ 'CONNECTING', 'OPEN', 'CLOSING', 'CLOSED' ][this.ws.readyState];\r\n}","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:24:51"}
+{"level":"info","message":"Mensagem de boas-vindas enviada com sucesso.","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:24:51"}
+{"level":"info","message":"Cliente Twitch conectado.","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:24:51"}
+{"level":"info","message":"Verificando conexão com MongoDB...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:24:51"}
+{"level":"warn","message":"MongoDB não está conectado, aguardando evento de conexão...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:24:51"}
+{"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-19 00:28:49"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-19 00:34:58"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-19 00:34:58"}
+{"level":"info","message":"Iniciando processo de start do bot...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:35:35"}
+{"level":"info","message":"Inicializando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:35:35"}
+{"level":"info","message":"Conectando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:35:35"}
+{"level":"info","message":"Conectado ao Twitch em irc-ws.chat.twitch.tv:443","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:35:36"}
+{"level":"info","message":"Bot username: rpgbotdigimon","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:35:36"}
+{"level":"info","message":"Canal configurado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:35:36"}
+{"level":"info","message":"Token OAuth: oauth:62...96lz (tamanho: 36)","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:35:36"}
+{"level":"info","message":"Status de conexão do client: function readyState() {\r\n\tif(this.ws === null) { return 'CLOSED'; }\r\n\treturn [ 'CONNECTING', 'OPEN', 'CLOSING', 'CLOSED' ][this.ws.readyState];\r\n}","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:35:36"}
+{"level":"info","message":"Mensagem de boas-vindas enviada com sucesso.","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:35:36"}
+{"level":"info","message":"Cliente Twitch conectado.","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:35:36"}
+{"level":"info","message":"Verificando conexão com MongoDB...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:35:36"}
+{"level":"warn","message":"MongoDB não está conectado, aguardando evento de conexão...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:35:36"}
+{"level":"error","message":"Erro ao processar mensagem: Operation `tammers.findOne()` buffering timed out after 10000ms","module":"BotService","service":"digibot","stack":"MongooseError: Operation `tammers.findOne()` buffering timed out after 10000ms\n    at Timeout.<anonymous> (C:\\Users\\athil\\digibot\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:187:23)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)","timestamp":"2025-06-19 00:35:59"}
+{"level":"error","message":"Erro ao processar mensagem: Operation `tammers.findOne()` buffering timed out after 10000ms","module":"BotService","service":"digibot","stack":"MongooseError: Operation `tammers.findOne()` buffering timed out after 10000ms\n    at Timeout.<anonymous> (C:\\Users\\athil\\digibot\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:187:23)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)","timestamp":"2025-06-19 00:36:06"}
+{"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-19 00:37:05"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-19 00:37:08"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-19 00:37:08"}
+{"level":"info","message":"Iniciando processo de start do bot...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:37:16"}
+{"level":"info","message":"Inicializando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:37:16"}
+{"level":"info","message":"Conectando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:37:16"}
+{"level":"info","message":"Conectado ao Twitch em irc-ws.chat.twitch.tv:443","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:37:17"}
+{"level":"info","message":"Bot username: rpgbotdigimon","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:37:17"}
+{"level":"info","message":"Canal configurado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:37:17"}
+{"level":"info","message":"Token OAuth: oauth:62...96lz (tamanho: 36)","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:37:17"}
+{"level":"info","message":"Status de conexão do client: function readyState() {\r\n\tif(this.ws === null) { return 'CLOSED'; }\r\n\treturn [ 'CONNECTING', 'OPEN', 'CLOSING', 'CLOSED' ][this.ws.readyState];\r\n}","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:37:17"}
+{"level":"info","message":"Mensagem de boas-vindas enviada com sucesso.","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:37:17"}
+{"level":"info","message":"Cliente Twitch conectado.","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:37:17"}
+{"level":"info","message":"Verificando conexão com MongoDB...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:37:17"}
+{"level":"warn","message":"MongoDB não está conectado, aguardando evento de conexão...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:37:17"}
+{"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-19 00:39:32"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-19 00:39:34"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-19 00:39:34"}
+{"level":"info","message":"Iniciando processo de start do bot...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:39"}
+{"level":"info","message":"Inicializando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:39"}
+{"level":"info","message":"Conectando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:39"}
+{"level":"info","message":"Conectado ao Twitch em irc-ws.chat.twitch.tv:443","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:40"}
+{"level":"info","message":"Bot username: rpgbotdigimon","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:40"}
+{"level":"info","message":"Canal configurado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:40"}
+{"level":"info","message":"Token OAuth: oauth:62...96lz (tamanho: 36)","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:40"}
+{"level":"info","message":"Status de conexão do client: function readyState() {\r\n\tif(this.ws === null) { return 'CLOSED'; }\r\n\treturn [ 'CONNECTING', 'OPEN', 'CLOSING', 'CLOSED' ][this.ws.readyState];\r\n}","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:40"}
+{"level":"info","message":"Mensagem de boas-vindas enviada com sucesso.","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:40"}
+{"level":"info","message":"Cliente Twitch conectado.","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:40"}
+{"level":"info","message":"Verificando conexão com MongoDB...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:40"}
+{"level":"warn","message":"MongoDB não está conectado, aguardando evento de conexão...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:40"}
+{"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-19 00:44:53"}

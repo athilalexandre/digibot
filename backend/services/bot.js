@@ -2,6 +2,16 @@ const tmi = require('tmi.js')
 const config = require('../config')
 const logger = require('../utils/logger').createModuleLogger('BotService')
 const Command = require('../models/command')
+const Tammer = require('../../src/models/Tammer');
+const DigimonData = require('../../src/models/DigimonData');
+const digimonCatalog = require('../../src/data/digimon_catalog.json');
+
+// Função utilitária para sortear um Digimon inicial
+function getRandomStarterDigimon() {
+  // Filtra apenas os Digimon de estágio Child (iniciais)
+  const starters = digimonCatalog.filter(d => d.stage === 'Child');
+  return starters[Math.floor(Math.random() * starters.length)];
+}
 
 class BotService {
   constructor() {
@@ -159,27 +169,131 @@ class BotService {
   async handleMessage(channel, userstate, message, self) {
     if (self) return
 
+    // Garante que o MongoDB está conectado antes de processar comandos
+    const mongoose = require('mongoose')
+    if (mongoose.connection.readyState !== 1) {
+      await this.client.say(channel, '⏳ O sistema está inicializando. Tente novamente em alguns segundos!')
+      return
+    }
+
     try {
       // Verifica se é um comando
       if (!message.startsWith('!')) return
 
       const [commandName, ...args] = message.slice(1).split(' ')
       const command = this.commands.get(commandName)
+      const username = userstate.username
+      const twitchUserId = userstate['user-id']
 
-      if (!command) return
-
-      // Verifica se o comando pode ser usado
-      const canUse = await command.canUse(userstate)
-      if (!canUse) {
-        await this.client.say(channel, `@${userstate.username}, você não pode usar este comando agora`)
+      // Lógica real dos comandos principais
+      if (commandName === 'entrar') {
+        // Verifica se já existe Tammer
+        let tammer = await Tammer.findOne({ twitchUserId })
+        if (tammer) {
+          await this.client.say(channel, `@${username}, você já iniciou sua jornada! Use !digimon para ver seu status.`)
+          return
+        }
+        // Sorteia Digimon inicial
+        const starter = getRandomStarterDigimon()
+        // Cria DigimonData se não existir
+        let digimonData = await DigimonData.findOne({ name: starter.name })
+        if (!digimonData) {
+          digimonData = await DigimonData.create(starter)
+        }
+        // Cria Tammer
+        tammer = await Tammer.create({
+          twitchUserId,
+          username,
+          currentDigimonId: digimonData._id,
+          digimonName: digimonData.name,
+          digimonStage: digimonData.stage,
+          digimonLevel: 1,
+          digimonHp: digimonData.baseStats.hp,
+          digimonMp: 10,
+          digimonStats: {
+            forca: digimonData.baseStats.forca,
+            defesa: digimonData.baseStats.defesa,
+            velocidade: digimonData.baseStats.velocidade,
+            sabedoria: digimonData.baseStats.sabedoria
+          },
+          coins: 100
+        })
+        await this.client.say(channel, `@${username}, parabéns! Você entrou no DigiBot e recebeu um Digitama: ${digimonData.name}. Use !digimon para ver seu status.`)
+        return
+      }
+      if (commandName === 'digimon') {
+        const tammer = await Tammer.findOne({ twitchUserId })
+        if (!tammer) {
+          await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`)
+          return
+        }
+        const digimon = await DigimonData.findById(tammer.currentDigimonId)
+        if (!digimon) {
+          await this.client.say(channel, `@${username}, seu Digimon não foi encontrado. Contate um admin.`)
+          return
+        }
+        await this.client.say(channel, `@${username} | Digimon: ${digimon.name} | Nível: ${tammer.digimonLevel} | XP: ${tammer.digimonXp} | HP: ${tammer.digimonHp} | Stage: ${digimon.stage} | Coins: ${tammer.coins}`)
+        return
+      }
+      if (commandName === 'givecoins' && args.length === 2) {
+        // !givecoins <username> <quantidade>
+        const [targetUser, amountStr] = args
+        const amount = parseInt(amountStr)
+        if (isNaN(amount) || amount <= 0) {
+          await this.client.say(channel, `@${username}, valor inválido para coins.`)
+          return
+        }
+        const targetTammer = await Tammer.findOne({ username: targetUser })
+        if (!targetTammer) {
+          await this.client.say(channel, `@${username}, usuário alvo não encontrado.`)
+          return
+        }
+        targetTammer.coins += amount
+        await targetTammer.save()
+        await this.client.say(channel, `@${username} deu ${amount} coins para ${targetUser}.`)
+        return
+      }
+      if (commandName === 'removecoins' && args.length === 2) {
+        // !removecoins <username> <quantidade>
+        const [targetUser, amountStr] = args
+        const amount = parseInt(amountStr)
+        if (isNaN(amount) || amount <= 0) {
+          await this.client.say(channel, `@${username}, valor inválido para coins.`)
+          return
+        }
+        const targetTammer = await Tammer.findOne({ username: targetUser })
+        if (!targetTammer) {
+          await this.client.say(channel, `@${username}, usuário alvo não encontrado.`)
+          return
+        }
+        targetTammer.coins = Math.max(0, targetTammer.coins - amount)
+        await targetTammer.save()
+        await this.client.say(channel, `@${username} removeu ${amount} coins de ${targetUser}.`)
+        return
+      }
+      if (commandName === 'setcoinvalue' && args.length === 1) {
+        // !setcoinvalue <valor>
+        const value = parseInt(args[0])
+        if (isNaN(value) || value < 0) {
+          await this.client.say(channel, `@${username}, valor inválido para coin value.`)
+          return
+        }
+        // Aqui você pode salvar em algum config global, por simplicidade só responde
+        await this.client.say(channel, `@${username}, valor base das coins definido para ${value}. (Ajuste real em config não implementado)`)
         return
       }
 
-      // Registra o uso do comando
-      await command.use()
+      // Comandos já integrados: !treinar, !batalhar, !atacar, !fugir
+      // Delegar para os módulos existentes
+      const { processTrainingCommands } = require('../../src/bot/game_mechanics/training/training_commands')
+      const { processBattleCommands } = require('../../src/bot/game_mechanics/battle/battle_commands')
+      if (await processTrainingCommands(channel, userstate, message, this.client)) return
+      if (await processBattleCommands(channel, userstate, message, this.client)) return
 
-      // TODO: Implementar lógica de execução do comando
-      await this.client.say(channel, `@${userstate.username}, comando ${commandName} executado com sucesso!`)
+      // Se não reconhecido, responde padrão
+      if (command) {
+        await this.client.say(channel, `@${username}, comando ${commandName} executado com sucesso!`)
+      }
     } catch (error) {
       logger.error('Erro ao processar mensagem:', error)
     }

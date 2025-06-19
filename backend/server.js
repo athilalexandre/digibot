@@ -57,6 +57,23 @@ app.get('/api/health', (req, res) => {
   })
 })
 
+// Logs avançados de conexão MongoDB
+mongoose.connection.on('connecting', () => {
+  console.log('[MongoDB] Tentando conectar...')
+})
+mongoose.connection.on('connected', () => {
+  console.log('[MongoDB] Conectado com sucesso!')
+})
+mongoose.connection.on('error', (err) => {
+  console.error('[MongoDB] Erro de conexão:', err)
+})
+mongoose.connection.on('disconnected', () => {
+  console.warn('[MongoDB] Desconectado!')
+})
+mongoose.connection.on('reconnected', () => {
+  console.log('[MongoDB] Reconectado!')
+})
+
 // Error handling
 app.use((err, req, res, next) => {
   logger.error('Erro na aplicação:', err)
@@ -68,7 +85,9 @@ app.use((err, req, res, next) => {
 // Inicialização do servidor
 async function startServer() {
   try {
+    console.log('[MongoDB] URI usada:', config.mongoUri)
     await mongoose.connect(config.mongoUri)
+    console.log('[MongoDB] Conexão inicial estabelecida.')
     logger.info('Conectado ao MongoDB')
 
     // Seed admin automático
