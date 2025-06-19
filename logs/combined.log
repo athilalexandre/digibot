@@ -393,3 +393,17 @@
 {"level":"info","message":"Verificando conexão com MongoDB...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:40"}
 {"level":"warn","message":"MongoDB não está conectado, aguardando evento de conexão...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:39:40"}
 {"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-19 00:44:53"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-19 00:45:31"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-19 00:45:31"}
+{"level":"info","message":"Iniciando processo de start do bot...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:46:18"}
+{"level":"info","message":"Inicializando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:46:18"}
+{"level":"info","message":"Conectando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:46:18"}
+{"level":"info","message":"Conectado ao Twitch em irc-ws.chat.twitch.tv:443","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:46:19"}
+{"level":"info","message":"Bot username: rpgbotdigimon","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:46:19"}
+{"level":"info","message":"Canal configurado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:46:19"}
+{"level":"info","message":"Token OAuth: oauth:62...96lz (tamanho: 36)","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:46:19"}
+{"level":"info","message":"Status de conexão do client: function readyState() {\r\n\tif(this.ws === null) { return 'CLOSED'; }\r\n\treturn [ 'CONNECTING', 'OPEN', 'CLOSING', 'CLOSED' ][this.ws.readyState];\r\n}","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:46:19"}
+{"level":"info","message":"Mensagem de boas-vindas enviada com sucesso.","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:46:19"}
+{"level":"info","message":"Cliente Twitch conectado.","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:46:19"}
+{"level":"info","message":"Verificando conexão com MongoDB...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:46:19"}
+{"level":"warn","message":"MongoDB não está conectado, aguardando evento de conexão...","module":"BotService","service":"digibot","timestamp":"2025-06-19 00:46:19"}
