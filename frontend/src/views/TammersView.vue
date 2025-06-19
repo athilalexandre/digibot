@@ -10,7 +10,7 @@
           <th>Digimon</th>
           <th>Estágio</th>
           <th>Level</th>
-          <th>Coins</th>
+          <th>Bits</th>
           <th>XP</th>
         </tr>
       </thead>
@@ -20,7 +20,7 @@
           <td>{{ tammer.digimonName }}</td>
           <td>{{ tammer.digimonStage }}</td>
           <td>{{ tammer.digimonLevel }}</td>
-          <td>{{ tammer.coins }}</td>
+          <td>{{ tammer.coins || tammer.bits }}</td>
           <td>{{ tammer.digimonXp }}</td>
         </tr>
       </tbody>

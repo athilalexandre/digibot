@@ -6,11 +6,11 @@ const BotConfigSchema = new mongoose.Schema({
     default: "mainConfig",
     unique: true,
   },
-  coinConversionRate: {
+  bitConversionRate: {
     type: Number,
     default: 10,
   },
-  coinValueForEvents: {
+  bitValueForEvents: {
     type: Number,
     default: 1,
   },

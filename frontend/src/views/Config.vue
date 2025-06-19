@@ -59,6 +59,14 @@
             <option value="popout">Popout</option>
           </select>
         </div>
+        <div class="form-group">
+          <label>Taxa de Conversão de Bits (moedas do chat p/ 1 bit)</label>
+          <input v-model="config.coinConversionRate" placeholder="ex: 100" />
+        </div>
+        <div class="form-group">
+          <label>Valor dos Bits em Eventos</label>
+          <input v-model="config.coinValueForEvents" placeholder="ex: 50" />
+        </div>
       </div>
     </div>
 

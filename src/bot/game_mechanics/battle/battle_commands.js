@@ -77,12 +77,12 @@ async function processBattleCommands(target, context, msg, client) { // A funç�
 
     // Lógica de pós-batalha (salvar dados, etc.)
     if (attackResult.outcome === 'victory') {
-      client.say(target, `Você ganhou ${attackResult.xpGained} XP e ${attackResult.coinsGained} moedas!`);
+      client.say(target, `Você ganhou ${attackResult.xpGained} XP e ${attackResult.bitsGained} bits!`);
       try {
         const tammer = await Tammer.findOne({ twitchUserId });
         if (tammer) {
           tammer.digimonXp = (tammer.digimonXp || 0) + attackResult.xpGained;
-          tammer.coins = (tammer.coins || 0) + attackResult.coinsGained;
+          tammer.bits = (tammer.bits || 0) + attackResult.bitsGained;
           // NOTA: O HP do Digimon do Tammer após a vitória precisa ser atualizado.
           // battle_logic.js pode precisar retornar o HP final do jogador
           // ou endBattle() ser chamado aqui após o Tammer ser salvo.

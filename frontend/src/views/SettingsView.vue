@@ -6,12 +6,12 @@
     <p v-if="successMessage" style="color: green;">{{ successMessage }}</p>
     <form @submit.prevent="saveSettings" v-if="config">
       <div>
-        <label for="coinConversionRate">Taxa de Conversão de Coins (moedas do chat p/ 1 coin):</label>
-        <input type="number" id="coinConversionRate" v-model.number="config.coinConversionRate">
+        <label for="bitConversionRate">Taxa de Conversão de Bits (moedas do chat p/ 1 bit):</label>
+        <input type="number" id="bitConversionRate" v-model.number="config.coinConversionRate">
       </div>
       <div>
-        <label for="coinValueForEvents">Valor das Coins em Eventos:</label>
-        <input type="number" id="coinValueForEvents" v-model.number="config.coinValueForEvents">
+        <label for="bitValueForEvents">Valor dos Bits em Eventos:</label>
+        <input type="number" id="bitValueForEvents" v-model.number="config.coinValueForEvents">
       </div>
       <div>
         <label for="xpMultiplier">Multiplicador de XP para Eventos:</label>

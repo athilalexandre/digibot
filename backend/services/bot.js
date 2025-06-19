@@ -2,15 +2,49 @@ const tmi = require('tmi.js')
 const config = require('../config')
 const logger = require('../utils/logger').createModuleLogger('BotService')
 const Command = require('../models/command')
-const Tammer = require('../../src/models/Tammer');
-const DigimonData = require('../../src/models/DigimonData');
+const Tammer = require('../models/tammer');
+const DigimonData = require('../models/digimonData');
 const digimonCatalog = require('../../src/data/digimon_catalog.json');
+const fs = require('fs');
+const path = require('path');
+const coinConfigPath = path.join(__dirname, '../config/coinConfig.json');
+const bossCatalog = require('../../src/data/boss_catalog.js');
+const raidBossCatalog = require('../../src/data/raid_boss_catalog.js');
 
 // Função utilitária para sortear um Digimon inicial
 function getRandomStarterDigimon() {
   // Filtra apenas os Digimon de estágio Child (iniciais)
   const starters = digimonCatalog.filter(d => d.stage === 'Child');
   return starters[Math.floor(Math.random() * starters.length)];
+}
+
+function getCoinValue() {
+  try {
+    const data = fs.readFileSync(coinConfigPath, 'utf-8');
+    return JSON.parse(data).coinValue || 100;
+  } catch {
+    return 100;
+  }
+}
+
+function setCoinValue(value) {
+  fs.writeFileSync(coinConfigPath, JSON.stringify({ coinValue: value }, null, 2));
+}
+
+let activeBoss = null;
+let bossTimeout = null;
+let raidParticipants = [];
+let raidActive = false;
+let duelRequests = {};
+
+function summonRandomBoss() {
+  const idx = Math.floor(Math.random() * bossCatalog.length);
+  return bossCatalog[idx];
+}
+
+function summonRandomRaidBoss() {
+  const idx = Math.floor(Math.random() * raidBossCatalog.length);
+  return raidBossCatalog[idx];
 }
 
 class BotService {
@@ -221,7 +255,7 @@ class BotService {
             velocidade: digimonData.baseStats.velocidade,
             sabedoria: digimonData.baseStats.sabedoria
           },
-          coins: 100
+          bits: 100
         })
         logger.info(`[handleMessage] Tammer criado: ${tammer.username}`)
         await this.client.say(channel, `@${username}, parabéns! Você entrou no DigiBot e recebeu um Digitama: ${digimonData.name}. Use !digimon para ver seu status.`)
@@ -241,15 +275,23 @@ class BotService {
           await this.client.say(channel, `@${username}, seu Digimon não foi encontrado. Contate um admin.`)
           return
         }
-        await this.client.say(channel, `@${username} | Digimon: ${digimon.name} | Nível: ${tammer.digimonLevel} | XP: ${tammer.digimonXp} | HP: ${tammer.digimonHp} | Stage: ${digimon.stage} | Coins: ${tammer.coins}`)
+        await this.client.say(channel, `@${username} | Digimon: ${digimon.name} | Nível: ${tammer.digimonLevel} | XP: ${tammer.digimonXp} | HP: ${tammer.digimonHp} | Stage: ${digimon.stage} | Bits: ${tammer.bits}`)
         return
       }
-      if (commandName === 'givecoins' && args.length === 2) {
-        // !givecoins <username> <quantidade>
+      if ((commandName === 'givebits' || commandName === 'removebits' || commandName === 'setcoinvalue')) {
+        // Checagem de permissão: só mods/admins
+        const isMod = userstate.mod || userstate['user-type'] === 'mod' || userstate.badges?.broadcaster === '1';
+        if (!isMod) {
+          await this.client.say(channel, `@${username}, você não tem permissão para usar este comando.`);
+          return;
+        }
+      }
+      if (commandName === 'givebits' && args.length === 2) {
+        // !givebits <username> <quantidade>
         const [targetUser, amountStr] = args
         const amount = parseInt(amountStr)
         if (isNaN(amount) || amount <= 0) {
-          await this.client.say(channel, `@${username}, valor inválido para coins.`)
+          await this.client.say(channel, `@${username}, valor inválido para bits.`)
           return
         }
         const targetTammer = await Tammer.findOne({ username: targetUser })
@@ -257,17 +299,17 @@ class BotService {
           await this.client.say(channel, `@${username}, usuário alvo não encontrado.`)
           return
         }
-        targetTammer.coins += amount
+        targetTammer.bits += amount
         await targetTammer.save()
-        await this.client.say(channel, `@${username} deu ${amount} coins para ${targetUser}.`)
+        await this.client.say(channel, `@${username} deu ${amount} bits para ${targetUser}.`)
         return
       }
-      if (commandName === 'removecoins' && args.length === 2) {
-        // !removecoins <username> <quantidade>
+      if (commandName === 'removebits' && args.length === 2) {
+        // !removebits <username> <quantidade>
         const [targetUser, amountStr] = args
         const amount = parseInt(amountStr)
         if (isNaN(amount) || amount <= 0) {
-          await this.client.say(channel, `@${username}, valor inválido para coins.`)
+          await this.client.say(channel, `@${username}, valor inválido para bits.`)
           return
         }
         const targetTammer = await Tammer.findOne({ username: targetUser })
@@ -275,9 +317,9 @@ class BotService {
           await this.client.say(channel, `@${username}, usuário alvo não encontrado.`)
           return
         }
-        targetTammer.coins = Math.max(0, targetTammer.coins - amount)
+        targetTammer.bits = Math.max(0, targetTammer.bits - amount)
         await targetTammer.save()
-        await this.client.say(channel, `@${username} removeu ${amount} coins de ${targetUser}.`)
+        await this.client.say(channel, `@${username} removeu ${amount} bits de ${targetUser}.`)
         return
       }
       if (commandName === 'setcoinvalue' && args.length === 1) {
@@ -287,11 +329,270 @@ class BotService {
           await this.client.say(channel, `@${username}, valor inválido para coin value.`)
           return
         }
-        // Aqui você pode salvar em algum config global, por simplicidade só responde
-        await this.client.say(channel, `@${username}, valor base das coins definido para ${value}. (Ajuste real em config não implementado)`)
+        setCoinValue(value)
+        await this.client.say(channel, `@${username}, valor base das bits definido para ${value}.`)
         return
       }
-
+      if (commandName === 'resetgame') {
+        // Checagem de permissão: só mods/admins
+        const isMod = userstate.mod || userstate['user-type'] === 'mod' || userstate.badges?.broadcaster === '1';
+        if (!isMod) {
+          await this.client.say(channel, `@${username}, você não tem permissão para usar este comando.`);
+          return;
+        }
+        await Tammer.deleteMany({});
+        await this.client.say(channel, `@${username}, todos os jogadores foram resetados. O jogo foi reiniciado!`);
+        return;
+      }
+      if (commandName === 'chocar') {
+        const tammer = await Tammer.findOne({ twitchUserId });
+        if (!tammer) {
+          await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`);
+          return;
+        }
+        if (tammer.digimonStage !== 'Digitama') {
+          await this.client.say(channel, `@${username}, seu Digitama ainda não está pronto para chocar! Aguarde mais ${(60 - Math.floor(diffMs/60000))} minutos.`);
+          return;
+        }
+        tammer.digimonStage = 'Baby I';
+        tammer.digimonXp = 0;
+        await tammer.save();
+        await this.client.say(channel, `@${username}, parabéns! Seu Digitama chocou e evoluiu para Baby I!`);
+        return;
+      }
+      if (commandName === 'rank') {
+        const tammer = await Tammer.findOne({ twitchUserId });
+        if (!tammer) {
+          await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`);
+          return;
+        }
+        await this.client.say(channel, `@${username}, seu rank atual é: ${tammer.rank || 'Normal Tamer'}`);
+        return;
+      }
+      if (commandName === 'rankup') {
+        const tammer = await Tammer.findOne({ twitchUserId });
+        if (!tammer) {
+          await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`);
+          return;
+        }
+        const ranks = [
+          'Normal Tamer', 'Bronze Tamer', 'Silver Tamer', 'Gold Tamer', 'Platinum Tamer', 'Elite Tamer', 'Legendary Tamer'
+        ];
+        const xpReqs = [0, 1000, 3000, 6000, 10000, 20000, 40000];
+        const coinReqs = [0, 100, 300, 600, 1000, 2000, 4000];
+        const timeReqs = [0, 1, 3, 6, 12, 24, 48]; // horas desde createdAt
+        const currentRankIdx = ranks.indexOf(tammer.rank || 'Normal Tamer');
+        if (currentRankIdx === -1 || currentRankIdx === ranks.length - 1) {
+          await this.client.say(channel, `@${username}, você já está no rank máximo!`);
+          return;
+        }
+        const nextIdx = currentRankIdx + 1;
+        const now = new Date();
+        const diffHours = (now - (tammer.createdAt || now)) / (1000 * 60 * 60);
+        if (
+          tammer.digimonXp < xpReqs[nextIdx] ||
+          tammer.bits < coinReqs[nextIdx] ||
+          diffHours < timeReqs[nextIdx]
+        ) {
+          await this.client.say(channel, `@${username}, requisitos para subir de rank (${ranks[nextIdx]}): XP: ${xpReqs[nextIdx]}, Bits: ${coinReqs[nextIdx]}, Tempo: ${timeReqs[nextIdx]}h. Seu XP: ${tammer.digimonXp}, Bits: ${tammer.bits}, Tempo: ${Math.floor(diffHours)}h.`);
+          return;
+        }
+        tammer.rank = ranks[nextIdx];
+        tammer.bits -= coinReqs[nextIdx];
+        await tammer.save();
+        await this.client.say(channel, `@${username}, parabéns! Você subiu para o rank ${tammer.rank}!`);
+        return;
+      }
+      if (commandName === 'summonboss') {
+        // Só mod/admin
+        const isMod = userstate.mod || userstate['user-type'] === 'mod' || userstate.badges?.broadcaster === '1';
+        if (!isMod) {
+          await this.client.say(channel, `@${username}, você não tem permissão para usar este comando.`);
+          return;
+        }
+        if (activeBoss) {
+          await this.client.say(channel, `Já existe um boss ativo: ${activeBoss.name}. Use !boss para enfrentá-lo!`);
+          return;
+        }
+        activeBoss = summonRandomBoss();
+        await this.client.say(channel, `⚡ Um Boss selvagem apareceu: ${activeBoss.name} (Stage: ${activeBoss.stage})! Use !boss para desafiar!`);
+        // Boss some após 2 minutos se não for derrotado
+        bossTimeout = setTimeout(() => { activeBoss = null; this.client.say(channel, 'O boss desapareceu!'); }, 2 * 60 * 1000);
+        return;
+      }
+      if (commandName === 'boss') {
+        if (!activeBoss) {
+          await this.client.say(channel, `Não há boss ativo no momento. Aguarde um admin invocar com !summonboss.`);
+          return;
+        }
+        const tammer = await Tammer.findOne({ twitchUserId });
+        if (!tammer) {
+          await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`);
+          return;
+        }
+        if (tammer.digimonStage === 'Digitama') {
+          await this.client.say(channel, `@${username}, seu Digitama não pode batalhar!`);
+          return;
+        }
+        // Lógica simples de batalha de boss
+        const playerPower = tammer.digimonStats.forca + tammer.digimonStats.defesa + tammer.digimonStats.velocidade + tammer.digimonStats.sabedoria;
+        const bossPower = activeBoss.baseStats.forca + activeBoss.baseStats.defesa + activeBoss.baseStats.velocidade + activeBoss.baseStats.sabedoria;
+        if (playerPower >= bossPower) {
+          const xp = 500 + Math.floor(Math.random() * 500);
+          const bits = 200 + Math.floor(Math.random() * 200);
+          tammer.digimonXp += xp;
+          tammer.bits += bits;
+          await tammer.save();
+          await this.client.say(channel, `@${username}, você derrotou o boss ${activeBoss.name}! Ganhou ${xp} XP e ${bits} bits!`);
+          activeBoss = null;
+          if (bossTimeout) clearTimeout(bossTimeout);
+        } else {
+          tammer.digimonHp = Math.max(0, tammer.digimonHp - 20);
+          await tammer.save();
+          await this.client.say(channel, `@${username}, você perdeu para o boss ${activeBoss.name} e perdeu 20 HP!`);
+        }
+        return;
+      }
+      if (commandName === 'raid') {
+        if (raidActive) {
+          await this.client.say(channel, `Uma raid já está em andamento! Aguarde terminar.`);
+          return;
+        }
+        const tammer = await Tammer.findOne({ twitchUserId });
+        if (!tammer) {
+          await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`);
+          return;
+        }
+        if (tammer.digimonStage === 'Digitama') {
+          await this.client.say(channel, `@${username}, seu Digitama não pode participar de raids!`);
+          return;
+        }
+        if (raidParticipants.find(u => u.twitchUserId === twitchUserId)) {
+          await this.client.say(channel, `@${username}, você já está na fila da raid!`);
+          return;
+        }
+        raidParticipants.push({ twitchUserId, username });
+        await this.client.say(channel, `@${username} entrou na raid! (${raidParticipants.length}/3)`);
+        if (raidParticipants.length >= 3) {
+          raidActive = true;
+          const boss = summonRandomRaidBoss();
+          await this.client.say(channel, `🔥 A RAID começou! Boss: ${boss.name} (Stage: ${boss.stage})!`);
+          // Calcular força total dos jogadores
+          const tammers = await Tammer.find({ twitchUserId: { $in: raidParticipants.map(u => u.twitchUserId) } });
+          const totalPlayerDef = tammers.reduce((sum, t) => sum + (t.digimonStats.defesa || 0), 0);
+          const bossPower = boss.baseStats.forca + boss.baseStats.defesa + boss.baseStats.velocidade + boss.baseStats.sabedoria;
+          if (bossPower > totalPlayerDef) {
+            // Raid falhou
+            for (const t of tammers) {
+              t.digimonHp = Math.max(0, Math.floor(t.digimonHp * 0.7));
+              await t.save();
+            }
+            await this.client.say(channel, `A raid falhou! Todos perderam 30% do HP. Se ficou com menos de 3, seu Digimon virou Digitama.`);
+          } else {
+            // Raid vencida
+            for (const t of tammers) {
+              t.digimonXp += 500;
+              t.bits += 200;
+              await t.save();
+            }
+            await this.client.say(channel, `Parabéns! Vocês venceram a raid e ganharam 500 XP e 200 bits cada!`);
+          }
+          raidParticipants = [];
+          raidActive = false;
+        }
+        return;
+      }
+      if (commandName === 'duelo' && args.length === 1) {
+        const targetUser = args[0].toLowerCase();
+        if (targetUser === username.toLowerCase()) {
+          await this.client.say(channel, `@${username}, você não pode duelar contra si mesmo!`);
+          return;
+        }
+        duelRequests[targetUser] = username;
+        await this.client.say(channel, `@${targetUser}, você foi desafiado para um duelo por @${username}! Use !aceitar para aceitar.`);
+        return;
+      }
+      if (commandName === 'aceitar') {
+        const challenger = duelRequests[username.toLowerCase()];
+        if (!challenger) {
+          await this.client.say(channel, `@${username}, você não foi desafiado para um duelo!`);
+          return;
+        }
+        const tammer1 = await Tammer.findOne({ username: challenger });
+        const tammer2 = await Tammer.findOne({ username });
+        if (!tammer1 || !tammer2) {
+          await this.client.say(channel, `@${username}, não foi possível encontrar ambos os jogadores para o duelo.`);
+          delete duelRequests[username.toLowerCase()];
+          return;
+        }
+        if (tammer1.digimonStage === 'Digitama' || tammer2.digimonStage === 'Digitama') {
+          await this.client.say(channel, `@${username}, ambos precisam ter pelo menos Baby I para duelar!`);
+          delete duelRequests[username.toLowerCase()];
+          return;
+        }
+        // Determina quem ataca primeiro (maior velocidade)
+        const first = tammer1.digimonStats.velocidade >= tammer2.digimonStats.velocidade ? tammer1 : tammer2;
+        const second = first === tammer1 ? tammer2 : tammer1;
+        // Ataque 1
+        let damage = first.digimonStats.forca - second.digimonStats.defesa;
+        damage = Math.max(0, damage);
+        let secondHp = second.digimonHp - damage;
+        // Ataque 2
+        let damage2 = second.digimonStats.forca - first.digimonStats.defesa;
+        damage2 = Math.max(0, damage2);
+        let firstHp = first.digimonHp - damage2;
+        // Decide vencedor
+        let winner, loser;
+        if ((secondHp < firstHp) || (secondHp <= 0 && firstHp > 0)) {
+          winner = first;
+          loser = second;
+        } else if ((firstHp < secondHp) || (firstHp <= 0 && secondHp > 0)) {
+          winner = second;
+          loser = first;
+        } else {
+          await this.client.say(channel, `O duelo terminou empatado! Ambos resistiram bravamente.`);
+          delete duelRequests[username.toLowerCase()];
+          return;
+        }
+        // Atualiza HP e bits
+        winner.bits += 5;
+        loser.bits = Math.max(0, loser.bits - 5);
+        if (loser.digimonHp <= 0 || firstHp <= 0 || secondHp <= 0) {
+          loser.digimonStage = 'Digitama';
+        }
+        winner.digimonHp = Math.max(1, firstHp > secondHp ? firstHp : secondHp);
+        loser.digimonHp = Math.max(0, firstHp < secondHp ? firstHp : secondHp);
+        await winner.save();
+        await loser.save();
+        await this.client.say(channel, `@${winner.username} venceu o duelo e ganhou 5 bits! @${loser.username} perdeu 5 bits${loser.digimonStage === 'Digitama' ? ' e voltou a ser Digitama!' : ''}`);
+        delete duelRequests[username.toLowerCase()];
+        return;
+      }
+      if (commandName === 'ficha') {
+        const tammer = await Tammer.findOne({ twitchUserId });
+        if (!tammer) {
+          await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`);
+          return;
+        }
+        await this.client.say(channel, `@${username} | Digimon: ${tammer.digimonName} | Rank: ${tammer.rank} | XP: ${tammer.digimonXp} | Bits: ${tammer.bits} | Estágio: ${tammer.digimonStage} | Status: Força ${tammer.digimonStats.forca}, Defesa ${tammer.digimonStats.defesa}, Velocidade ${tammer.digimonStats.velocidade}, Sabedoria ${tammer.digimonStats.sabedoria}`);
+        return;
+      }
+      if (commandName === 'comprarbits' && args.length === 1) {
+        const amount = parseInt(args[0]);
+        if (isNaN(amount) || amount <= 0) {
+          await this.client.say(channel, `@${username}, valor inválido para compra de bits.`);
+          return;
+        }
+        const tammer = await Tammer.findOne({ twitchUserId });
+        if (!tammer) {
+          await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`);
+          return;
+        }
+        tammer.bits += amount;
+        await tammer.save();
+        await this.client.say(channel, `@${username}, você comprou ${amount} bits! (Simulação)`);
+        return;
+      }
       // Comandos já integrados: !treinar, !batalhar, !atacar, !fugir
       // Delegar para os módulos existentes
       const { processTrainingCommands } = require('../../src/bot/game_mechanics/training/training_commands')

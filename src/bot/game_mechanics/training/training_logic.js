@@ -1,6 +1,18 @@
 const Tammer = require('../../../models/Tammer'); // Caminho ajustado
+const fs = require('fs');
+const path = require('path');
+const coinConfigPath = path.join(__dirname, '../../../../backend/config/coinConfig.json');
 
-const TRAINING_COST = 100; // Custo base do treino centralizado
+function getCoinValue() {
+  try {
+    const data = fs.readFileSync(coinConfigPath, 'utf-8');
+    return JSON.parse(data).coinValue || 100;
+  } catch {
+    return 100;
+  }
+}
+
+const TRAINING_COST = getCoinValue(); // Custo base do treino centralizado
 
 async function handleTrainCommand(twitchUserId, trainType, multiplier, username) {
   const totalCost = TRAINING_COST * multiplier;
@@ -12,12 +24,12 @@ async function handleTrainCommand(twitchUserId, trainType, multiplier, username)
       return `${username}, seu Tammer não foi encontrado. Use !entrar primeiro para se registrar.`;
     }
 
-    if (tammer.coins < totalCost) {
-      return `${username}, você não tem coins suficientes para treinar com multiplicador ${multiplier}. Custo total: ${totalCost} coins. Você tem: ${tammer.coins}.`;
+    if (tammer.bits < totalCost) {
+      return `${username}, você não tem bits suficientes para treinar com multiplicador ${multiplier}. Custo total: ${totalCost} bits. Você tem: ${tammer.bits}.`;
     }
 
-    // Deduzir coins antes de aplicar o treino
-    tammer.coins -= totalCost;
+    // Deduzir bits antes de aplicar o treino
+    tammer.bits -= totalCost;
 
     let statGainedMessage = "";
     let secondaryGainMessage = "";
@@ -49,19 +61,19 @@ async function handleTrainCommand(twitchUserId, trainType, multiplier, username)
         break;
       default:
         // Se chegar aqui, é um erro, pois a validação do tipo de treino deve ser feita
-        // no arquivo de comandos. Reembolsar coins se foram deduzidas indevidamente.
-        tammer.coins += totalCost; // Reembolso
+        // no arquivo de comandos. Reembolsar bits se foram deduzidas indevidamente.
+        tammer.bits += totalCost; // Reembolso
         // Não precisa salvar aqui, pois a mensagem de erro impede o save mais abaixo.
         return `${username}, tipo de treino inválido: '${trainType}'. Use forca, def, vel, ou sab.`;
     }
 
     await tammer.save();
-    message = `${username} treinou ${trainType} (x${multiplier})! Novos status -> ${statGainedMessage}, ${secondaryGainMessage}. ${totalCost} coins gastas. Coins restantes: ${tammer.coins}.`;
+    message = `${username} treinou ${trainType} (x${multiplier})! Novos status -> ${statGainedMessage}, ${secondaryGainMessage}. ${totalCost} bits gastas. Bits restantes: ${tammer.bits}.`;
     return message;
 
   } catch (error) {
     console.error(`Erro em handleTrainCommand para ${username} (ID: ${twitchUserId}), tipo: ${trainType}:`, error);
-    // Não reembolsar coins aqui, pois o erro pode ter ocorrido após o save ou em outra lógica.
+    // Não reembolsar bits aqui, pois o erro pode ter ocorrido após o save ou em outra lógica.
     // Idealmente, transações seriam usadas, mas para este escopo é complexo.
     return `${username}, ocorreu um erro ao processar seu treino. O administrador foi notificado.`;
   }

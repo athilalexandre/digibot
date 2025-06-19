@@ -27,7 +27,7 @@ const TammerSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  coins: {
+  bits: {
     type: Number,
     default: 0,
   },
@@ -43,7 +43,7 @@ const TammerSchema = new mongoose.Schema({
     type: Number,
     default: 10,
   },
-  digimonMp: { // Novo campo
+  digimonMp: {
     type: Number,
     default: 10,
   },
@@ -62,6 +62,10 @@ const TammerSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  digitamaReadyAt: {
+    type: Date,
+    default: null,
+  },
 });
 
-module.exports = mongoose.model('Tammer', TammerSchema);
+module.exports = mongoose.model('Tammer', TammerSchema); 

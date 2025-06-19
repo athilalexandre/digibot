@@ -29,7 +29,7 @@ const commandSchema = new mongoose.Schema({
     default: 0,
     min: 0
   },
-  cost: {
+  bitCost: {
     type: Number,
     default: 0,
     min: 0

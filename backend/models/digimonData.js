@@ -17,7 +17,7 @@ const DigimonDataSchema = new mongoose.Schema({
   },
   attribute: {
     type: String,
-    enum: ['Fogo', 'Planta', 'Água', 'Elétrico', 'Vento', 'Terra', 'Luz', 'Escuridão', 'Neutro', null], // Certifique-se que 'Neutro' está exatamente assim
+    enum: ['Fogo', 'Planta', 'Água', 'Elétrico', 'Vento', 'Terra', 'Luz', 'Escuridão', 'Neutro', null],
     default: 'Neutro'
   },
   baseStats: {
@@ -32,9 +32,9 @@ const DigimonDataSchema = new mongoose.Schema({
     default: [],
   },
   evolvesFrom: {
-    type: mongoose.Schema.Types.Mixed, // Tipo alterado
+    type: mongoose.Schema.Types.Mixed,
     default: null,
   }
 });
 
-module.exports = mongoose.model('DigimonData', DigimonDataSchema);
+module.exports = mongoose.model('DigimonData', DigimonDataSchema); 

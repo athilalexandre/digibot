@@ -83,56 +83,128 @@ export default {
       commands: [
         {
           name: '!entrar',
-          description: 'Inicia sua jornada no DigiBot e recebe um Digitama',
+          description: 'Inicia sua jornada no DigiBot e recebe um Digitama inicial.',
           usage: '!entrar',
           examples: ['!entrar'],
           modOnly: false
         },
         {
           name: '!digimon',
-          description: 'Mostra o status atual do seu Digimon',
+          description: 'Mostra o status atual do seu Digimon.',
           usage: '!digimon',
           examples: ['!digimon'],
           modOnly: false
         },
         {
           name: '!treinar',
-          description: 'Treina o status do Digimon',
-          usage: '!treinar <for|def|vel|sab> [multiplicador]',
-          examples: [
-            '!treinar for',
-            '!treinar def 5',
-            '!treinar vel 10',
-            '!treinar sab 15'
-          ],
+          description: 'Treina o status do Digimon (força, defesa, velocidade ou sabedoria).',
+          usage: '!treinar <for|def|vel|sab> [quantidade]',
+          examples: ['!treinar for', '!treinar def 5'],
           modOnly: false
         },
         {
           name: '!batalhar',
-          description: 'Inicia uma batalha contra um Digimon selvagem',
+          description: 'Inicia uma batalha contra um Digimon selvagem.',
           usage: '!batalhar',
           examples: ['!batalhar'],
           modOnly: false
         },
         {
-          name: '!givecoins',
-          description: 'Dá coins para um jogador',
-          usage: '!givecoins <username> <quantidade>',
-          examples: ['!givecoins jogador 100'],
+          name: '!chocar',
+          description: 'Choca seu Digitama quando estiver pronto para evoluir.',
+          usage: '!chocar',
+          examples: ['!chocar'],
+          modOnly: false
+        },
+        {
+          name: '!rank',
+          description: 'Mostra seu rank de Tammer.',
+          usage: '!rank',
+          examples: ['!rank'],
+          modOnly: false
+        },
+        {
+          name: '!rankup',
+          description: 'Tenta subir seu rank de Tammer, se cumprir os requisitos.',
+          usage: '!rankup',
+          examples: ['!rankup'],
+          modOnly: false
+        },
+        {
+          name: '!summonboss',
+          description: 'Invoca um Boss para todos enfrentarem (apenas mods/admins).',
+          usage: '!summonboss',
+          examples: ['!summonboss'],
           modOnly: true
         },
         {
-          name: '!removecoins',
-          description: 'Remove coins de um jogador',
-          usage: '!removecoins <username> <quantidade>',
-          examples: ['!removecoins jogador 50'],
+          name: '!boss',
+          description: 'Enfrenta o Boss ativo, se houver.',
+          usage: '!boss',
+          examples: ['!boss'],
+          modOnly: false
+        },
+        {
+          name: '!raid',
+          description: 'Entra na fila para uma Raid coletiva (mínimo 3 jogadores).',
+          usage: '!raid',
+          examples: ['!raid'],
+          modOnly: false
+        },
+        {
+          name: '!duelo',
+          description: 'Desafia outro jogador para um duelo. Ex: !duelo nick',
+          usage: '!duelo <nick>',
+          examples: ['!duelo 0baratta'],
+          modOnly: false
+        },
+        {
+          name: '!aceitar',
+          description: 'Aceita um desafio de duelo recebido.',
+          usage: '!aceitar',
+          examples: ['!aceitar'],
+          modOnly: false
+        },
+        {
+          name: '!ficha',
+          description: 'Mostra sua ficha completa de Tammer e Digimon.',
+          usage: '!ficha',
+          examples: ['!ficha'],
+          modOnly: false
+        },
+        {
+          name: '!comprarbits',
+          description: 'Simula a compra de bits (moeda do jogo).',
+          usage: '!comprarbits <quantidade>',
+          examples: ['!comprarbits 100'],
+          modOnly: false
+        },
+        {
+          name: '!resetgame',
+          description: 'Reseta o progresso de todos os jogadores (apenas mods/admins).',
+          usage: '!resetgame',
+          examples: ['!resetgame'],
           modOnly: true
         },
         {
-          name: '!setcoinvalue',
-          description: 'Define o valor base das coins para eventos',
-          usage: '!setcoinvalue <valor>',
-          examples: ['!setcoinvalue 50'],
+          name: '!givebits',
+          description: 'Dá bits para um jogador (apenas mods/admins).',
+          usage: '!givebits <username> <quantidade>',
+          examples: ['!givebits jogador 100'],
+          modOnly: true
+        },
+        {
+          name: '!removebits',
+          description: 'Remove bits de um jogador (apenas mods/admins).',
+          usage: '!removebits <username> <quantidade>',
+          examples: ['!removebits jogador 50'],
+          modOnly: true
+        },
+        {
+          name: '!setbitvalue',
+          description: 'Define o valor base dos bits para eventos (apenas mods/admins).',
+          usage: '!setbitvalue <valor>',
+          examples: ['!setbitvalue 50'],
           modOnly: true
         }
       ]

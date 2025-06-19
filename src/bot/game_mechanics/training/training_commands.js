@@ -33,7 +33,7 @@ async function processTrainingCommands(target, context, msg, client) {
       }
     } else {
       // Se o tipo de treino for inválido ou não fornecido
-      client.say(target, `${context.username}, uso correto: !treinar <for|def|vel|sab> [multiplicador]. Multiplicadores válidos: 1, 5, 10, 15. Custo base: ${TRAINING_COST} coins.`);
+      client.say(target, `${context.username}, uso correto: !treinar <for|def|vel|sab> [multiplicador]. Multiplicadores válidos: 1, 5, 10, 15. Custo base: ${TRAINING_COST} bits.`);
     }
     return true; // Indica que o comando foi processado (ou tentado)
   }

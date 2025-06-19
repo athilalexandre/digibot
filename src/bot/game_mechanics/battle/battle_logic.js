@@ -1,3 +1,7 @@
+const fs = require('fs');
+const path = require('path');
+const coinConfigPath = path.join(__dirname, '../../../../backend/config/coinConfig.json');
+
 // Multiplicadores de Dano
 const TYPE_ADVANTAGE_MULTIPLIER = 1.5;
 const TYPE_DISADVANTAGE_MULTIPLIER = 0.75;
@@ -13,9 +17,19 @@ function calculateXpReward(enemyStage) {
   return rewards[enemyStage] || 10;
 }
 
+function getCoinValue() {
+  try {
+    const data = fs.readFileSync(coinConfigPath, 'utf-8');
+    return JSON.parse(data).coinValue || 5;
+  } catch {
+    return 5;
+  }
+}
+
 function calculateCoinReward(enemyStage) {
-  const rewards = { "Digitama": 2, "Baby I": 5, "Baby II": 8, "Rookie": 10, "Champion": 20, "Ultimate": 40, "Mega": 75 };
-  return rewards[enemyStage] || 5;
+  const base = getCoinValue();
+  const rewards = { "Digitama": base, "Baby I": base+3, "Baby II": base+6, "Rookie": base+8, "Champion": base+15, "Ultimate": base+35, "Mega": base+60 };
+  return rewards[enemyStage] || base;
 }
 
 // --- Lógica de Vantagem de Tipo (Vacina > Virus > Data > Vacina) ---

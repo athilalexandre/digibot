@@ -1,4 +1,4 @@
-// Configura a conexão com MongoDB
+// Utilitário para conectar ao MongoDB APENAS para scripts isolados. NÃO use este arquivo junto com o backend rodando.
 const mongoose = require('mongoose');
 const config = require('../config');
 
@@ -13,3 +13,4 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+// NÃO execute connectDB() automaticamente aqui!

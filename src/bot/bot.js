@@ -140,7 +140,7 @@ async function onMessageHandler(target, context, msg, self) {
       if (tammer.digimonHp && tammer.digimonStats) {
         statusMessage += ` HP: ${tammer.digimonHp}, MP: ${tammer.digimonMp}, Força: ${tammer.digimonStats.forca}, Defesa: ${tammer.digimonStats.defesa}, Velocidade: ${tammer.digimonStats.velocidade}, Sabedoria: ${tammer.digimonStats.sabedoria}.`;
       }
-      statusMessage += ` Coins: ${tammer.coins}.`;
+      statusMessage += ` Bits: ${tammer.bits}.`;
       client.say(target, statusMessage);
     } catch (error) {
       console.error("Erro no comando !meudigimon:", error);
@@ -153,12 +153,12 @@ async function onMessageHandler(target, context, msg, self) {
   const isModOrBroadcaster = context.mod || username.toLowerCase() === config.twitchChannel.substring(1).toLowerCase();
 
 
-  if (command === '!givecoins' && isModOrBroadcaster) {
+  if (command === '!givebits' && isModOrBroadcaster) {
     const targetUsername = args[0]; // Pode ser case-sensitive dependendo da sua lógica de busca
     const amount = parseInt(args[1]);
 
     if (!targetUsername || isNaN(amount) || amount <= 0) {
-      return client.say(target, "Uso: !givecoins <username> <quantidade>");
+      return client.say(target, "Uso: !givebits <username> <quantidade>");
     }
 
     try {
@@ -167,27 +167,27 @@ async function onMessageHandler(target, context, msg, self) {
       // Por enquanto, assumindo case-sensitive como estava.
       const targetTammer = await Tammer.findOneAndUpdate(
         { username: targetUsername }, // Busca pelo username exato
-        { $inc: { coins: amount } },
+        { $inc: { bits: amount } },
         { new: true, runValidators: true }
       );
       if (targetTammer) {
-        client.say(target, `${amount} coins foram dadas para ${targetUsername}. Saldo atual: ${targetTammer.coins} coins.`);
+        client.say(target, `${amount} bits foram dadas para ${targetUsername}. Saldo atual: ${targetTammer.bits} bits.`);
       } else {
         client.say(target, `Usuário ${targetUsername} não encontrado.`);
       }
     } catch (error) {
-      console.error("Erro no comando !givecoins:", error);
-      client.say(target, "Ocorreu um erro ao dar coins.");
+      console.error("Erro no comando !givebits:", error);
+      client.say(target, "Ocorreu um erro ao dar bits.");
     }
     return; // Comando tratado
   }
 
-  if (command === '!removecoins' && isModOrBroadcaster) {
+  if (command === '!removebits' && isModOrBroadcaster) {
     const targetUsername = args[0];
     const amount = parseInt(args[1]);
 
     if (!targetUsername || isNaN(amount) || amount <= 0) {
-      return client.say(target, "Uso: !removecoins <username> <quantidade>");
+      return client.say(target, "Uso: !removebits <username> <quantidade>");
     }
 
     try {
@@ -196,35 +196,35 @@ async function onMessageHandler(target, context, msg, self) {
         return client.say(target, `Usuário ${targetUsername} não encontrado.`);
       }
 
-      targetTammer.coins -= amount;
-      if (targetTammer.coins < 0) targetTammer.coins = 0; // Evita coins negativas, opcional
+      targetTammer.bits -= amount;
+      if (targetTammer.bits < 0) targetTammer.bits = 0; // Evita bits negativas, opcional
       await targetTammer.save();
 
-      client.say(target, `${amount} coins foram removidas de ${targetUsername}. Saldo atual: ${targetTammer.coins} coins.`);
+      client.say(target, `${amount} bits foram removidas de ${targetUsername}. Saldo atual: ${targetTammer.bits} bits.`);
     } catch (error) {
-      console.error("Erro no comando !removecoins:", error);
-      client.say(target, "Ocorreu um erro ao remover coins.");
+      console.error("Erro no comando !removebits:", error);
+      client.say(target, "Ocorreu um erro ao remover bits.");
     }
     return; // Comando tratado
   }
 
-  if (command === '!setcoinvalue' && isModOrBroadcaster) {
+  if (command === '!setbitvalue' && isModOrBroadcaster) {
     const value = parseInt(args[0]);
 
     if (isNaN(value) || value <= 0) {
-      return client.say(target, "Uso: !setcoinvalue <valor> (valor deve ser um número positivo)");
+      return client.say(target, "Uso: !setbitvalue <valor> (valor deve ser um número positivo)");
     }
 
     try {
       const updatedConfig = await BotConfig.findOneAndUpdate(
         { configKey: 'mainConfig' },
-        { coinValueForEvents: value },
+        { bitValueForEvents: value },
         { new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true }
       );
-      client.say(target, `O valor da coin para eventos foi definido para ${updatedConfig.coinValueForEvents}.`);
+      client.say(target, `O valor da bit para eventos foi definido para ${updatedConfig.bitValueForEvents}.`);
     } catch (error) {
-      console.error("Erro no comando !setcoinvalue:", error);
-      client.say(target, "Ocorreu um erro ao definir o valor da coin.");
+      console.error("Erro no comando !setbitvalue:", error);
+      client.say(target, "Ocorreu um erro ao definir o valor da bit.");
     }
     return; // Comando tratado
   }
