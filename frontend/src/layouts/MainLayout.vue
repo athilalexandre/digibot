@@ -3,24 +3,13 @@
     <div class="layout">
       <nav class="sidebar">
         <div class="logo">
-          <img src="@/assets/img/logo.svg" alt="DigiBot Logo" class="logo">
-          <h1>DigiBot</h1>
+          <h1 class="digibot-gradient">DigiBot</h1>
         </div>
         
         <div class="nav-links">
           <router-link to="/" class="nav-link" exact>
             <i class="fas fa-home"></i>
             <span>Dashboard</span>
-          </router-link>
-          
-          <router-link to="/chat" class="nav-link">
-            <i class="fas fa-comments"></i>
-            <span>Chat</span>
-          </router-link>
-          
-          <router-link to="/commands" class="nav-link">
-            <i class="fas fa-terminal"></i>
-            <span>Comandos</span>
           </router-link>
           
           <router-link to="/config" class="nav-link">
@@ -102,15 +91,18 @@ export default {
   align-items: center;
   gap: 1rem;
   margin-bottom: 2rem;
+  justify-content: center;
 }
-.logo img {
-  width: 40px;
-  height: 40px;
-}
-.logo h1 {
-  font-size: 1.5rem;
+.logo h1, .digibot-gradient {
+  font-size: 1.8rem;
   margin: 0;
-  color: var(--primary-color);
+  background: linear-gradient(90deg, #ffe259 0%, #ffa751 40%, #ff6a00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 .nav-links {
   display: flex;

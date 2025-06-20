@@ -71,15 +71,7 @@
     </div>
 
     <!-- Chat da Twitch (se ativado) -->
-    <div v-if="config.showChat" class="twitch-chat">
-      <iframe
-        :src="`https://www.twitch.tv/embed/${config.twitchChannel}/chat?parent=${window.location.hostname}`"
-        frameborder="0"
-        scrolling="no"
-        height="500"
-        width="350"
-      ></iframe>
-    </div>
+    <!-- Removido o chat da Twitch -->
 
     <!-- Botões de Ação -->
     <div class="action-buttons">
@@ -321,38 +313,76 @@ export default {
   margin-top: 2rem;
 }
 
-.save-button,
-.start-button {
-  padding: 1rem 2rem;
+.save-button {
+  background: linear-gradient(90deg, #2196f3 0%, #00c6fb 100%);
+  color: #fff;
+  font-weight: bold;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+  margin-top: 1rem;
+  box-shadow: 0 2px 8px 0 rgba(33,150,243,0.10);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  font-size: 1rem;
-  transition: all 0.3s ease;
 }
 
-.save-button {
-  background-color: var(--secondary-color);
-  color: white;
+.save-button:hover {
+  background: linear-gradient(90deg, #00c6fb 0%, #2196f3 100%);
+  color: #232428;
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px 0 rgba(33,150,243,0.18);
 }
 
 .start-button {
-  background-color: var(--primary-color);
-  color: white;
+  background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+  margin-top: 1rem;
+  box-shadow: 0 2px 8px 0 rgba(67,233,123,0.10);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-.start-button:disabled {
-  background-color: var(--border-color);
-  cursor: not-allowed;
+.start-button:hover {
+  background: linear-gradient(90deg, #38f9d7 0%, #43e97b 100%);
+  color: #232428;
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px 0 rgba(67,233,123,0.18);
 }
 
-.save-button:hover,
-.start-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.test-button, .action-buttons button:not(.save-button):not(.start-button) {
+  background: linear-gradient(90deg, #7b2ff2 0%, #f357a8 100%);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+  margin-top: 1rem;
+  box-shadow: 0 2px 8px 0 rgba(123,47,242,0.10);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.test-button:hover, .action-buttons button:not(.save-button):not(.start-button):hover {
+  background: linear-gradient(90deg, #f357a8 0%, #ffe259 100%);
+  color: #232428;
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px 0 rgba(243,87,168,0.18);
 }
 
 .status-message {

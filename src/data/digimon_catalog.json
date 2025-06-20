@@ -1,22 +1,61 @@
 [
   {
-    "name": "Koromon",
-    "stage": "Child",
+    "name": "Botamon",
+    "stage": "Baby I",
     "type": null,
     "attribute": "Neutro",
-    "baseStats": {
-      "hp": 10,
-      "forca": 1,
-      "defesa": 1,
-      "velocidade": 1,
-      "sabedoria": 1
-    },
+    "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 },
+    "evolvesTo": ["Koromon"],
+    "evolvesFrom": null
+  },
+  {
+    "name": "Koromon",
+    "stage": "Baby II",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 },
     "evolvesTo": ["Agumon"],
     "evolvesFrom": ["Botamon"]
   },
   {
-    "name": "Tsunomon",
+    "name": "Agumon",
     "stage": "Child",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 },
+    "evolvesTo": ["Greymon", "Tyrannomon", "Meramon"],
+    "evolvesFrom": ["Koromon"]
+  },
+  {
+    "name": "Greymon",
+    "stage": "Adult",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 },
+    "evolvesTo": ["MetalGreymon", "SkullGreymon"],
+    "evolvesFrom": ["Agumon"]
+  },
+  {
+    "name": "MetalGreymon",
+    "stage": "Perfect",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 },
+    "evolvesTo": ["WarGreymon"],
+    "evolvesFrom": ["Greymon"]
+  },
+  {
+    "name": "WarGreymon",
+    "stage": "Ultimate",
+    "type": null,
+    "attribute": "Neutro",
+    "baseStats": { "hp": 10, "forca": 1, "defesa": 1, "velocidade": 1, "sabedoria": 1 },
+    "evolvesTo": ["Omnimon", "WarGreymon X"],
+    "evolvesFrom": ["MetalGreymon"]
+  },
+  {
+    "name": "Tsunomon",
+    "stage": "Baby II",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -31,7 +70,7 @@
   },
   {
     "name": "Yokomon",
-    "stage": "Child",
+    "stage": "Baby II",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -46,7 +85,7 @@
   },
   {
     "name": "Motimon",
-    "stage": "Child",
+    "stage": "Baby II",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -61,7 +100,7 @@
   },
   {
     "name": "Tanemon",
-    "stage": "Child",
+    "stage": "Baby II",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -76,7 +115,7 @@
   },
   {
     "name": "Bukamon",
-    "stage": "Child",
+    "stage": "Baby II",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -91,7 +130,7 @@
   },
   {
     "name": "Tokomon",
-    "stage": "Child",
+    "stage": "Baby II",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -103,21 +142,6 @@
     },
     "evolvesTo": ["Patamon"],
     "evolvesFrom": ["Poyomon"]
-  },
-  {
-    "name": "Agumon",
-    "stage": "Child",
-    "type": null,
-    "attribute": "Neutro",
-    "baseStats": {
-      "hp": 10,
-      "forca": 1,
-      "defesa": 1,
-      "velocidade": 1,
-      "sabedoria": 1
-    },
-    "evolvesTo": ["Greymon", "Tyrannomon", "Meramon"],
-    "evolvesFrom": ["Koromon"]
   },
   {
     "name": "Gabumon",
@@ -225,36 +249,6 @@
     "evolvesFrom": ["Tentomon", "Kunemon"]
   },
   {
-    "name": "Greymon",
-    "stage": "Adult",
-    "type": null,
-    "attribute": "Neutro",
-    "baseStats": {
-      "hp": 10,
-      "forca": 1,
-      "defesa": 1,
-      "velocidade": 1,
-      "sabedoria": 1
-    },
-    "evolvesTo": ["MetalGreymon", "SkullGreymon"],
-    "evolvesFrom": ["Agumon"]
-  },
-  {
-    "name": "Shellmon",
-    "stage": "Child",
-    "type": null,
-    "attribute": "Neutro",
-    "baseStats": {
-      "hp": 10,
-      "forca": 1,
-      "defesa": 1,
-      "velocidade": 1,
-      "sabedoria": 1
-    },
-    "evolvesTo": null,
-    "evolvesFrom": null
-  },
-  {
     "name": "Garurumon",
     "stage": "Adult",
     "type": null,
@@ -271,7 +265,7 @@
   },
   {
     "name": "Seadramon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -286,7 +280,7 @@
   },
   {
     "name": "Monochromon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -316,7 +310,7 @@
   },
   {
     "name": "Meramon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -346,7 +340,7 @@
   },
   {
     "name": "Andromon",
-    "stage": "Child",
+    "stage": "Perfect",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -376,7 +370,7 @@
   },
   {
     "name": "Numemon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -391,7 +385,7 @@
   },
   {
     "name": "Monzaemon",
-    "stage": "Child",
+    "stage": "Perfect",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -421,7 +415,7 @@
   },
   {
     "name": "Unimon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -436,7 +430,7 @@
   },
   {
     "name": "Leomon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -451,7 +445,7 @@
   },
   {
     "name": "Ogremon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -466,7 +460,7 @@
   },
   {
     "name": "Devimon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -481,7 +475,7 @@
   },
   {
     "name": "Frigimon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -496,7 +490,7 @@
   },
   {
     "name": "Mojyamon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -511,7 +505,7 @@
   },
   {
     "name": "Sukamon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -526,7 +520,7 @@
   },
   {
     "name": "Centarumon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -541,7 +535,7 @@
   },
   {
     "name": "Bakemon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -586,7 +580,7 @@
   },
   {
     "name": "Punimon",
-    "stage": "Child",
+    "stage": "Baby I",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -601,7 +595,7 @@
   },
   {
     "name": "Poyomon",
-    "stage": "Child",
+    "stage": "Baby I",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -616,7 +610,7 @@
   },
   {
     "name": "Yuramon",
-    "stage": "Child",
+    "stage": "Baby I",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -631,7 +625,7 @@
   },
   {
     "name": "Angemon",
-    "stage": "Adult",
+    "stage": "Perfect",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -646,7 +640,7 @@
   },
   {
     "name": "Whamon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -661,7 +655,7 @@
   },
   {
     "name": "Drimogemon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -676,7 +670,7 @@
   },
   {
     "name": "Etemon",
-    "stage": "Child",
+    "stage": "Perfect",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -706,7 +700,7 @@
   },
   {
     "name": "Pagumon",
-    "stage": "Child",
+    "stage": "Baby II",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -721,7 +715,7 @@
   },
   {
     "name": "SkullGreymon",
-    "stage": "Child",
+    "stage": "Perfect",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -736,7 +730,7 @@
   },
   {
     "name": "Kokatorimon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -751,7 +745,7 @@
   },
   {
     "name": "Tyrannomon",
-    "stage": "Child",
+    "stage": "Adult",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -766,7 +760,7 @@
   },
   {
     "name": "Piximon",
-    "stage": "Child",
+    "stage": "Perfect",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {
@@ -781,7 +775,7 @@
   },
   {
     "name": "Datamon",
-    "stage": "Child",
+    "stage": "Perfect",
     "type": null,
     "attribute": "Neutro",
     "baseStats": {

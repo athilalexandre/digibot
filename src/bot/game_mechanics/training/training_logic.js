@@ -1,4 +1,4 @@
-const Tammer = require('../../../models/Tammer'); // Caminho ajustado
+const Tammer = require('../../../../backend/models/tammer');
 const fs = require('fs');
 const path = require('path');
 const coinConfigPath = path.join(__dirname, '../../../../backend/config/coinConfig.json');

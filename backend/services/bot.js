@@ -593,6 +593,23 @@ class BotService {
         await this.client.say(channel, `@${username}, você comprou ${amount} bits! (Simulação)`);
         return;
       }
+      if (commandName === 'corrigirEstagios') {
+        // Só mod/admin
+        const isMod = userstate.mod || userstate['user-type'] === 'mod' || userstate.badges?.broadcaster === '1';
+        if (!isMod) {
+          await this.client.say(channel, `@${username}, você não tem permissão para usar este comando.`);
+          return;
+        }
+        const { exec } = require('child_process');
+        exec('node backend/scripts/fixDigimonStages.js', (err, stdout, stderr) => {
+          if (err) {
+            this.client.say(channel, `Erro ao corrigir estágios: ${err.message}`);
+            return;
+          }
+          this.client.say(channel, `Estágios corrigidos!`);
+        });
+        return;
+      }
       // Comandos já integrados: !treinar, !batalhar, !atacar, !fugir
       // Delegar para os módulos existentes
       const { processTrainingCommands } = require('../../src/bot/game_mechanics/training/training_commands')

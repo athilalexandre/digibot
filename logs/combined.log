@@ -619,3 +619,110 @@
 {"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-19 18:44:18"}
 {"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-19 18:56:59"}
 {"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-19 18:56:59"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-20 08:10:49"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-20 08:10:49"}
+{"level":"info","message":"Iniciando processo de start do bot...","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:41"}
+{"level":"info","message":"Inicializando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:41"}
+{"level":"info","message":"Conectando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:41"}
+{"level":"info","message":"Conectado ao Twitch em irc-ws.chat.twitch.tv:443","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:42"}
+{"level":"info","message":"Bot username: rpgbotdigimon","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:42"}
+{"level":"info","message":"Canal configurado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:42"}
+{"level":"info","message":"Token OAuth: oauth:62...96lz (tamanho: 36)","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:42"}
+{"level":"info","message":"Status de conexão do client: function readyState() {\r\n\tif(this.ws === null) { return 'CLOSED'; }\r\n\treturn [ 'CONNECTING', 'OPEN', 'CLOSING', 'CLOSED' ][this.ws.readyState];\r\n}","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:42"}
+{"level":"info","message":"Mensagem de boas-vindas enviada com sucesso.","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:42"}
+{"level":"info","message":"Cliente Twitch conectado.","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:42"}
+{"level":"info","message":"Verificando conexão com MongoDB...","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:42"}
+{"level":"info","message":"Carregados 3 comandos","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:42"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !digimon","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:54"}
+{"level":"info","message":"[handleMessage] Comando detectado: digimon | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:54"}
+{"level":"info","message":"[handleMessage] Executando !digimon para 0baratta (30238069)","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:54"}
+{"level":"info","message":"[handleMessage] Tammer encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:54"}
+{"level":"info","message":"[handleMessage] DigimonData encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:11:54"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !digimon","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:13:47"}
+{"level":"info","message":"[handleMessage] Comando detectado: digimon | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:13:47"}
+{"level":"info","message":"[handleMessage] Executando !digimon para 0baratta (30238069)","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:13:47"}
+{"level":"info","message":"[handleMessage] Tammer encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:13:47"}
+{"level":"info","message":"[handleMessage] DigimonData encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:13:47"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !digimon","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:24:15"}
+{"level":"info","message":"[handleMessage] Comando detectado: digimon | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:24:15"}
+{"level":"info","message":"[handleMessage] Executando !digimon para 0baratta (30238069)","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:24:15"}
+{"level":"info","message":"[handleMessage] Tammer encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:24:15"}
+{"level":"info","message":"[handleMessage] DigimonData encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:24:15"}
+{"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-20 08:29:53"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-20 08:34:04"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-20 08:34:04"}
+{"level":"info","message":"Iniciando processo de start do bot...","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:44:16"}
+{"level":"info","message":"Inicializando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:44:16"}
+{"level":"info","message":"Conectando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:44:16"}
+{"level":"info","message":"Conectado ao Twitch em irc-ws.chat.twitch.tv:443","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:44:17"}
+{"level":"info","message":"Bot username: rpgbotdigimon","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:44:17"}
+{"level":"info","message":"Canal configurado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:44:17"}
+{"level":"info","message":"Token OAuth: oauth:62...96lz (tamanho: 36)","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:44:17"}
+{"level":"info","message":"Status de conexão do client: function readyState() {\r\n\tif(this.ws === null) { return 'CLOSED'; }\r\n\treturn [ 'CONNECTING', 'OPEN', 'CLOSING', 'CLOSED' ][this.ws.readyState];\r\n}","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:44:17"}
+{"level":"info","message":"Mensagem de boas-vindas enviada com sucesso.","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:44:17"}
+{"level":"info","message":"Cliente Twitch conectado.","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:44:17"}
+{"level":"info","message":"Verificando conexão com MongoDB...","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:44:17"}
+{"level":"info","message":"Carregados 3 comandos","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:44:17"}
+{"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-20 08:44:46"}
+{"level":"info","message":"Servidor encerrado","module":"Server","service":"digibot","timestamp":"2025-06-20 08:44:46"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-20 08:44:54"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-20 08:44:54"}
+{"level":"info","message":"Iniciando processo de start do bot...","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:13"}
+{"level":"info","message":"Inicializando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:13"}
+{"level":"info","message":"Conectando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:13"}
+{"level":"info","message":"Conectado ao Twitch em irc-ws.chat.twitch.tv:443","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:14"}
+{"level":"info","message":"Bot username: rpgbotdigimon","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:14"}
+{"level":"info","message":"Canal configurado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:14"}
+{"level":"info","message":"Token OAuth: oauth:62...96lz (tamanho: 36)","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:14"}
+{"level":"info","message":"Status de conexão do client: function readyState() {\r\n\tif(this.ws === null) { return 'CLOSED'; }\r\n\treturn [ 'CONNECTING', 'OPEN', 'CLOSING', 'CLOSED' ][this.ws.readyState];\r\n}","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:14"}
+{"level":"info","message":"Mensagem de boas-vindas enviada com sucesso.","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:14"}
+{"level":"info","message":"Cliente Twitch conectado.","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:14"}
+{"level":"info","message":"Verificando conexão com MongoDB...","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:14"}
+{"level":"info","message":"Carregados 3 comandos","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:14"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !entrar","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:35"}
+{"level":"info","message":"[handleMessage] Comando detectado: entrar | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:35"}
+{"level":"info","message":"[handleMessage] Executando !entrar para 0baratta (30238069)","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:35"}
+{"level":"info","message":"[handleMessage] Tammer encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 08:45:35"}
+{"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-20 08:46:23"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-20 09:14:32"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-20 09:14:32"}
+{"level":"info","message":"Iniciando processo de start do bot...","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:04"}
+{"level":"info","message":"Inicializando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:04"}
+{"level":"info","message":"Conectando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:04"}
+{"level":"info","message":"Conectado ao Twitch em irc-ws.chat.twitch.tv:443","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:05"}
+{"level":"info","message":"Bot username: rpgbotdigimon","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:05"}
+{"level":"info","message":"Canal configurado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:05"}
+{"level":"info","message":"Token OAuth: oauth:62...96lz (tamanho: 36)","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:05"}
+{"level":"info","message":"Status de conexão do client: function readyState() {\r\n\tif(this.ws === null) { return 'CLOSED'; }\r\n\treturn [ 'CONNECTING', 'OPEN', 'CLOSING', 'CLOSED' ][this.ws.readyState];\r\n}","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:05"}
+{"level":"info","message":"Mensagem de boas-vindas enviada com sucesso.","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:05"}
+{"level":"info","message":"Cliente Twitch conectado.","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:05"}
+{"level":"info","message":"Verificando conexão com MongoDB...","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:05"}
+{"level":"info","message":"Carregados 3 comandos","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:05"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !treinar for 5","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:24"}
+{"level":"info","message":"[handleMessage] Comando detectado: treinar | Args: for 5 | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:24"}
+{"code":"MODULE_NOT_FOUND","level":"error","message":"Erro ao processar mensagem: Cannot find module '../../../models/Tammer'\nRequire stack:\n- C:\\Users\\athil\\digibot\\src\\bot\\game_mechanics\\training\\training_logic.js\n- C:\\Users\\athil\\digibot\\src\\bot\\game_mechanics\\training\\training_commands.js\n- C:\\Users\\athil\\digibot\\backend\\services\\bot.js\n- C:\\Users\\athil\\digibot\\backend\\server.js","module":"BotService","requireStack":["C:\\Users\\athil\\digibot\\src\\bot\\game_mechanics\\training\\training_logic.js","C:\\Users\\athil\\digibot\\src\\bot\\game_mechanics\\training\\training_commands.js","C:\\Users\\athil\\digibot\\backend\\services\\bot.js","C:\\Users\\athil\\digibot\\backend\\server.js"],"service":"digibot","stack":"Error: Cannot find module '../../../models/Tammer'\nRequire stack:\n- C:\\Users\\athil\\digibot\\src\\bot\\game_mechanics\\training\\training_logic.js\n- C:\\Users\\athil\\digibot\\src\\bot\\game_mechanics\\training\\training_commands.js\n- C:\\Users\\athil\\digibot\\backend\\services\\bot.js\n- C:\\Users\\athil\\digibot\\backend\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\athil\\digibot\\src\\bot\\game_mechanics\\training\\training_logic.js:1:16)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)","timestamp":"2025-06-20 09:15:24"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !digimon","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:38"}
+{"level":"info","message":"[handleMessage] Comando detectado: digimon | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:38"}
+{"level":"info","message":"[handleMessage] Executando !digimon para 0baratta (30238069)","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:38"}
+{"level":"info","message":"[handleMessage] Tammer encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:38"}
+{"level":"info","message":"[handleMessage] DigimonData encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:38"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !rank","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:49"}
+{"level":"info","message":"[handleMessage] Comando detectado: rank | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:15:49"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !ficha","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:16:05"}
+{"level":"info","message":"[handleMessage] Comando detectado: ficha | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:16:05"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !resetgame","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:16:26"}
+{"level":"info","message":"[handleMessage] Comando detectado: resetgame | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:16:26"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !entrar","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:16:30"}
+{"level":"info","message":"[handleMessage] Comando detectado: entrar | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:16:30"}
+{"level":"info","message":"[handleMessage] Executando !entrar para 0baratta (30238069)","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:16:30"}
+{"level":"info","message":"[handleMessage] Tammer encontrado: false","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:16:30"}
+{"level":"info","message":"[handleMessage] Starter sorteado: Tyrannomon","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:16:30"}
+{"level":"info","message":"[handleMessage] DigimonData encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:16:30"}
+{"level":"info","message":"[handleMessage] Tammer criado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:16:30"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !ficha","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:16:41"}
+{"level":"info","message":"[handleMessage] Comando detectado: ficha | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 09:16:41"}
+{"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-20 09:35:38"}
+{"level":"info","message":"Servidor encerrado","module":"Server","service":"digibot","timestamp":"2025-06-20 09:35:38"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-20 09:35:41"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-20 09:35:41"}
+{"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-20 10:07:36"}
