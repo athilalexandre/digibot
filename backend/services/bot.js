@@ -232,33 +232,22 @@ class BotService {
           await this.client.say(channel, `@${username}, você já iniciou sua jornada! Use !digimon para ver seu status.`)
           return
         }
-        const starter = getRandomStarterDigimon()
-        logger.info(`[handleMessage] Starter sorteado: ${starter.name}`)
-        let digimonData = await DigimonData.findOne({ name: starter.name })
-        logger.info(`[handleMessage] DigimonData encontrado: ${!!digimonData}`)
-        if (!digimonData) {
-          digimonData = await DigimonData.create(starter)
-          logger.info(`[handleMessage] DigimonData criado: ${digimonData.name}`)
-        }
+        const digitamaStats = { forca: 1, defesa: 1, velocidade: 1, sabedoria: 1 };
         tammer = await Tammer.create({
           twitchUserId,
           username,
-          currentDigimonId: digimonData._id,
-          digimonName: digimonData.name,
-          digimonStage: digimonData.stage,
+          currentDigimonId: null,
+          digimonName: 'Digitama',
+          digimonStage: 'Digitama',
           digimonLevel: 1,
-          digimonHp: digimonData.baseStats.hp,
+          digimonXp: 0,
+          digimonHp: 10,
           digimonMp: 10,
-          digimonStats: {
-            forca: digimonData.baseStats.forca,
-            defesa: digimonData.baseStats.defesa,
-            velocidade: digimonData.baseStats.velocidade,
-            sabedoria: digimonData.baseStats.sabedoria
-          },
+          digimonStats: digitamaStats,
           bits: 100
         })
         logger.info(`[handleMessage] Tammer criado: ${tammer.username}`)
-        await this.client.say(channel, `@${username}, parabéns! Você entrou no DigiBot e recebeu um Digitama: ${digimonData.name}. Use !digimon para ver seu status.`)
+        await this.client.say(channel, `@${username}, parabéns! Você entrou no DigiBot e recebeu um Digitama. Ganhe XP para chocá-lo usando !chocar quando estiver pronto!`)
         return
       }
       if (commandName === 'digimon') {
@@ -350,14 +339,29 @@ class BotService {
           await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`);
           return;
         }
+        const xpToHatch = 100;
         if (tammer.digimonStage !== 'Digitama') {
-          await this.client.say(channel, `@${username}, seu Digitama ainda não está pronto para chocar! Aguarde mais ${(60 - Math.floor(diffMs/60000))} minutos.`);
+          await this.client.say(channel, `@${username}, seu Digitama já chocou!`);
           return;
         }
-        tammer.digimonStage = 'Baby I';
+        if (tammer.digimonXp < xpToHatch) {
+          await this.client.say(channel, `@${username}, seu Digitama precisa de mais XP para chocar! (XP atual: ${tammer.digimonXp}/${xpToHatch})`);
+          return;
+        }
+        const starter = getRandomStarterDigimon();
+        let digimonData = await DigimonData.findOne({ name: starter.name });
+        if (!digimonData) {
+          digimonData = await DigimonData.create(starter);
+        }
+        tammer.currentDigimonId = digimonData._id;
+        tammer.digimonName = digimonData.name;
+        tammer.digimonStage = digimonData.stage;
+        tammer.digimonLevel = 1;
+        tammer.digimonHp = digimonData.baseStats.hp;
+        tammer.digimonStats = { ...digimonData.baseStats };
         tammer.digimonXp = 0;
         await tammer.save();
-        await this.client.say(channel, `@${username}, parabéns! Seu Digitama chocou e evoluiu para Baby I!`);
+        await this.client.say(channel, `@${username}, parabéns! Seu Digitama chocou e virou ${digimonData.name} (${digimonData.stage})!`);
         return;
       }
       if (commandName === 'rank') {
@@ -574,7 +578,11 @@ class BotService {
           await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`);
           return;
         }
-        await this.client.say(channel, `@${username} | Digimon: ${tammer.digimonName} | Rank: ${tammer.rank} | XP: ${tammer.digimonXp} | Bits: ${tammer.bits} | Estágio: ${tammer.digimonStage} | Status: Força ${tammer.digimonStats.forca}, Defesa ${tammer.digimonStats.defesa}, Velocidade ${tammer.digimonStats.velocidade}, Sabedoria ${tammer.digimonStats.sabedoria}`);
+        if (tammer.digimonStage === 'Digitama') {
+          await this.client.say(channel, `@${username} | Digimon: Digitama | Estágio: Digitama | XP: ${tammer.digimonXp} | Bits: ${tammer.bits}`);
+          return;
+        }
+        await this.client.say(channel, `@${username} | Digimon: ${tammer.digimonName} | Estágio: ${tammer.digimonStage} | Nível: ${tammer.digimonLevel} | XP: ${tammer.digimonXp} | Bits: ${tammer.bits} | Status: Força ${tammer.digimonStats.forca}, Defesa ${tammer.digimonStats.defesa}, Velocidade ${tammer.digimonStats.velocidade}, Sabedoria ${tammer.digimonStats.sabedoria}`);
         return;
       }
       if (commandName === 'comprarbits' && args.length === 1) {

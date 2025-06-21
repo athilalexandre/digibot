@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const DigimonData = require('../models/digimonData');
+const Tammer = require('../models/tammer');
+const digimonCatalog = require('../../src/data/digimon_catalog.json');
 
 // Mapeamento oficial dos estágios (exemplo expandido, adicione todos que quiser)
 const stageMap = {
@@ -58,5 +60,19 @@ async function fixStages() {
   console.log(`Corrigidos ${count} Digimons!`);
   process.exit(0);
 }
+
+// Corrigir todos os Tammers com Piximon
+const fixPiximon = async () => {
+  // Corrige Piximon
+  const piximon = digimonCatalog.find(d => d.name === 'Piximon');
+  await Tammer.updateMany({ digimonName: 'Piximon' }, { digimonStage: piximon.stage });
+  // Corrige todos os Tammers cujo digimonStage não bate com o catálogo
+  for (const digimon of digimonCatalog) {
+    await Tammer.updateMany({ digimonName: digimon.name, digimonStage: { $ne: digimon.stage } }, { digimonStage: digimon.stage });
+  }
+  console.log('Correção de estágios finalizada!');
+};
+
+fixPiximon().then(() => process.exit());
 
 fixStages(); 

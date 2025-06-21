@@ -726,3 +726,68 @@
 {"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-20 09:35:41"}
 {"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-20 09:35:41"}
 {"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-06-20 10:07:36"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-06-20 12:17:15"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-06-20 12:17:15"}
+{"level":"info","message":"Iniciando processo de start do bot...","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:22"}
+{"level":"info","message":"Inicializando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:22"}
+{"level":"info","message":"Conectando cliente Twitch...","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:22"}
+{"level":"info","message":"Conectado ao Twitch em irc-ws.chat.twitch.tv:443","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:23"}
+{"level":"info","message":"Bot username: rpgbotdigimon","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:23"}
+{"level":"info","message":"Canal configurado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:23"}
+{"level":"info","message":"Token OAuth: oauth:62...96lz (tamanho: 36)","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:23"}
+{"level":"info","message":"Status de conexão do client: function readyState() {\r\n\tif(this.ws === null) { return 'CLOSED'; }\r\n\treturn [ 'CONNECTING', 'OPEN', 'CLOSING', 'CLOSED' ][this.ws.readyState];\r\n}","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:23"}
+{"level":"info","message":"Mensagem de boas-vindas enviada com sucesso.","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:23"}
+{"level":"info","message":"Cliente Twitch conectado.","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:23"}
+{"level":"info","message":"Verificando conexão com MongoDB...","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:23"}
+{"level":"info","message":"Carregados 3 comandos","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:23"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !ficha","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:47"}
+{"level":"info","message":"[handleMessage] Comando detectado: ficha | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:22:47"}
+{"level":"info","message":"Iniciando processo de start do bot...","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:55:05"}
+{"level":"warn","message":"Tentativa de iniciar bot, mas ele já está conectado.","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:55:05"}
+{"level":"error","message":"Erro ao iniciar bot (detalhado): Bot já está conectado","module":"BotService","service":"digibot","stack":"Error: Bot já está conectado\n    at BotService.start (C:\\Users\\athil\\digibot\\backend\\services\\bot.js:120:15)\n    at exports.startBot (C:\\Users\\athil\\digibot\\backend\\controllers\\bot.js:13:37)\n    at Layer.handle [as handle_request] (C:\\Users\\athil\\digibot\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\athil\\digibot\\backend\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\athil\\digibot\\backend\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\athil\\digibot\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\athil\\digibot\\backend\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\athil\\digibot\\backend\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\athil\\digibot\\backend\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (C:\\Users\\athil\\digibot\\backend\\node_modules\\express\\lib\\router\\index.js:175:3)","timestamp":"2025-06-20 12:55:05"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !ficha","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:55:24"}
+{"level":"info","message":"[handleMessage] Comando detectado: ficha | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 12:55:24"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !ficha","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:28"}
+{"level":"info","message":"[handleMessage] Comando detectado: ficha | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:28"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !resetgame","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:38"}
+{"level":"info","message":"[handleMessage] Comando detectado: resetgame | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:38"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !ficha","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:42"}
+{"level":"info","message":"[handleMessage] Comando detectado: ficha | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:42"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !entrar","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:45"}
+{"level":"info","message":"[handleMessage] Comando detectado: entrar | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:45"}
+{"level":"info","message":"[handleMessage] Executando !entrar para 0baratta (30238069)","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:45"}
+{"level":"info","message":"[handleMessage] Tammer encontrado: false","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:45"}
+{"level":"info","message":"[handleMessage] Starter sorteado: Hagurumon","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:45"}
+{"level":"info","message":"[handleMessage] DigimonData encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:45"}
+{"level":"info","message":"[handleMessage] Tammer criado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:45"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !ficha","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:59"}
+{"level":"info","message":"[handleMessage] Comando detectado: ficha | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:00:59"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !resetgame","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:01:17"}
+{"level":"info","message":"[handleMessage] Comando detectado: resetgame | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:01:17"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !entrar","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:01:20"}
+{"level":"info","message":"[handleMessage] Comando detectado: entrar | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:01:20"}
+{"level":"info","message":"[handleMessage] Executando !entrar para 0baratta (30238069)","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:01:20"}
+{"level":"info","message":"[handleMessage] Tammer encontrado: false","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:01:20"}
+{"level":"info","message":"[handleMessage] Starter sorteado: Kokuwamon","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:01:20"}
+{"level":"info","message":"[handleMessage] DigimonData encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:01:20"}
+{"level":"info","message":"[handleMessage] Tammer criado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:01:20"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !resetgame","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:54:39"}
+{"level":"info","message":"[handleMessage] Comando detectado: resetgame | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:54:39"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !entrar","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:54:44"}
+{"level":"info","message":"[handleMessage] Comando detectado: entrar | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:54:44"}
+{"level":"info","message":"[handleMessage] Executando !entrar para 0baratta (30238069)","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:54:44"}
+{"level":"info","message":"[handleMessage] Tammer encontrado: false","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:54:44"}
+{"level":"info","message":"[handleMessage] Starter sorteado: Piximon","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:54:44"}
+{"level":"info","message":"[handleMessage] DigimonData encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:54:44"}
+{"level":"info","message":"[handleMessage] Tammer criado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:54:44"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !ficha","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:55:05"}
+{"level":"info","message":"[handleMessage] Comando detectado: ficha | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 13:55:05"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !resetgame","module":"BotService","service":"digibot","timestamp":"2025-06-20 15:07:49"}
+{"level":"info","message":"[handleMessage] Comando detectado: resetgame | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 15:07:49"}
+{"level":"info","message":"[handleMessage] Mensagem recebida | Canal: #0baratta | Usuário: 0baratta | Mensagem: !entrar","module":"BotService","service":"digibot","timestamp":"2025-06-20 15:07:52"}
+{"level":"info","message":"[handleMessage] Comando detectado: entrar | Args:  | Usuário: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 15:07:52"}
+{"level":"info","message":"[handleMessage] Executando !entrar para 0baratta (30238069)","module":"BotService","service":"digibot","timestamp":"2025-06-20 15:07:52"}
+{"level":"info","message":"[handleMessage] Tammer encontrado: false","module":"BotService","service":"digibot","timestamp":"2025-06-20 15:07:52"}
+{"level":"info","message":"[handleMessage] Starter sorteado: Submarimon","module":"BotService","service":"digibot","timestamp":"2025-06-20 15:07:52"}
+{"level":"info","message":"[handleMessage] DigimonData encontrado: true","module":"BotService","service":"digibot","timestamp":"2025-06-20 15:07:52"}
+{"level":"info","message":"[handleMessage] Tammer criado: 0baratta","module":"BotService","service":"digibot","timestamp":"2025-06-20 15:07:52"}
