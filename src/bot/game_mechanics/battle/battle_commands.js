@@ -1,18 +1,21 @@
-const Tammer = require('../../../models/Tammer');
-const DigimonData = require('../../../models/DigimonData'); // Para buscar atributo do Digimon do Tammer
-const { startBattle, getActiveBattle, handlePlayerAttack, endBattle } = require('./battle_logic.js'); // Adicionado handlePlayerAttack e endBattle
+const Tammer = require('../../../../backend/models/tammer');
+const DigimonData = require('../../../../backend/models/digimonData');
+const { startBattle, getActiveBattle, handlePlayerAttack, endBattle, startPvpChallenge, acceptPvpChallenge, startPvpBattle } = require('./battle_logic.js');
 const { getAnnouncedEnemy, clearAnnouncedEnemy } = require('../../wild_digimon_spawner.js');
+const gameConfig = require('../../../config/gameConfig');
+const { calculateBattleXp } = require('../../xpSystem');
 
-async function processBattleCommands(target, context, msg, client) { // A função começa aqui
+async function processBattleCommands(target, context, msg, client) {
   const message = msg.trim().toLowerCase();
-  const commandParts = message.split(' '); // Divide a mensagem em partes
+  const commandParts = message.split(' ');
   const command = commandParts[0];
-  // const args = commandParts.slice(1); // Se precisar de argumentos para !atacar, etc.
+  const args = commandParts.slice(1);
 
   const twitchUserId = context['user-id'];
   const username = context.username;
 
-  if (command === '!batalhar') {
+  // Comando !batalha (PvE)
+  if (command === '!batalha') {
     if (getActiveBattle()) {
       client.say(target, `${username}, uma batalha já está em andamento! Aguarde o término ou o próximo Digimon selvagem.`);
       return true;
@@ -30,17 +33,41 @@ async function processBattleCommands(target, context, msg, client) { // A funç�
         client.say(target, `${username}, você precisa entrar no jogo primeiro com !entrar para poder batalhar.`);
         return true;
       }
+
       if (tammer.digimonStage === "Digitama") {
         client.say(target, `${username}, seu Digitama ainda não pode batalhar! Cuide bem dele para que evolua.`);
         return true;
       }
+
       if (tammer.digimonHp <= 0) {
-         client.say(target, `${username}, seu Digimon ${tammer.digimonName} está com 0 HP e não pode batalhar. Recupere-o! (Função de recuperar HP em desenvolvimento)`);
+         client.say(target, `${username}, seu Digimon ${tammer.digimonName} está com 0 HP e não pode batalhar. Use um Restaurador de Energia!`);
          return true;
       }
-      // Outras verificações, como um cooldown pós-batalha para o Tammer, podem ser adicionadas aqui.
 
-      let tammerAttribute = 'Neutro'; // Default
+      // Verifica se tem arma equipada
+      if (!tammer.hasWeapon()) {
+        client.say(target, `${username}, você precisa equipar uma arma antes de batalhar! Use !loja para conseguir uma.`);
+        return true;
+      }
+
+      // Verifica se tem pontos de batalha
+      if (!tammer.hasBattlePoints(1)) {
+        client.say(target, `${username}, você não tem Pontos de Batalha suficientes. Aguarde a regeneração ou use um Restaurador de Energia.`);
+        return true;
+      }
+
+      // Verifica se tem bits suficientes
+      if (!tammer.hasBits(gameConfig.battle.pveCost)) {
+        client.say(target, `${username}, você não tem bits suficientes para batalhar. Custo: ${gameConfig.battle.pveCost} bits.`);
+        return true;
+      }
+
+      // Consome recursos
+      tammer.consumeBits(gameConfig.battle.pveCost);
+      tammer.consumeBattlePoints(1);
+      await tammer.save();
+
+      let tammerAttribute = 'Neutro';
       if (tammer.currentDigimonId) {
         const tammerDigimonInfo = await DigimonData.findById(tammer.currentDigimonId);
         if (tammerDigimonInfo && tammerDigimonInfo.attribute) {
@@ -48,76 +75,157 @@ async function processBattleCommands(target, context, msg, client) { // A funç�
         }
       }
 
-      // enemyToBattle já é um objeto DigimonData completo vindo do getAnnouncedEnemy()
       const battleStarted = startBattle(tammer, enemyToBattle, tammerAttribute);
 
       if (battleStarted) {
-        clearAnnouncedEnemy(); // Remove o Digimon da lista de anunciados e limpa seu timeout de desaparecimento
-        const currentBattle = getActiveBattle(); // Pega os dados formatados pela battle_logic
-        // Mensagem inicial da batalha
+        clearAnnouncedEnemy();
+        const currentBattle = getActiveBattle();
         client.say(target, `⚔️ ${username} com seu ${currentBattle.tammerDigimon.name} (HP: ${currentBattle.tammerDigimon.hp}) enfrenta ${currentBattle.enemyDigimon.name} (HP: ${currentBattle.enemyDigimon.hp})! Que comece a batalha!`);
         client.say(target, `É seu turno, ${username}! Use !atacar para um ataque básico.`);
       } else {
-        // Esta mensagem pode ocorrer se startBattle retornar false (outra batalha começou entre getActiveBattle e startBattle)
         client.say(target, `${username}, não foi possível iniciar a batalha contra ${enemyToBattle.name} no momento. Tente novamente se ele ainda estiver por perto.`);
       }
     } catch (error) {
-      console.error(`Erro no comando !batalhar para ${username} (ID: ${twitchUserId}):`, error);
+      console.error(`Erro no comando !batalha para ${username} (ID: ${twitchUserId}):`, error);
       client.say(target, "Ocorreu um erro técnico ao tentar iniciar a batalha. O administrador foi notificado.");
     }
-    return true; // Comando !batalhar tratado
+    return true;
   }
+
+  // Comando !batalha @usuário (PvP)
+  else if (command === '!batalha' && args.length > 0) {
+    const targetUsername = args[0].replace('@', '');
+    
+    if (targetUsername.toLowerCase() === username.toLowerCase()) {
+      client.say(target, `${username}, você não pode batalhar contra si mesmo!`);
+      return true;
+    }
+
+    try {
+      const challenger = await Tammer.findOne({ twitchUserId });
+      if (!challenger) {
+        client.say(target, `${username}, você precisa entrar no jogo primeiro com !entrar.`);
+        return true;
+      }
+
+      const targetTammer = await Tammer.findOne({ username: targetUsername });
+      if (!targetTammer) {
+        client.say(target, `${username}, usuário ${targetUsername} não encontrado ou não está no jogo.`);
+        return true;
+      }
+
+      // Verifica se ambos estão no mesmo estágio ou próximos
+      if (challenger.digimonStage === "Digitama" || targetTammer.digimonStage === "Digitama") {
+        client.say(target, `${username}, Digimons no estágio Digitama não podem participar de batalhas PvP.`);
+        return true;
+      }
+
+      const result = startPvpChallenge(challenger, targetTammer);
+      
+      if (result.success) {
+        client.say(target, result.message);
+      } else {
+        client.say(target, result.message);
+      }
+    } catch (error) {
+      console.error(`Erro no comando !batalha PvP para ${username}:`, error);
+      client.say(target, `${username}, ocorreu um erro ao processar o desafio.`);
+    }
+    return true;
+  }
+
+  // Comando !aceitar (PvP)
+  else if (command === '!aceitar' && args.length > 0) {
+    const challengerUsername = args[0];
+    
+    try {
+      const accepter = await Tammer.findOne({ twitchUserId });
+      if (!accepter) {
+        client.say(target, `${username}, você precisa entrar no jogo primeiro com !entrar.`);
+        return true;
+      }
+
+      const result = acceptPvpChallenge(accepter, challengerUsername);
+      
+      if (result.success) {
+        // Processa a batalha PvP
+        const battleResult = startPvpBattle(result.challenger, result.target);
+        
+        if (battleResult.success) {
+          // Atualiza os dados dos jogadores
+          const winner = battleResult.winner;
+          const loser = battleResult.loser;
+          
+          winner.digimonXp += battleResult.winnerXp;
+          winner.addBits(battleResult.bitsTransfer);
+          winner.consumeBattlePoints(1);
+          winner.consumeBits(gameConfig.battle.pvpCost);
+          
+          loser.digimonXp += battleResult.loserXp;
+          loser.consumeBits(battleResult.bitsTransfer);
+          loser.consumeBattlePoints(1);
+          loser.consumeBits(gameConfig.battle.pvpCost);
+          
+          await winner.save();
+          await loser.save();
+          
+          client.say(target, battleResult.message);
+          client.say(target, `🏆 ${winner.username} ganhou ${battleResult.winnerXp} XP e ${battleResult.bitsTransfer} bits! 🥈 ${loser.username} ganhou ${battleResult.loserXp} XP.`);
+        } else {
+          client.say(target, `${username}, ocorreu um erro ao processar a batalha PvP.`);
+        }
+      } else {
+        client.say(target, result.message);
+      }
+    } catch (error) {
+      console.error(`Erro no comando !aceitar para ${username}:`, error);
+      client.say(target, `${username}, ocorreu um erro ao aceitar o desafio.`);
+    }
+    return true;
+  }
+
+  // Comando !atacar
   else if (command === '!atacar') {
     const attackResult = handlePlayerAttack(twitchUserId);
 
-    // Envia a mensagem principal do resultado do ataque/turno
     if (attackResult.message) {
       client.say(target, `${username}, ${attackResult.message}`);
     }
 
-    // Lógica de pós-batalha (salvar dados, etc.)
     if (attackResult.outcome === 'victory') {
-      client.say(target, `Você ganhou ${attackResult.xpGained} XP e ${attackResult.bitsGained} bits!`);
-      try {
-        const tammer = await Tammer.findOne({ twitchUserId });
-        if (tammer) {
-          tammer.digimonXp = (tammer.digimonXp || 0) + attackResult.xpGained;
-          tammer.bits = (tammer.bits || 0) + attackResult.bitsGained;
-          // NOTA: O HP do Digimon do Tammer após a vitória precisa ser atualizado.
-          // battle_logic.js pode precisar retornar o HP final do jogador
-          // ou endBattle() ser chamado aqui após o Tammer ser salvo.
-          // Exemplo: tammer.digimonHp = attackResult.tammerFinalHpOnVictory; (se retornado)
-          await tammer.save();
-        }
-      } catch (error) {
-        console.error(`Erro ao atualizar Tammer ${username} após vitória:`, error);
-        client.say(target, "Ocorreu um erro ao salvar seu progresso após a batalha.");
+      // Calcula XP baseado na nova lógica
+      const tammer = await Tammer.findOne({ twitchUserId });
+      if (tammer) {
+        const xpGained = calculateBattleXp(tammer);
+        const bitsGained = Math.floor(Math.random() * (gameConfig.battle.pveBitsMax - gameConfig.battle.pveBitsMin + 1)) + gameConfig.battle.pveBitsMin;
+        
+        tammer.digimonXp += xpGained;
+        tammer.addBits(bitsGained);
+        await tammer.save();
+        
+        client.say(target, `🎉 ${username} venceu! Ganhou ${xpGained} XP e ${bitsGained} bits!`);
       }
     } else if (attackResult.outcome === 'defeat') {
-      // A mensagem de derrota já foi enviada por attackResult.message
       try {
         const tammer = await Tammer.findOne({ twitchUserId });
         if (tammer) {
-          tammer.digimonHp = attackResult.tammerFinalHp; // Geralmente 0
+          tammer.digimonHp = 0;
           await tammer.save();
         }
       } catch (error) {
         console.error(`Erro ao atualizar Tammer ${username} após derrota:`, error);
       }
     }
-    // Para 'continue', 'no_battle', 'not_your_battle', 'not_your_turn', a mensagem já foi enviada.
     return true;
   }
+
+  // Comando !fugir
   else if (command === '!fugir') {
     const currentBattle = getActiveBattle();
     if (currentBattle && currentBattle.isActive && currentBattle.tammerUserId === twitchUserId) {
-      // TODO: Implementar handleFleeAttempt(userId) em battle_logic.js para uma lógica de fuga mais robusta (chance de sucesso/falha).
-      // Por agora, uma fuga simples que sempre funciona:
-      const enemyName = currentBattle.enemyDigimon.name; // Salva o nome antes de endBattle
-      if (endBattle()) { // endBattle() limpa currentBattle
-        client.say(target, `${username}, você conseguiu fugir da batalha contra ${enemyName}!`);
+      if (endBattle('flee')) {
+        client.say(target, `${username}, você conseguiu fugir da batalha!`);
       } else {
-        // Este caso não deveria ocorrer se currentBattle era válido
         client.say(target, `${username}, não foi possível processar a fuga no momento.`);
       }
     } else if (currentBattle && currentBattle.isActive && currentBattle.tammerUserId !== twitchUserId) {
@@ -128,8 +236,7 @@ async function processBattleCommands(target, context, msg, client) { // A funç�
     return true;
   }
 
-
-  return false; // Não é um comando de batalha que este módulo processa
+  return false;
 }
 
 module.exports = {

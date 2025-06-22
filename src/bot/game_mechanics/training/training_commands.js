@@ -1,4 +1,4 @@
-const { handleTrainCommand, TRAINING_COST } = require('./training_logic.js');
+const { handleTrainCommand } = require('./training_logic.js');
 
 async function processTrainingCommands(target, context, msg, client) {
   const message = msg.trim().toLowerCase();
@@ -33,7 +33,7 @@ async function processTrainingCommands(target, context, msg, client) {
       }
     } else {
       // Se o tipo de treino for inválido ou não fornecido
-      client.say(target, `${context.username}, uso correto: !treinar <for|def|vel|sab> [multiplicador]. Multiplicadores válidos: 1, 5, 10, 15. Custo base: ${TRAINING_COST} bits.`);
+      client.say(target, `${context.username}, uso correto: !treinar <for|def|vel|sab> [multiplicador]. Multiplicadores válidos: 1, 5, 10, 15. Custo varia por estágio.`);
     }
     return true; // Indica que o comando foi processado (ou tentado)
   }

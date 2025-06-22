@@ -27,6 +27,37 @@
       </div>
     </div>
 
+    <!-- Ações de Admin -->
+    <div class="admin-actions-container">
+      <h2>Ações de Administrador</h2>
+      <div class="actions-grid">
+        <div class="action-card">
+          <h3>Corrigir Estágios</h3>
+          <p>Varre o banco de dados e corrige o estágio de qualquer Digimon que esteja inconsistente com seu XP atual.</p>
+          <button 
+            @click="confirmAndRun('corrigirEstagios')" 
+            :disabled="isLoading.corrigirEstagios"
+          >
+            <span v-if="isLoading.corrigirEstagios">Executando...</span>
+            <span v-else>Executar Correção</span>
+          </button>
+        </div>
+        <div class="action-card">
+          <h3>Resetar Jogo</h3>
+          <p>Reseta TODO o progresso de TODOS os jogadores para o estado inicial (Digitama, 0 XP, etc). Use com extremo cuidado.</p>
+          <button 
+            @click="confirmAndRun('resetGame')" 
+            class="danger"
+            :disabled="isLoading.resetGame"
+          >
+            <span v-if="isLoading.resetGame">Resetando...</span>
+            <span v-else>Executar Reset</span>
+          </button>
+        </div>
+      </div>
+    </div>
+     <div v-if="actionMessage" :class="['action-toast', actionStatus]">{{ actionMessage }}</div>
+
     <!-- Lista de Comandos -->
     <div class="commands-list-container">
       <div class="search-bar">
@@ -91,6 +122,12 @@ export default {
       channel: 'seu_canal',
       window: window,
       searchQuery: '',
+      actionMessage: null,
+      actionStatus: 'success',
+      isLoading: {
+        corrigirEstagios: false,
+        resetGame: false
+      },
       commands: [
         {
           name: '!entrar',
@@ -184,20 +221,6 @@ export default {
           modOnly: false
         },
         {
-          name: '!comprarbits',
-          description: 'Simula a compra de bits (moeda do jogo).',
-          usage: '!comprarbits <quantidade>',
-          examples: ['!comprarbits 100'],
-          modOnly: false
-        },
-        {
-          name: '!resetgame',
-          description: 'Reseta o progresso de todos os jogadores (apenas mods/admins).',
-          usage: '!resetgame',
-          examples: ['!resetgame'],
-          modOnly: true
-        },
-        {
           name: '!givebits',
           description: 'Dá bits para um jogador (apenas mods/admins).',
           usage: '!givebits <username> <quantidade>',
@@ -212,17 +235,17 @@ export default {
           modOnly: true
         },
         {
-          name: '!setbitvalue',
-          description: 'Define o valor base dos bits para eventos (apenas mods/admins).',
-          usage: '!setbitvalue <valor>',
-          examples: ['!setbitvalue 50'],
+          name: '!givexp',
+          description: 'Dá XP para um jogador (apenas mods/admins).',
+          usage: '!givexp <username> <quantidade>',
+          examples: ['!givexp jogador 1000'],
           modOnly: true
         },
         {
-          name: '!corrigirEstagios',
-          description: 'Corrige automaticamente os estágios de todos os Digimons no banco de dados para os valores oficiais. (Apenas admin/mod)',
-          usage: '!corrigirEstagios',
-          examples: ['!corrigirEstagios'],
+          name: '!removexp',
+          description: 'Remove XP de um jogador (apenas mods/admins).',
+          usage: '!removexp <username> <quantidade>',
+          examples: ['!removexp jogador 500'],
           modOnly: true
         }
       ],
@@ -249,19 +272,58 @@ export default {
         this.activeUsers = res.data.activeUsers ?? 0
         this.statusError = null
       } catch (err) {
-        this.statusError = 'Não foi possível obter o status do sistema.'
-        this.botStatus = false
-        this.mongodbStatus = false
-        this.activeUsers = 0
+        this.statusError = 'Erro ao buscar o status. O backend está online?'
+        console.error(err)
       }
     },
+    async confirmAndRun(action) {
+      const messages = {
+        corrigirEstagios: {
+          confirm: 'Você tem certeza que deseja corrigir os estágios de TODOS os Digimons? Esta ação irá verificar cada jogador e ajustar o estágio baseado no XP atual.',
+          success: 'Estágios corrigidos com sucesso!',
+          error: 'Erro ao corrigir os estágios.'
+        },
+        resetGame: {
+          confirm: 'ATENÇÃO! Você tem certeza que deseja RESETAR O JOGO? Todo o progresso de todos os jogadores será perdido permanentemente. Esta ação não pode ser desfeita.',
+          success: 'Jogo resetado com sucesso!',
+          error: 'Erro ao resetar o jogo.'
+        }
+      };
+
+      const actionConfig = messages[action];
+
+      if (window.confirm(actionConfig.confirm)) {
+        this.isLoading[action] = true;
+        try {
+          if (action === 'corrigirEstagios') {
+            await api.post('/admin/corrigir-estagios');
+          } else if (action === 'resetGame') {
+            await api.post('/admin/reset-game');
+          }
+          this.showActionToast(actionConfig.success, 'success');
+        } catch (error) {
+          console.error(`Erro ao executar ${action}:`, error);
+          this.showActionToast(actionConfig.error, 'error');
+        } finally {
+          this.isLoading[action] = false;
+        }
+      }
+    },
+    showActionToast(message, status) {
+      this.actionMessage = message;
+      this.actionStatus = status;
+      setTimeout(() => {
+        this.actionMessage = null;
+      }, 5000);
+    },
     copyToClipboard(text) {
-      navigator.clipboard.writeText(text)
-      this.showCopyAlert = true;
-      if (this.copyAlertTimeout) clearTimeout(this.copyAlertTimeout);
-      this.copyAlertTimeout = setTimeout(() => {
-        this.showCopyAlert = false;
-      }, 2000);
+      navigator.clipboard.writeText(text).then(() => {
+        this.showCopyAlert = true;
+        if (this.copyAlertTimeout) clearTimeout(this.copyAlertTimeout);
+        this.copyAlertTimeout = setTimeout(() => {
+          this.showCopyAlert = false;
+        }, 2000);
+      });
     }
   },
   mounted() {
@@ -276,7 +338,8 @@ export default {
 
 <style scoped>
 .dashboard {
-  padding: 1rem;
+  padding: 2rem;
+  color: #e0e0e0;
 }
 
 .status-cards {
@@ -507,5 +570,101 @@ export default {
   10% { opacity: 1; transform: translateY(0); }
   90% { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(20px); }
+}
+
+/* Estilos para as ações de admin */
+.admin-actions-container {
+  background-color: #2c2c3e;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 1px solid #444;
+}
+
+.admin-actions-container h2 {
+  margin-top: 0;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.action-card {
+  background-color: #3a3a50;
+  padding: 1rem;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.action-card h3 {
+  margin-top: 0;
+  color: #9f78ff;
+}
+
+.action-card p {
+  flex-grow: 1;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.action-card button {
+  background-color: #7f5af0;
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.action-card button.danger {
+  background-color: #c70039;
+}
+
+.action-card button:hover {
+  background-color: #6a48d1;
+}
+
+.action-card button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.action-card button.danger:hover {
+  background-color: #a3002f;
+}
+
+.action-toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  color: white;
+  z-index: 1000;
+  font-size: 1rem;
+}
+
+.action-toast.success {
+  background-color: #28a745;
+}
+
+.action-toast.error {
+  background-color: #dc3545;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 </style> 

@@ -173,20 +173,6 @@ export default {
           modOnly: false
         },
         {
-          name: '!comprarbits',
-          description: 'Simula a compra de bits (moeda do jogo).',
-          usage: '!comprarbits <quantidade>',
-          examples: ['!comprarbits 100'],
-          modOnly: false
-        },
-        {
-          name: '!resetgame',
-          description: 'Reseta o progresso de todos os jogadores (apenas mods/admins).',
-          usage: '!resetgame',
-          examples: ['!resetgame'],
-          modOnly: true
-        },
-        {
           name: '!givebits',
           description: 'Dá bits para um jogador (apenas mods/admins).',
           usage: '!givebits <username> <quantidade>',
@@ -201,13 +187,22 @@ export default {
           modOnly: true
         },
         {
-          name: '!setbitvalue',
-          description: 'Define o valor base dos bits para eventos (apenas mods/admins).',
-          usage: '!setbitvalue <valor>',
-          examples: ['!setbitvalue 50'],
+          name: '!givexp',
+          description: 'Dá XP para um jogador (apenas mods/admins).',
+          usage: '!givexp <username> <quantidade>',
+          examples: ['!givexp jogador 1000'],
+          modOnly: true
+        },
+        {
+          name: '!removexp',
+          description: 'Remove XP de um jogador (apenas mods/admins).',
+          usage: '!removexp <username> <quantidade>',
+          examples: ['!removexp jogador 500'],
           modOnly: true
         }
-      ]
+      ],
+      showCopyAlert: false,
+      copyAlertTimeout: null
     }
   },
   computed: {

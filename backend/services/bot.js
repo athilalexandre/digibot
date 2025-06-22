@@ -572,34 +572,30 @@ class BotService {
         delete duelRequests[username.toLowerCase()];
         return;
       }
+      // Desativando !ficha temporariamente para evitar conflito
+      /*
       if (commandName === 'ficha') {
-        const tammer = await Tammer.findOne({ twitchUserId });
+        logger.info(`[handleMessage] Executando !ficha para ${username} (${twitchUserId})`)
+        const tammer = await Tammer.findOne({ twitchUserId })
+
         if (!tammer) {
-          await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`);
-          return;
+          await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`)
+          return
         }
-        if (tammer.digimonStage === 'Digitama') {
-          await this.client.say(channel, `@${username} | Digimon: Digitama | Estágio: Digitama | XP: ${tammer.digimonXp} | Bits: ${tammer.bits}`);
-          return;
+
+        const digimon = tammer.currentDigimonId ? await DigimonData.findById(tammer.currentDigimonId) : { name: tammer.digimonName, stage: tammer.digimonStage };
+
+        if (!digimon) {
+          await this.client.say(channel, `@${username}, seu Digimon não foi encontrado. Contate um admin.`)
+          return
         }
-        await this.client.say(channel, `@${username} | Digimon: ${tammer.digimonName} | Estágio: ${tammer.digimonStage} | Nível: ${tammer.digimonLevel} | XP: ${tammer.digimonXp} | Bits: ${tammer.bits} | Status: Força ${tammer.digimonStats.forca}, Defesa ${tammer.digimonStats.defesa}, Velocidade ${tammer.digimonStats.velocidade}, Sabedoria ${tammer.digimonStats.sabedoria}`);
-        return;
+
+        await this.client.say(channel, `@${username} | Digimon: ${digimon.name} | Estágio: ${digimon.stage} | XP: ${tammer.digimonXp} | Bits: ${tammer.bits}`)
+        return
       }
-      if (commandName === 'comprarbits' && args.length === 1) {
-        const amount = parseInt(args[0]);
-        if (isNaN(amount) || amount <= 0) {
-          await this.client.say(channel, `@${username}, valor inválido para compra de bits.`);
-          return;
-        }
-        const tammer = await Tammer.findOne({ twitchUserId });
-        if (!tammer) {
-          await this.client.say(channel, `@${username}, você ainda não entrou no DigiBot. Use !entrar para começar!`);
-          return;
-        }
-        tammer.bits += amount;
-        await tammer.save();
-        await this.client.say(channel, `@${username}, você comprou ${amount} bits! (Simulação)`);
-        return;
+      */
+      if (commandName === 'top5') {
+        // ... (código do !top5)
       }
       if (commandName === 'corrigirEstagios') {
         // Só mod/admin

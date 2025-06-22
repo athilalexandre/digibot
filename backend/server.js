@@ -13,6 +13,7 @@ const authRoutes = require('./routes/auth')
 const botRoutes = require('./routes/bot')
 const commandRoutes = require('./routes/command')
 const userRoutes = require('./routes/user')
+const adminRoutes = require('./routes/admin')
 
 const app = express()
 
@@ -47,14 +48,19 @@ app.use('/api/auth', authRoutes)
 app.use('/api/bot', botRoutes)
 app.use('/api/commands', commandRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/admin', adminRoutes)
 
 // Health check
 app.get('/api/health', (req, res) => {
+  const isMongoConnected = mongoose.connection.readyState === 1;
+  const botStatus = botService.getStatus();
+
   res.json({
     status: 'ok',
-    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
-    botOnline: botService.getStatus().isConnected === true
-  })
+    mongodbConnected: isMongoConnected,
+    botOnline: botStatus.isConnected === true,
+    activeUsers: botStatus.activeUserCount || 0 // Supondo que o botService tenha essa informação
+  });
 })
 
 // Logs avançados de conexão MongoDB

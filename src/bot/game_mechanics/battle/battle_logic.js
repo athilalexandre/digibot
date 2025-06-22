@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const coinConfigPath = path.join(__dirname, '../../../../backend/config/coinConfig.json');
+const gameConfig = require('../../../config/gameConfig');
+const { calculateBattleXp, calculatePvpXp } = require('../../xpSystem');
 
 // Multiplicadores de Dano
 const TYPE_ADVANTAGE_MULTIPLIER = 1.5;
@@ -10,6 +12,7 @@ const ATTRIBUTE_DISADVANTAGE_MULTIPLIER = 0.75;
 const LIGHT_DARK_MULTIPLIER = 1.5; // Luz vs Escuridão e vice-versa
 
 let currentBattle = null;
+let pvpChallenges = new Map();
 
 // --- Funções de Cálculo de Recompensa (já existentes) ---
 function calculateXpReward(enemyStage) {
@@ -95,44 +98,79 @@ function calculateDamage(attacker, defender) {
 
 
 // --- Funções de Gerenciamento de Batalha (Modificadas/Novas) ---
-function startBattle(tammer, enemyDigimonData, tammerAttributeFromData) {
+function startBattle(tammer, enemyDigimon, tammerAttribute) {
   if (currentBattle && currentBattle.isActive) {
-    console.log(`Batalha tentou iniciar para ${tammer.username} mas uma batalha já está ativa com ${currentBattle.tammerUsername}.`);
+    return false; // Já há uma batalha em andamento
+  }
+
+  // Verifica se o Tammer tem arma equipada
+  if (!tammer.hasWeapon()) {
     return false;
   }
 
-  const tammerDigimonBattleStats = {
-    name: tammer.digimonName, hp: tammer.digimonHp, maxHp: tammer.digimonHp, mp: tammer.digimonMp, maxMp: tammer.digimonMp,
-    forca: tammer.digimonStats.forca, defesa: tammer.digimonStats.defesa, velocidade: tammer.digimonStats.velocidade, sabedoria: tammer.digimonStats.sabedoria,
-    type: tammer.digimonType, attribute: tammerAttributeFromData || 'Neutro', stage: tammer.digimonStage,
+  // Verifica se tem pontos de batalha
+  if (!tammer.hasBattlePoints(1)) {
+    return false;
+  }
+
+  // Verifica se tem bits suficientes
+  if (!tammer.hasBits(gameConfig.battle.pveCost)) {
+    return false;
+  }
+
+  // Calcula stats do Tammer (base + arma)
+  const tammerStats = {
+    hp: tammer.digimonHp,
+    maxHp: tammer.digimonHp,
+    dano: tammer.equippedWeapon.dano,
+    defesa: tammer.equippedWeapon.defesa
   };
 
-  const enemyBattleStats = {
-    name: enemyDigimonData.name, hp: enemyDigimonData.baseStats.hp, maxHp: enemyDigimonData.baseStats.hp,
-    forca: enemyDigimonData.baseStats.forca, defesa: enemyDigimonData.baseStats.defesa, velocidade: enemyDigimonData.baseStats.velocidade, sabedoria: enemyDigimonData.baseStats.sabedoria,
-    type: enemyDigimonData.type, attribute: enemyDigimonData.attribute, stage: enemyDigimonData.stage,
-    xpReward: calculateXpReward(enemyDigimonData.stage), coinReward: calculateCoinReward(enemyDigimonData.stage),
+  // Calcula stats do inimigo (base + arma simulada)
+  const enemyStats = {
+    hp: enemyDigimon.baseStats ? enemyDigimon.baseStats.hp : 50,
+    maxHp: enemyDigimon.baseStats ? enemyDigimon.baseStats.hp : 50,
+    dano: Math.floor(Math.random() * 10) + 5, // 5-15 de dano
+    defesa: Math.floor(Math.random() * 5) + 2  // 2-7 de defesa
   };
 
   currentBattle = {
-    isActive: true, tammerUserId: tammer.twitchUserId, tammerUsername: tammer.username,
-    tammerDigimon: tammerDigimonBattleStats, enemyDigimon: enemyBattleStats,
-    turn: 'player', round: 1, log: [], lastActionTime: Date.now(),
+    isActive: true,
+    tammerUserId: tammer.twitchUserId,
+    tammerDigimon: {
+      name: tammer.digimonName,
+      hp: tammerStats.hp,
+      maxHp: tammerStats.maxHp,
+      dano: tammerStats.dano,
+      defesa: tammerStats.defesa
+    },
+    enemyDigimon: {
+      name: enemyDigimon.name,
+      hp: enemyStats.hp,
+      maxHp: enemyStats.maxHp,
+      dano: enemyStats.dano,
+      defesa: enemyStats.defesa
+    },
+    turn: 'player',
+    round: 1
   };
 
-  const initialLog = `Batalha iniciada! ${currentBattle.tammerDigimon.name} (HP: ${currentBattle.tammerDigimon.hp}) vs ${currentBattle.enemyDigimon.name} (HP: ${currentBattle.enemyDigimon.hp}). É o turno de ${currentBattle.tammerUsername}.`;
-  currentBattle.log.push(initialLog);
-  console.log(initialLog);
   return true;
 }
 
-function endBattle() {
-  if (currentBattle) {
-    console.log(`Batalha finalizada para ${currentBattle.tammerUsername} vs ${currentBattle.enemyDigimon.name}.`);
-    currentBattle = null; // Limpa o estado da batalha
-    return true;
+function endBattle(outcome) {
+  if (!currentBattle) return null;
+
+  let result = { xpGained: 0, bitsGained: 0 };
+
+  if (outcome === 'victory') {
+    // Calcula recompensas baseadas na configuração
+    result.xpGained = Math.floor(Math.random() * (gameConfig.battle.pveXpPercentMax - gameConfig.battle.pveXpPercentMin + 1)) + gameConfig.battle.pveXpPercentMin;
+    result.bitsGained = Math.floor(Math.random() * (gameConfig.battle.pveBitsMax - gameConfig.battle.pveBitsMin + 1)) + gameConfig.battle.pveBitsMin;
   }
-  return false;
+
+  currentBattle = null;
+  return result;
 }
 
 function getActiveBattle() {
@@ -140,74 +178,225 @@ function getActiveBattle() {
 }
 
 // --- Novas Funções de Ação em Batalha ---
-function handlePlayerAttack(attackerUserId) {
-  if (!currentBattle || !currentBattle.isActive) return { outcome: 'no_battle', message: "Nenhuma batalha em andamento." };
-  if (currentBattle.tammerUserId !== attackerUserId) return { outcome: 'not_your_battle', message: "Esta não é sua batalha." };
-  if (currentBattle.turn !== 'player') return { outcome: 'not_your_turn', message: "Não é seu turno para atacar." };
+function handlePlayerAttack(twitchUserId) {
+  if (!currentBattle || !currentBattle.isActive) {
+    return { outcome: 'no_battle', message: 'Não há batalha em andamento.' };
+  }
 
-  const { damage, logMessage } = calculateDamage(currentBattle.tammerDigimon, currentBattle.enemyDigimon);
+  if (currentBattle.tammerUserId !== twitchUserId) {
+    return { outcome: 'not_your_battle', message: 'Esta não é sua batalha.' };
+  }
+
+  if (currentBattle.turn !== 'player') {
+    return { outcome: 'not_your_turn', message: 'Não é seu turno.' };
+  }
+
+  // Processa ataque do jogador
+  const damage = Math.max(1, currentBattle.tammerDigimon.dano - currentBattle.enemyDigimon.defesa);
   currentBattle.enemyDigimon.hp -= damage;
-  currentBattle.log.push(logMessage);
-  currentBattle.lastActionTime = Date.now();
+  
+  let message = `⚔️ ${currentBattle.tammerDigimon.name} atacou ${currentBattle.enemyDigimon.name} causando ${damage} de dano!`;
+  message += ` ${currentBattle.enemyDigimon.name} HP: ${Math.max(0, currentBattle.enemyDigimon.hp)}/${currentBattle.enemyDigimon.maxHp}`;
 
+  // Verifica se o inimigo foi derrotado
   if (currentBattle.enemyDigimon.hp <= 0) {
-    currentBattle.enemyDigimon.hp = 0; // Garante que não seja negativo
-    const victoryResult = {
+    const result = endBattle('victory');
+    return {
       outcome: 'victory',
-      message: `${currentBattle.tammerDigimon.name} derrotou ${currentBattle.enemyDigimon.name}!`,
-      xpGained: currentBattle.enemyDigimon.xpReward,
-      coinsGained: currentBattle.enemyDigimon.coinReward,
-      log: currentBattle.log
+      message: message + ` ${currentBattle.enemyDigimon.name} foi derrotado!`,
+      xpGained: result.xpGained,
+      bitsGained: result.bitsGained
     };
-    endBattle();
-    return victoryResult;
   }
 
-  // Se o inimigo não foi derrotado, passa o turno para o inimigo
+  // Turno do inimigo
   currentBattle.turn = 'enemy';
-  currentBattle.log.push(`Turno do ${currentBattle.enemyDigimon.name}.`);
-  return handleEnemyAttack(); // Inimigo ataca imediatamente
-}
+  const enemyDamage = Math.max(1, currentBattle.enemyDigimon.dano - currentBattle.tammerDigimon.defesa);
+  currentBattle.tammerDigimon.hp -= enemyDamage;
+  
+  message += ` | ${currentBattle.enemyDigimon.name} contra-atacou causando ${enemyDamage} de dano!`;
+  message += ` ${currentBattle.tammerDigimon.name} HP: ${Math.max(0, currentBattle.tammerDigimon.hp)}/${currentBattle.tammerDigimon.maxHp}`;
 
-// Função interna, chamada após o ataque do jogador se a batalha continuar
-function handleEnemyAttack() {
-  // Simples IA: inimigo sempre ataca
-  const { damage, logMessage } = calculateDamage(currentBattle.enemyDigimon, currentBattle.tammerDigimon);
-  currentBattle.tammerDigimon.hp -= damage;
-  currentBattle.log.push(logMessage);
-  currentBattle.lastActionTime = Date.now();
-
+  // Verifica se o jogador foi derrotado
   if (currentBattle.tammerDigimon.hp <= 0) {
-    currentBattle.tammerDigimon.hp = 0; // Garante que não seja negativo
-    const defeatResult = {
+    const result = endBattle('defeat');
+    return {
       outcome: 'defeat',
-      message: `${currentBattle.enemyDigimon.name} derrotou ${currentBattle.tammerDigimon.name}...`,
-      tammerFinalHp: currentBattle.tammerDigimon.hp, // HP final do Digimon do jogador
-      log: currentBattle.log
+      message: message + ` ${currentBattle.tammerDigimon.name} foi derrotado!`,
+      tammerFinalHp: 0
     };
-    endBattle();
-    return defeatResult;
   }
 
-  // Se o jogador não foi derrotado, passa o turno de volta para o jogador
+  // Próximo turno do jogador
   currentBattle.turn = 'player';
-  currentBattle.round += 1;
-  currentBattle.log.push(`Turno de ${currentBattle.tammerUsername} (Round ${currentBattle.round}).`);
+  currentBattle.round++;
+  
   return {
     outcome: 'continue',
-    message: `A batalha continua! ${currentBattle.tammerDigimon.name} HP: ${currentBattle.tammerDigimon.hp}, ${currentBattle.enemyDigimon.name} HP: ${currentBattle.enemyDigimon.hp}.`,
-    nextTurn: 'player',
-    log: currentBattle.log,
-    currentHpPlayer: currentBattle.tammerDigimon.hp,
-    currentHpEnemy: currentBattle.enemyDigimon.hp,
+    message: message + ` | Seu turno novamente! Use !atacar.`
   };
 }
 
+// Função para iniciar desafio PvP
+function startPvpChallenge(challenger, target) {
+  const challengeId = `${challenger.twitchUserId}_${target.twitchUserId}`;
+  
+  if (pvpChallenges.has(challengeId)) {
+    return { success: false, message: 'Já há um desafio pendente entre estes jogadores.' };
+  }
+
+  // Verifica se ambos têm armas equipadas
+  if (!challenger.hasWeapon()) {
+    return { success: false, message: `${challenger.username} precisa equipar uma arma antes de desafiar.` };
+  }
+
+  if (!target.hasWeapon()) {
+    return { success: false, message: `${target.username} precisa equipar uma arma antes de ser desafiado.` };
+  }
+
+  // Verifica se ambos têm bits suficientes
+  if (!challenger.hasBits(gameConfig.battle.pvpCost)) {
+    return { success: false, message: `${challenger.username} não tem bits suficientes para o desafio.` };
+  }
+
+  if (!target.hasBits(gameConfig.battle.pvpCost)) {
+    return { success: false, message: `${target.username} não tem bits suficientes para o desafio.` };
+  }
+
+  // Verifica se ambos têm pontos de batalha
+  if (!challenger.hasBattlePoints(1)) {
+    return { success: false, message: `${challenger.username} não tem Pontos de Batalha suficientes.` };
+  }
+
+  if (!target.hasBattlePoints(1)) {
+    return { success: false, message: `${target.username} não tem Pontos de Batalha suficientes.` };
+  }
+
+  const challenge = {
+    challenger: challenger,
+    target: target,
+    createdAt: new Date(),
+    expiresAt: new Date(Date.now() + (gameConfig.battle.challengeTimeoutSeconds * 1000))
+  };
+
+  pvpChallenges.set(challengeId, challenge);
+
+  // Remove desafio expirado após timeout
+  setTimeout(() => {
+    if (pvpChallenges.has(challengeId)) {
+      pvpChallenges.delete(challengeId);
+    }
+  }, gameConfig.battle.challengeTimeoutSeconds * 1000);
+
+  return { 
+    success: true, 
+    message: `${challenger.username} desafiou ${target.username} para uma batalha PvP! ${target.username}, digite !aceitar ${challenger.username} em ${gameConfig.battle.challengeTimeoutSeconds} segundos.`,
+    challengeId: challengeId
+  };
+}
+
+// Função para aceitar desafio PvP
+function acceptPvpChallenge(accepter, challengerUsername) {
+  const challengeId = `${challengerUsername}_${accepter.twitchUserId}`;
+  const challenge = pvpChallenges.get(challengeId);
+
+  if (!challenge) {
+    return { success: false, message: 'Não há desafio pendente para aceitar.' };
+  }
+
+  if (challenge.target.twitchUserId !== accepter.twitchUserId) {
+    return { success: false, message: 'Este desafio não é para você.' };
+  }
+
+  if (Date.now() > challenge.expiresAt.getTime()) {
+    pvpChallenges.delete(challengeId);
+    return { success: false, message: 'O desafio expirou.' };
+  }
+
+  // Remove o desafio
+  pvpChallenges.delete(challengeId);
+
+  // Inicia a batalha PvP
+  return startPvpBattle(challenge.challenger, challenge.target);
+}
+
+// Função para iniciar batalha PvP
+function startPvpBattle(challenger, target) {
+  // Calcula stats baseados em arma + stats base
+  const challengerStats = {
+    hp: challenger.digimonHp,
+    maxHp: challenger.digimonHp,
+    dano: challenger.equippedWeapon.dano,
+    defesa: challenger.equippedWeapon.defesa
+  };
+
+  const targetStats = {
+    hp: target.digimonHp,
+    maxHp: target.digimonHp,
+    dano: target.equippedWeapon.dano,
+    defesa: target.equippedWeapon.defesa
+  };
+
+  // Simula batalha por turnos até alguém vencer
+  let round = 1;
+  let challengerHp = challengerStats.hp;
+  let targetHp = targetStats.hp;
+
+  while (challengerHp > 0 && targetHp > 0 && round <= 10) {
+    // Turno do desafiante
+    const challengerDamage = Math.max(1, challengerStats.dano - targetStats.defesa);
+    targetHp -= challengerDamage;
+
+    if (targetHp <= 0) break;
+
+    // Turno do alvo
+    const targetDamage = Math.max(1, targetStats.dano - challengerStats.defesa);
+    challengerHp -= targetDamage;
+
+    round++;
+  }
+
+  // Determina vencedor
+  const challengerWon = targetHp <= 0;
+  const winner = challengerWon ? challenger : target;
+  const loser = challengerWon ? target : challenger;
+
+  // Calcula recompensas
+  const winnerXp = calculatePvpXp(winner, true);
+  const loserXp = calculatePvpXp(loser, false);
+  const bitsTransfer = Math.floor(Math.random() * (gameConfig.battle.pvpBitsMax - gameConfig.battle.pvpBitsMin + 1)) + gameConfig.battle.pvpBitsMin;
+
+  return {
+    success: true,
+    winner: winner,
+    loser: loser,
+    winnerXp: winnerXp,
+    loserXp: loserXp,
+    bitsTransfer: bitsTransfer,
+    rounds: round,
+    message: `⚔️ ${challenger.username} vs ${target.username}! ${winner.username} venceu em ${round} rodadas!`
+  };
+}
+
+// Função para limpar desafios expirados
+function cleanupExpiredChallenges() {
+  const now = Date.now();
+  for (const [challengeId, challenge] of pvpChallenges.entries()) {
+    if (now > challenge.expiresAt.getTime()) {
+      pvpChallenges.delete(challengeId);
+    }
+  }
+}
+
+// Limpa desafios expirados a cada minuto
+setInterval(cleanupExpiredChallenges, 60000);
+
 module.exports = {
   startBattle,
+  handlePlayerAttack,
   endBattle,
   getActiveBattle,
-  handlePlayerAttack, // Nova função exportada
-  calculateXpReward,
-  calculateCoinReward,
+  startPvpChallenge,
+  acceptPvpChallenge,
+  startPvpBattle
 };

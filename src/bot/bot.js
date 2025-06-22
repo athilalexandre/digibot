@@ -1,21 +1,23 @@
 // Arquivo principal do bot da Twitch
 const tmi = require('tmi.js');
 const connectDB = require('../database/mongodb');
-const Tammer = require('../models/Tammer');
-const BotConfig = require('../models/BotConfig'); // Adicionado BotConfig
-const DigimonData = require('../models/DigimonData'); // Para !setdigimon
+const Tammer = require('../../backend/models/tammer');
+const BotConfig = require('../../backend/models/BotConfig');
+const DigimonData = require('../../backend/models/digimonData');
 const config = require('../config');
-const { addXp, xpTable } = require('./xpSystem'); // Adicionado para !testxp e xpTable para !setdigimon
+const { addXp } = require('./xpSystem');
 const { processTrainingCommands } = require('./game_mechanics/training/training_commands.js');
-const { startSpawner } = require('./wild_digimon_spawner.js');
 const { processBattleCommands } = require('./game_mechanics/battle/battle_commands.js');
-const seedDigimonDatabase = require('../database/seedDigimonData'); // Para !resetdigibot
+const { processShopCommands } = require('./game_mechanics/shop/shop_commands.js');
+const { startSpawner } = require('./wild_digimon_spawner.js');
+const { scheduleNextShopEvent } = require('./game_mechanics/shop/shop_system.js');
+const seedDigimonDatabase = require('../database/seedDigimonData');
 
 // Configurações do bot
 const opts = {
   identity: {
     username: config.twitchUsername,
-    password: config.twitchOAuth, // Alterado para twitchOAuth conforme especificado
+    password: config.twitchOAuth,
   },
   channels: [
     config.twitchChannel,
@@ -53,6 +55,10 @@ async function initializeBot() {
     await seedDigimonDatabase();
     console.log('Banco de dados populado com sucesso');
 
+    // Inicia o sistema de eventos da loja
+    scheduleNextShopEvent();
+    console.log('Sistema de loja iniciado');
+
     // Conecta o bot ao chat da Twitch
     console.log('Tentando conectar ao chat da Twitch...');
     await client.connect();
@@ -67,7 +73,7 @@ async function initializeBot() {
 function onConnectedHandler(addr, port) {
   console.log(`* Conectado a ${addr}:${port} como ${config.twitchUsername} no canal ${config.twitchChannel}`);
   client.say(config.twitchChannel, `Digibot está online e pronto para a aventura! Use !entrar para começar.`);
-  startSpawner(client, config.twitchChannel); // Inicia o spawner de Digimon selvagem
+  startSpawner(client, config.twitchChannel);
 }
 
 // Handler para desconexão
@@ -82,29 +88,33 @@ function onReconnectHandler() {
 
 // Handler para mensagens
 async function onMessageHandler(target, context, msg, self) {
-  if (self) { return; } // Ignora mensagens do próprio bot
+  if (self) { return; }
 
   // Processa comandos de treino primeiro
-  // msg original é passado para processTrainingCommands, pois ele faz seu próprio trim e toLowerCase.
   const trainingCommandProcessed = await processTrainingCommands(target, context, msg, client);
   if (trainingCommandProcessed) {
-    return; // Comando de treino foi tratado, não precisa continuar
+    return;
   }
 
   // Processa comandos de batalha
-  // msg original é passado para processBattleCommands.
   const battleCommandProcessed = await processBattleCommands(target, context, msg, client);
   if (battleCommandProcessed) {
-    return; // Comando de batalha foi tratado, não precisa continuar
+    return;
   }
 
-  // Lógica de parsing de comando existente (adaptada)
-  const rawMessage = msg.trim(); // Usado para casos onde o case importa ou para substrings
-  const parts = rawMessage.split(' ');
-  const command = parts[0].toLowerCase(); // Comando principal em minúsculas
-  const args = parts.slice(1); // Argumentos como array de strings
+  // Processa comandos da loja
+  const shopCommandProcessed = await processShopCommands(target, context, msg, client);
+  if (shopCommandProcessed) {
+    return;
+  }
 
-  const twitchUserId = context['user-id']; // Renomeado para clareza
+  // Lógica de parsing de comando existente
+  const rawMessage = msg.trim();
+  const parts = rawMessage.split(' ');
+  const command = parts[0].toLowerCase();
+  const args = parts.slice(1);
+
+  const twitchUserId = context['user-id'];
   const username = context.username;
 
   // Comando !entrar
@@ -126,35 +136,45 @@ async function onMessageHandler(target, context, msg, self) {
       console.error("Erro no comando !entrar:", error);
       client.say(target, "Ocorreu um erro ao processar o comando !entrar.");
     }
-    return; // Comando tratado
+    return;
   }
 
-  // Comando !meudigimon ou !status
-  if (command === '!meudigimon' || command === '!status') {
+  // Comando !ficha
+  if (command === '!ficha') {
     try {
       const tammer = await Tammer.findOne({ twitchUserId });
       if (!tammer) {
         return client.say(target, `${username}, você ainda não entrou no jogo. Use !entrar para começar.`);
       }
+      
       let statusMessage = `${username}, seu Digimon: ${tammer.digimonName} (${tammer.digimonStage} - Nível ${tammer.digimonLevel}). XP: ${tammer.digimonXp}.`;
+      
       if (tammer.digimonHp && tammer.digimonStats) {
         statusMessage += ` HP: ${tammer.digimonHp}, MP: ${tammer.digimonMp}, Força: ${tammer.digimonStats.forca}, Defesa: ${tammer.digimonStats.defesa}, Velocidade: ${tammer.digimonStats.velocidade}, Sabedoria: ${tammer.digimonStats.sabedoria}.`;
       }
-      statusMessage += ` Bits: ${tammer.bits}.`;
+      
+      statusMessage += ` Bits: ${tammer.bits}, PBs: ${tammer.battlePoints}.`;
+      
+      // Mostra arma equipada
+      if (tammer.hasWeapon()) {
+        statusMessage += ` Arma: ${tammer.equippedWeapon.nome} ${tammer.equippedWeapon.emoji} (${tammer.equippedWeapon.raridade}).`;
+      } else {
+        statusMessage += ` Arma: Nenhuma equipada.`;
+      }
+      
       client.say(target, statusMessage);
     } catch (error) {
-      console.error("Erro no comando !meudigimon:", error);
+      console.error("Erro no comando !ficha:", error);
       client.say(target, "Ocorreu um erro ao buscar as informações do seu Digimon.");
     }
-    return; // Comando tratado
+    return;
   }
 
-  // Comandos de Moderador/Broadcaster (isModOrBroadcaster definido abaixo)
+  // Comandos de Moderador/Broadcaster
   const isModOrBroadcaster = context.mod || username.toLowerCase() === config.twitchChannel.substring(1).toLowerCase();
 
-
   if (command === '!givebits' && isModOrBroadcaster) {
-    const targetUsername = args[0]; // Pode ser case-sensitive dependendo da sua lógica de busca
+    const targetUsername = args[0];
     const amount = parseInt(args[1]);
 
     if (!targetUsername || isNaN(amount) || amount <= 0) {
@@ -162,11 +182,8 @@ async function onMessageHandler(target, context, msg, self) {
     }
 
     try {
-      // É importante decidir se a busca por targetUsername deve ser case-insensitive.
-      // Se sim, pode ser necessário usar uma regex ou ajustar o schema/query.
-      // Por enquanto, assumindo case-sensitive como estava.
       const targetTammer = await Tammer.findOneAndUpdate(
-        { username: targetUsername }, // Busca pelo username exato
+        { username: targetUsername },
         { $inc: { bits: amount } },
         { new: true, runValidators: true }
       );
@@ -179,7 +196,7 @@ async function onMessageHandler(target, context, msg, self) {
       console.error("Erro no comando !givebits:", error);
       client.say(target, "Ocorreu um erro ao dar bits.");
     }
-    return; // Comando tratado
+    return;
   }
 
   if (command === '!removebits' && isModOrBroadcaster) {
@@ -197,7 +214,7 @@ async function onMessageHandler(target, context, msg, self) {
       }
 
       targetTammer.bits -= amount;
-      if (targetTammer.bits < 0) targetTammer.bits = 0; // Evita bits negativas, opcional
+      if (targetTammer.bits < 0) targetTammer.bits = 0;
       await targetTammer.save();
 
       client.say(target, `${amount} bits foram removidas de ${targetUsername}. Saldo atual: ${targetTammer.bits} bits.`);
@@ -205,28 +222,61 @@ async function onMessageHandler(target, context, msg, self) {
       console.error("Erro no comando !removebits:", error);
       client.say(target, "Ocorreu um erro ao remover bits.");
     }
-    return; // Comando tratado
+    return;
   }
 
-  if (command === '!setbitvalue' && isModOrBroadcaster) {
-    const value = parseInt(args[0]);
+  // Novos comandos de XP
+  if (command === '!givexp' && isModOrBroadcaster) {
+    const targetUsername = args[0];
+    const amount = parseInt(args[1]);
 
-    if (isNaN(value) || value <= 0) {
-      return client.say(target, "Uso: !setbitvalue <valor> (valor deve ser um número positivo)");
+    if (!targetUsername || isNaN(amount) || amount <= 0) {
+      return client.say(target, "Uso: !givexp <username> <quantidade>");
     }
 
     try {
-      const updatedConfig = await BotConfig.findOneAndUpdate(
-        { configKey: 'mainConfig' },
-        { bitValueForEvents: value },
-        { new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true }
-      );
-      client.say(target, `O valor da bit para eventos foi definido para ${updatedConfig.bitValueForEvents}.`);
+      const targetTammer = await Tammer.findOne({ username: targetUsername });
+      if (targetTammer) {
+        await addXp(targetTammer.twitchUserId, amount, client, target);
+        client.say(target, `${amount} XP foram dados para ${targetUsername}.`);
+      } else {
+        client.say(target, `Usuário ${targetUsername} não encontrado.`);
+      }
     } catch (error) {
-      console.error("Erro no comando !setbitvalue:", error);
-      client.say(target, "Ocorreu um erro ao definir o valor da bit.");
+      console.error("Erro no comando !givexp:", error);
+      client.say(target, "Ocorreu um erro ao dar XP.");
     }
-    return; // Comando tratado
+    return;
+  }
+
+  if (command === '!removexp' && isModOrBroadcaster) {
+    const targetUsername = args[0];
+    const amount = parseInt(args[1]);
+
+    if (!targetUsername || isNaN(amount) || amount <= 0) {
+      return client.say(target, "Uso: !removexp <username> <quantidade>");
+    }
+
+    try {
+      const targetTammer = await Tammer.findOneAndUpdate(
+        { username: targetUsername },
+        { $inc: { digimonXp: -amount } },
+        { new: true, runValidators: true }
+      );
+      if (targetTammer) {
+        if (targetTammer.digimonXp < 0) {
+          targetTammer.digimonXp = 0;
+          await targetTammer.save();
+        }
+        client.say(target, `${amount} XP foram removidos de ${targetUsername}. XP atual: ${targetTammer.digimonXp}.`);
+      } else {
+        client.say(target, `Usuário ${targetUsername} não encontrado.`);
+      }
+    } catch (error) {
+      console.error("Erro no comando !removexp:", error);
+      client.say(target, "Ocorreu um erro ao remover XP.");
+    }
+    return;
   }
 
   if (command === '!testxp' && isModOrBroadcaster) {
@@ -235,13 +285,12 @@ async function onMessageHandler(target, context, msg, self) {
       return client.say(target, "Uso: !testxp <quantidade> (quantidade deve ser um número positivo).");
     }
     try {
-      // addXp espera twitchUserId, amount, client, target
       await addXp(twitchUserId, amount, client, target);
     } catch (error) {
       console.error("Erro no comando !testxp:", error);
       client.say(target, "Ocorreu um erro ao adicionar XP.");
     }
-    return; // Comando tratado
+    return;
   }
 
   if (command === '!setdigimon' && isModOrBroadcaster) {
@@ -265,32 +314,18 @@ async function onMessageHandler(target, context, msg, self) {
       tammerToUpdate.digimonType = newDigimonData.type;
       if (newDigimonData.baseStats) {
         tammerToUpdate.digimonHp = newDigimonData.baseStats.hp;
-        // Mantém o MP atual ou reseta para o base do DigimonData se existir um campo mp nos baseStats
         tammerToUpdate.digimonMp = newDigimonData.baseStats.mp || tammerToUpdate.digimonMp || 10; 
         tammerToUpdate.digimonStats = { ...newDigimonData.baseStats };
       }
-      const newStageDataFromTable = xpTable[newDigimonData.stage];
-      if (newStageDataFromTable && newStageDataFromTable.levels) {
-        const stageLevelsSorted = Object.keys(newStageDataFromTable.levels).map(Number).sort((a,b) => a-b);
-        if (stageLevelsSorted.length > 0) {
-            const firstLevelOfNewStage = stageLevelsSorted[0];
-            tammerToUpdate.digimonLevel = firstLevelOfNewStage;
-            tammerToUpdate.digimonXp = newStageDataFromTable.levels[firstLevelOfNewStage];
-        } else {
-            tammerToUpdate.digimonLevel = 1;
-            tammerToUpdate.digimonXp = 0;
-        }
-      } else {
-        tammerToUpdate.digimonLevel = 1;
-        tammerToUpdate.digimonXp = 0;
-      }
+      tammerToUpdate.digimonLevel = 1;
+      tammerToUpdate.digimonXp = 0;
       await tammerToUpdate.save();
       client.say(target, `O Digimon de ${targetUsername} foi alterado para ${newDigimonData.name} (${newDigimonData.stage} Nível ${tammerToUpdate.digimonLevel}). Status e XP resetados para a base.`);
     } catch (error) {
       console.error("Erro no comando !setdigimon:", error);
       client.say(target, "Ocorreu um erro ao tentar alterar o Digimon.");
     }
-    return; // Comando tratado
+    return;
   }
 
   if (command === '!resetdigibot' && isModOrBroadcaster) {
@@ -308,7 +343,7 @@ async function onMessageHandler(target, context, msg, self) {
       console.error("Erro crítico no comando !resetdigibot:", error);
       client.say(target, "Ocorreu um erro crítico durante o reset do Digibot. Por favor, verifique os logs do servidor.");
     }
-    return; // Comando tratado
+    return;
   }
 }
 

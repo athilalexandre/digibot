@@ -1,0 +1,218 @@
+[
+  {
+    "id": "wooden_sword",
+    "nome": "Espada de Madeira",
+    "tipo": "Slash",
+    "dano": 2,
+    "defesa": 1,
+    "raridade": "comum",
+    "emoji": "🗡️"
+  },
+  {
+    "id": "stone_axe",
+    "nome": "Machado de Pedra",
+    "tipo": "Blunt",
+    "dano": 3,
+    "defesa": 0,
+    "raridade": "comum",
+    "emoji": "🪓"
+  },
+  {
+    "id": "iron_dagger",
+    "nome": "Adaga de Ferro",
+    "tipo": "Stab",
+    "dano": 4,
+    "defesa": 0,
+    "raridade": "comum",
+    "emoji": "🗡️"
+  },
+  {
+    "id": "leather_shield",
+    "nome": "Escudo de Couro",
+    "tipo": "Bash",
+    "dano": 1,
+    "defesa": 3,
+    "raridade": "comum",
+    "emoji": "🛡️"
+  },
+  {
+    "id": "wooden_bow",
+    "nome": "Arco de Madeira",
+    "tipo": "Shot",
+    "dano": 3,
+    "defesa": 0,
+    "raridade": "comum",
+    "emoji": "🏹"
+  },
+  {
+    "id": "stone_hammer",
+    "nome": "Martelo de Pedra",
+    "tipo": "Crush",
+    "dano": 4,
+    "defesa": 1,
+    "raridade": "comum",
+    "emoji": "🔨"
+  },
+  {
+    "id": "steel_sword",
+    "nome": "Espada de Aço",
+    "tipo": "Slash",
+    "dano": 6,
+    "defesa": 2,
+    "raridade": "incomum",
+    "emoji": "⚔️"
+  },
+  {
+    "id": "iron_axe",
+    "nome": "Machado de Ferro",
+    "tipo": "Blunt",
+    "dano": 7,
+    "defesa": 1,
+    "raridade": "incomum",
+    "emoji": "🪓"
+  },
+  {
+    "id": "steel_rapier",
+    "nome": "Rapieira de Aço",
+    "tipo": "Stab",
+    "dano": 8,
+    "defesa": 1,
+    "raridade": "incomum",
+    "emoji": "🗡️"
+  },
+  {
+    "id": "iron_shield",
+    "nome": "Escudo de Ferro",
+    "tipo": "Bash",
+    "dano": 2,
+    "defesa": 6,
+    "raridade": "incomum",
+    "emoji": "🛡️"
+  },
+  {
+    "id": "steel_bow",
+    "nome": "Arco de Aço",
+    "tipo": "Shot",
+    "dano": 7,
+    "defesa": 1,
+    "raridade": "incomum",
+    "emoji": "🏹"
+  },
+  {
+    "id": "iron_hammer",
+    "nome": "Martelo de Ferro",
+    "tipo": "Crush",
+    "dano": 8,
+    "defesa": 2,
+    "raridade": "incomum",
+    "emoji": "🔨"
+  },
+  {
+    "id": "flame_sword",
+    "nome": "Espada Flamejante",
+    "tipo": "Slash",
+    "dano": 10,
+    "defesa": 4,
+    "raridade": "rara",
+    "emoji": "🔥⚔️"
+  },
+  {
+    "id": "thunder_axe",
+    "nome": "Machado Trovejante",
+    "tipo": "Blunt",
+    "dano": 12,
+    "defesa": 3,
+    "raridade": "rara",
+    "emoji": "⚡🪓"
+  },
+  {
+    "id": "ice_dagger",
+    "nome": "Adaga de Gelo",
+    "tipo": "Stab",
+    "dano": 11,
+    "defesa": 2,
+    "raridade": "rara",
+    "emoji": "❄️🗡️"
+  },
+  {
+    "id": "dragon_shield",
+    "nome": "Escudo do Dragão",
+    "tipo": "Bash",
+    "dano": 4,
+    "defesa": 10,
+    "raridade": "rara",
+    "emoji": "🐉🛡️"
+  },
+  {
+    "id": "wind_bow",
+    "nome": "Arco dos Ventos",
+    "tipo": "Shot",
+    "dano": 12,
+    "defesa": 3,
+    "raridade": "rara",
+    "emoji": "💨🏹"
+  },
+  {
+    "id": "earth_hammer",
+    "nome": "Martelo da Terra",
+    "tipo": "Crush",
+    "dano": 13,
+    "defesa": 5,
+    "raridade": "rara",
+    "emoji": "🌍🔨"
+  },
+  {
+    "id": "omega_blade",
+    "nome": "Omega Blade",
+    "tipo": "Slash",
+    "dano": 15,
+    "defesa": 8,
+    "raridade": "lendaria",
+    "emoji": "⚔️✨"
+  },
+  {
+    "id": "ragnarok_axe",
+    "nome": "Machado Ragnarok",
+    "tipo": "Blunt",
+    "dano": 18,
+    "defesa": 6,
+    "raridade": "lendaria",
+    "emoji": "🪓⚡"
+  },
+  {
+    "id": "excalibur",
+    "nome": "Excalibur",
+    "tipo": "Stab",
+    "dano": 20,
+    "defesa": 5,
+    "raridade": "lendaria",
+    "emoji": "🗡️👑"
+  },
+  {
+    "id": "aegis_shield",
+    "nome": "Escudo Aegis",
+    "tipo": "Bash",
+    "dano": 6,
+    "defesa": 15,
+    "raridade": "lendaria",
+    "emoji": "🛡️🌟"
+  },
+  {
+    "id": "artemis_bow",
+    "nome": "Arco de Artemis",
+    "tipo": "Shot",
+    "dano": 18,
+    "defesa": 4,
+    "raridade": "lendaria",
+    "emoji": "🏹🌙"
+  },
+  {
+    "id": "mjolnir",
+    "nome": "Mjolnir",
+    "tipo": "Crush",
+    "dano": 22,
+    "defesa": 8,
+    "raridade": "lendaria",
+    "emoji": "🔨⚡"
+  }
+] 
