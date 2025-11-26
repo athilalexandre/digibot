@@ -7,6 +7,7 @@ const morgan = require('morgan')
 const config = require('./config')
 const logger = require('./utils/logger').createModuleLogger('Server')
 const botService = require('./services/bot')
+const { initializeBot: startNewBot } = require('../src/bot/bot')
 
 // Importando rotas
 const authRoutes = require('./routes/auth')
@@ -53,13 +54,14 @@ app.use('/api/admin', adminRoutes)
 // Health check
 app.get('/api/health', (req, res) => {
   const isMongoConnected = mongoose.connection.readyState === 1;
-  const botStatus = botService.getStatus();
+  const { getStatus: getNewBotStatus } = require('../src/bot/bot');
+  const botStatus = getNewBotStatus();
 
   res.json({
     status: 'ok',
     mongodbConnected: isMongoConnected,
     botOnline: botStatus.isConnected === true,
-    activeUsers: botStatus.activeUserCount || 0 // Supondo que o botService tenha essa informação
+    activeUsers: 0
   });
 })
 
@@ -96,9 +98,8 @@ async function startServer() {
     console.log('[MongoDB] Conexão inicial estabelecida.')
     logger.info('Conectado ao MongoDB')
 
-    // Seed admin automático
-    //require('./utils/seedAdmin')
-    //require('./utils/seedCommands')
+    // Inicia o novo bot automaticamente ao iniciar o servidor
+    await startNewBot();
 
     const server = app.listen(config.port, () => {
       logger.info(`Servidor rodando na porta ${config.port}`)

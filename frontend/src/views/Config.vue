@@ -10,15 +10,31 @@
         <h2>Configurações do Bot</h2>
         <div class="form-group">
           <label>Nome de Usuário do Bot</label>
-          <input v-model="config.twitchUsername" placeholder="ex: meu_bot" />
+          <div class="input-with-button">
+            <input v-model="config.twitchUsername" placeholder="Nome de usuário do bot" />
+            <a href="https://www.twitch.tv/signup" target="_blank" class="helper-button" title="Criar conta">
+              <i class="fas fa-user-plus"></i> Criar
+            </a>
+          </div>
         </div>
         <div class="form-group">
           <label>Token OAuth</label>
-          <input v-model="config.twitchOAuth" type="password" placeholder="oauth:..." />
+          <div class="input-with-button">
+            <input type="password" v-model="config.twitchOAuth" placeholder="oauth:..." />
+            <a href="https://twitchtokengenerator.com/" target="_blank" class="helper-button" title="Gerar Token">
+              <i class="fas fa-key"></i> Gerar Token
+            </a>
+          </div>
+          <small>Necessário para o bot conectar ao chat.</small>
         </div>
         <div class="form-group">
           <label>Canal da Twitch</label>
-          <input v-model="config.twitchChannel" placeholder="ex: seu_canal" />
+          <div class="input-with-button">
+            <input v-model="config.twitchChannel" placeholder="Nome do seu canal" />
+            <a :href="`https://www.twitch.tv/${config.twitchChannel || ''}`" target="_blank" class="helper-button" title="Ir para o canal">
+              <i class="fas fa-external-link-alt"></i> Canal
+            </a>
+          </div>
         </div>
       </div>
 
@@ -27,62 +43,51 @@
         <h2>Configurações do MongoDB</h2>
         <div class="form-group">
           <label>Caminho do MongoDB</label>
-          <div class="input-group">
-            <input v-model="config.mongodbPath" placeholder="C:\Program Files\MongoDB\Server\7.0\bin\mongod.exe" />
-            <button @click="testMongoDB" class="test-button">
-              <i class="fas fa-vial"></i>
-              Testar
-            </button>
+          <div class="input-with-button">
+            <input v-model="config.mongoPath" placeholder="Caminho para o executável mongod" />
+            <button @click="testMongoConnection" class="test-button">Testar</button>
           </div>
           <small>O caminho padrão é: C:\Program Files\MongoDB\Server\7.0\bin\mongod.exe</small>
         </div>
         <div class="form-group">
           <label>URI do MongoDB</label>
-          <input v-model="config.mongodbUri" placeholder="mongodb://localhost:27017/digibot" />
-        </div>
-      </div>
-
-      <!-- Configurações do Chat -->
-      <div class="config-section">
-        <h2>Configurações do Chat</h2>
-        <div class="form-group">
-          <label>Mostrar Chat da Twitch</label>
-          <div class="toggle-switch">
-            <input type="checkbox" v-model="config.showChat" id="showChat" />
-            <label for="showChat"></label>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Modo Chat</label>
-          <select v-model="config.chatMode">
-            <option value="embed">Embed</option>
-            <option value="popout">Popout</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Taxa de Conversão de Bits (moedas do chat p/ 1 bit)</label>
-          <input v-model="config.coinConversionRate" placeholder="ex: 100" />
-        </div>
-        <div class="form-group">
-          <label>Valor dos Bits em Eventos</label>
-          <input v-model="config.coinValueForEvents" placeholder="ex: 50" />
+          <input v-model="config.mongoUri" placeholder="mongodb://localhost:27017/digibot" />
         </div>
       </div>
     </div>
 
-    <!-- Chat da Twitch (se ativado) -->
-    <!-- Removido o chat da Twitch -->
+    <!-- Guia de Configuração -->
+    <div class="guide-section">
+      <h2><i class="fas fa-book"></i> Guia de Configuração Rápida</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Gerar Token</h3>
+          <p>Clique em <strong>"Gerar Token"</strong> acima para abrir o <em>Twitch Token Generator</em>. Selecione "Bot Chat Token".</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>Copiar Access Token</h3>
+          <p>Autorize o aplicativo. Na página de resultados, copie o <strong>ACCESS TOKEN</strong> (o primeiro campo verde).</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>Colar no Bot</h3>
+          <p>Cole no campo "Token OAuth". <strong>Importante:</strong> Se o token não começar com "oauth:", adicione antes (ex: <code>oauth:seu_token_aqui</code>).</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <h3>Salvar</h3>
+          <p>Preencha o nome do bot e do canal, depois clique em "Salvar Configurações".</p>
+        </div>
+      </div>
+    </div>
 
     <!-- Botões de Ação -->
     <div class="action-buttons">
       <button @click="saveConfig" class="save-button">
         <i class="fas fa-save"></i>
         Salvar Configurações
-      </button>
-      <button @click="startBot" class="start-button" :disabled="!config.twitchUsername || !config.twitchOAuth || !config.twitchChannel || isStartingBot">
-        <i class="fas fa-play"></i>
-        <span v-if="isStartingBot">Iniciando...</span>
-        <span v-else>Iniciar Bot</span>
       </button>
     </div>
   </div>
@@ -101,8 +106,8 @@ export default {
         twitchUsername: '',
         twitchOAuth: '',
         twitchChannel: '',
-        mongodbPath: 'C:\\Program Files\\MongoDB\\Server\\7.0\\bin\\mongod.exe',
-        mongodbUri: 'mongodb://localhost:27017/digibot',
+        mongoPath: 'C:\\Program Files\\MongoDB\\Server\\7.0\\bin\\mongod.exe',
+        mongoUri: 'mongodb://localhost:27017/digibot',
         showChat: true,
         chatMode: 'embed'
       },
@@ -133,40 +138,14 @@ export default {
         this.statusMessage = '';
       }
     },
-    async testMongoDB() {
+    async testMongoConnection() {
       try {
-        // Futuramente: await api.post('/config/test-mongodb', { path: this.config.mongodbPath })
+        // Futuramente: await api.post('/config/test-mongodb', { path: this.config.mongoPath })
         this.statusMessage = 'Conexão com MongoDB testada com sucesso!';
         this.statusError = '';
       } catch (error) {
         this.statusError = 'Erro ao conectar com MongoDB.';
         this.statusMessage = '';
-      }
-    },
-    async startBot() {
-      if (this.isStartingBot) return;
-      this.isStartingBot = true;
-      this.statusMessage = '';
-      this.statusError = '';
-      try {
-        const response = await api.post('/bot/start', {
-          username: this.config.twitchUsername,
-          oauth: this.config.twitchOAuth,
-          channel: this.config.twitchChannel
-        });
-        // Se status 200, sempre mostrar mensagem de sucesso
-        if (response.status === 200) {
-          this.statusMessage = response.data?.message || 'Bot iniciado com sucesso!';
-          this.statusError = '';
-        } else {
-          this.statusMessage = '';
-          this.statusError = response.data?.message || 'Erro ao iniciar bot.';
-        }
-      } catch (err) {
-        this.statusMessage = '';
-        this.statusError = err.response?.data?.message || 'Erro ao iniciar bot.';
-      } finally {
-        this.isStartingBot = false;
       }
     }
   }
@@ -174,11 +153,11 @@ export default {
 </script>
 
 <style scoped>
-.config {
+.config-page {
   padding: 1rem;
 }
 
-.config-sections {
+.config-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
@@ -186,28 +165,28 @@ export default {
 }
 
 @media (max-width: 900px) {
-  .config-sections {
+  .config-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
 }
 
 @media (max-width: 600px) {
-  .config {
+  .config-page {
     padding: 0.5rem;
   }
-  .config-section {
+  .config-card {
     padding: 1rem;
   }
 }
 
-.config-section {
+.config-card {
   background-color: var(--sidebar-color);
   padding: 1.5rem;
   border-radius: 8px;
 }
 
-.config-section h2 {
+.card-title {
   margin-bottom: 1.5rem;
   color: var(--primary-color);
 }
@@ -238,9 +217,32 @@ export default {
   color: #888;
 }
 
-.input-group {
+.input-with-button {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
+}
+
+.input-with-button input {
+  flex: 1;
+}
+
+.helper-button {
+  padding: 0.75rem 1rem;
+  background-color: #4a4e58;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.helper-button:hover {
+  background-color: #5a5e68;
 }
 
 .test-button {
@@ -255,62 +257,69 @@ export default {
   gap: 0.5rem;
 }
 
-.toggle-switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
+.guide-section {
+  margin-top: 3rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
 }
 
-.toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.toggle-switch label {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--border-color);
-  transition: .4s;
-  border-radius: 34px;
-}
-
-.toggle-switch label:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
-}
-
-.toggle-switch input:checked + label {
-  background-color: var(--primary-color);
-}
-
-.toggle-switch input:checked + label:before {
-  transform: translateX(26px);
-}
-
-.twitch-chat {
-  margin-top: 2rem;
-  background-color: var(--sidebar-color);
-  padding: 1rem;
-  border-radius: 8px;
-}
-
-.action-buttons {
+.guide-section h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.step-card {
+  background-color: var(--sidebar-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  position: relative;
+  border: 1px solid var(--border-color);
+}
+
+.step-number {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 30px;
+  height: 30px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.step-card h3 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.step-card p {
+  font-size: 0.9rem;
+  color: #aaa;
+  line-height: 1.4;
+}
+
+.step-card code {
+  background-color: rgba(0,0,0,0.3);
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: #ff79c6;
 }
 
 .save-button {
@@ -337,38 +346,13 @@ export default {
   box-shadow: 0 4px 16px 0 rgba(33,150,243,0.18);
 }
 
-.start-button {
-  background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  padding: 0.7rem 1.2rem;
-  margin-top: 1rem;
-  box-shadow: 0 2px 8px 0 rgba(67,233,123,0.10);
-  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.start-button:hover {
-  background: linear-gradient(90deg, #38f9d7 0%, #43e97b 100%);
-  color: #232428;
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px 0 rgba(67,233,123,0.18);
-}
-
-.test-button, .action-buttons button:not(.save-button):not(.start-button) {
+.test-button {
   background: linear-gradient(90deg, #7b2ff2 0%, #f357a8 100%);
   color: #fff;
   font-weight: bold;
   border: none;
   border-radius: 8px;
   padding: 0.7rem 1.2rem;
-  margin-top: 1rem;
   box-shadow: 0 2px 8px 0 rgba(123,47,242,0.10);
   transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
@@ -378,7 +362,7 @@ export default {
   gap: 0.5rem;
 }
 
-.test-button:hover, .action-buttons button:not(.save-button):not(.start-button):hover {
+.test-button:hover {
   background: linear-gradient(90deg, #f357a8 0%, #ffe259 100%);
   color: #232428;
   transform: scale(1.05);
@@ -394,6 +378,7 @@ export default {
   font-size: 1rem;
   text-align: center;
 }
+
 .status-error {
   color: #ff4d4f;
   background: #2a1a1a;
@@ -403,4 +388,4 @@ export default {
   font-size: 1rem;
   text-align: center;
 }
-</style> 
+</style>

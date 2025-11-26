@@ -2,7 +2,7 @@
 const tmi = require('tmi.js');
 const connectDB = require('../database/mongodb');
 const Tammer = require('../../backend/models/tammer');
-const BotConfig = require('../../backend/models/BotConfig');
+const BotConfig = require('../models/BotConfig');
 const DigimonData = require('../../backend/models/digimonData');
 const config = require('../config');
 const { addXp } = require('./xpSystem');
@@ -139,29 +139,29 @@ async function onMessageHandler(target, context, msg, self) {
     return;
   }
 
-  // Comando !ficha
-  if (command === '!ficha') {
+  // Comando !ficha e seu alias !digimon
+  if (command === '!ficha' || command === '!digimon') {
     try {
       const tammer = await Tammer.findOne({ twitchUserId });
       if (!tammer) {
         return client.say(target, `${username}, você ainda não entrou no jogo. Use !entrar para começar.`);
       }
-      
+
       let statusMessage = `${username}, seu Digimon: ${tammer.digimonName} (${tammer.digimonStage} - Nível ${tammer.digimonLevel}). XP: ${tammer.digimonXp}.`;
-      
+
       if (tammer.digimonHp && tammer.digimonStats) {
         statusMessage += ` HP: ${tammer.digimonHp}, MP: ${tammer.digimonMp}, Força: ${tammer.digimonStats.forca}, Defesa: ${tammer.digimonStats.defesa}, Velocidade: ${tammer.digimonStats.velocidade}, Sabedoria: ${tammer.digimonStats.sabedoria}.`;
       }
-      
+
       statusMessage += ` Bits: ${tammer.bits}, PBs: ${tammer.battlePoints}.`;
-      
+
       // Mostra arma equipada
       if (tammer.hasWeapon()) {
         statusMessage += ` Arma: ${tammer.equippedWeapon.nome} ${tammer.equippedWeapon.emoji} (${tammer.equippedWeapon.raridade}).`;
       } else {
         statusMessage += ` Arma: Nenhuma equipada.`;
       }
-      
+
       client.say(target, statusMessage);
     } catch (error) {
       console.error("Erro no comando !ficha:", error);
@@ -314,7 +314,7 @@ async function onMessageHandler(target, context, msg, self) {
       tammerToUpdate.digimonType = newDigimonData.type;
       if (newDigimonData.baseStats) {
         tammerToUpdate.digimonHp = newDigimonData.baseStats.hp;
-        tammerToUpdate.digimonMp = newDigimonData.baseStats.mp || tammerToUpdate.digimonMp || 10; 
+        tammerToUpdate.digimonMp = newDigimonData.baseStats.mp || tammerToUpdate.digimonMp || 10;
         tammerToUpdate.digimonStats = { ...newDigimonData.baseStats };
       }
       tammerToUpdate.digimonLevel = 1;
@@ -348,4 +348,17 @@ async function onMessageHandler(target, context, msg, self) {
 }
 
 // Inicia o bot
-initializeBot();
+// Verifica se o arquivo está sendo executado diretamente
+if (require.main === module) {
+  initializeBot();
+}
+
+function getStatus() {
+  return {
+    isConnected: client && client.readyState() === 'OPEN',
+    channel: config.twitchChannel,
+    username: config.twitchUsername
+  };
+}
+
+module.exports = { initializeBot, getStatus, client };

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '@/store'
 import Dashboard from '../views/Dashboard.vue'
 import Config from '../views/Config.vue'
 
@@ -18,12 +17,6 @@ const routes = [
     component: Config
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/views/Login.vue'),
-    meta: { requiresAuth: false }
-  },
-  {
     path: '*',
     redirect: '/'
   }
@@ -33,20 +26,6 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
-
-// Guarda de navegação
-router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  const isAuthenticated = !!localStorage.getItem('token')
-
-  if (requiresAuth && !isAuthenticated) {
-    next('/login')
-  } else if (to.path === '/login' && isAuthenticated) {
-    next('/')
-  } else {
-    next()
-  }
 })
 
 export default router

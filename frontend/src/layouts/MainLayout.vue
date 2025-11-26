@@ -48,6 +48,13 @@ export default {
       statusInterval: null
     }
   },
+  created() {
+    this.fetchStatus()
+    this.emitter.on('bot-status-changed', this.fetchStatus)
+  },
+  beforeUnmount() {
+    this.emitter.off('bot-status-changed', this.fetchStatus)
+  },
   methods: {
     async fetchStatus() {
       try {

@@ -1,4 +1,7 @@
-const DigimonData = require('../models/DigimonData');
+const DigimonData = require('../../backend/models/digimonData');
+const Tammer = require('../../backend/models/tammer');
+const gameConfig = require('../config/gameConfig');
+const { addXp } = require('./xpSystem');
 const { getActiveBattle } = require('./game_mechanics/battle/battle_logic.js');
 
 let announcedEnemy = null; // Armazena o DigimonData do inimigo anunciado

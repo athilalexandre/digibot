@@ -4,8 +4,11 @@ const {
   processWeaponPurchase, 
   processItemPurchase, 
   useItem,
-  getShopStatus 
+  getShopStatus,
+  purchaseItem
 } = require('./shop_system.js');
+const gameConfig = require('../../../config/gameConfig');
+const weapons = require('../../../data/weapons_catalog.json');
 
 async function processShopCommands(target, context, msg, client) {
   const message = msg.trim().toLowerCase();

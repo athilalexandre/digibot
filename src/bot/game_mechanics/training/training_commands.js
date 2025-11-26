@@ -1,4 +1,7 @@
 const { handleTrainCommand } = require('./training_logic.js');
+const Tammer = require('../../../../backend/models/tammer');
+const { calculateTrainingXp, addXp } = require('../../xpSystem');
+const gameConfig = require('../../../config/gameConfig');
 
 async function processTrainingCommands(target, context, msg, client) {
   const message = msg.trim().toLowerCase();

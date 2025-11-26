@@ -5,22 +5,12 @@ const logger = require('../utils/logger').createModuleLogger('BotController')
 // Iniciar bot
 exports.startBot = async (req, res) => {
   try {
-    // Atualize as configs globais do backend com os dados recebidos do frontend
-    const { username, oauth, channel } = req.body;
-    if (username) config.botUsername = username;
-    if (oauth) config.botOauthToken = oauth;
-    if (channel) config.channelName = channel;
-    const result = await botService.start();
-    console.log('[startBot] Sucesso:', result);
-    res.status(200).json({ message: 'Bot iniciado com sucesso!' });
+    // A inicialização do bot agora é automática com o servidor.
+    logger.info('Recebida solicitação para iniciar o bot, mas a inicialização agora é automática.');
+    res.status(200).json({ message: 'O bot já deve estar em execução (inicialização automática).' });
   } catch (error) {
-    if (error.message === 'Bot já está conectado') {
-      console.log('[startBot] Bot já está conectado.');
-      res.status(200).json({ message: 'Bot já está conectado.' });
-    } else {
-      console.error('[startBot] Erro inesperado:', error);
-      res.status(500).json({ message: 'Erro ao iniciar bot', error: error.message });
-    }
+      logger.error('[startBot] Erro inesperado:', error);
+      res.status(500).json({ message: 'Erro ao processar início do bot', error: error.message });
   }
 }
 

@@ -327,11 +327,11 @@ export default {
     }
   },
   mounted() {
-    this.fetchStatus()
-    this._statusInterval = setInterval(this.fetchStatus, 10000)
+    this.fetchStatus();
+    this.emitter.on('bot-status-changed', this.fetchStatus);
   },
-  beforeDestroy() {
-    clearInterval(this._statusInterval)
+  beforeUnmount() {
+    this.emitter.off('bot-status-changed', this.fetchStatus);
   }
 }
 </script>

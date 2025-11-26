@@ -2,6 +2,17 @@
 // Todos os valores são ajustáveis via painel de controle ou config.json
 
 const gameConfig = {
+  // Array para consulta rápida de progressão de XP. DEVE ESTAR EM ORDEM CRESCENTE DE XP.
+  xpPerStage: [
+    { stage: 'Digitama', minXp: 0 },
+    { stage: 'Baby', minXp: 100 },
+    { stage: 'Training', minXp: 500 },
+    { stage: 'Rookie', minXp: 2500 },
+    { stage: 'Champion', minXp: 15000 },
+    { stage: 'Ultimate', minXp: 75000 },
+    { stage: 'Mega', minXp: 300000 }
+  ],
+
   // Sistema de Estágios e Progressão
   stages: {
     "Digitama": { 

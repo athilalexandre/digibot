@@ -32,6 +32,7 @@
   "dependencies": {
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "mitt": "^3.0.1",
     "mongoose": "^8.16.0",
     "tmi.js": "^1.8.5",
     "wait-on": "^7.2.0"
