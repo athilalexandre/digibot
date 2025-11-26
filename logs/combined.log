@@ -959,3 +959,12 @@
 {"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-11-26 12:24:52"}
 {"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-11-26 12:28:55"}
 {"level":"info","message":"Servidor encerrado","module":"Server","service":"digibot","timestamp":"2025-11-26 12:28:55"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-11-26 12:35:36"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-11-26 12:35:37"}
+{"level":"info","message":"Encerrando servidor...","module":"Server","service":"digibot","timestamp":"2025-11-26 13:39:52"}
+{"level":"info","message":"Conectado ao MongoDB","module":"Server","service":"digibot","timestamp":"2025-11-26 13:39:57"}
+{"level":"info","message":"Servidor rodando na porta 3000","module":"Server","service":"digibot","timestamp":"2025-11-26 13:39:58"}
+{"level":"info","message":"Configurações salvas com sucesso","module":"ConfigRoutes","service":"digibot","timestamp":"2025-11-26 13:44:50"}
+{"level":"info","message":"Bot reiniciado com sucesso","module":"ConfigRoutes","service":"digibot","timestamp":"2025-11-26 13:44:51"}
+{"level":"info","message":"Configurações salvas com sucesso","module":"ConfigRoutes","service":"digibot","timestamp":"2025-11-26 13:46:41"}
+{"level":"info","message":"Bot reiniciado com sucesso","module":"ConfigRoutes","service":"digibot","timestamp":"2025-11-26 13:46:42"}

@@ -1,0 +1,7 @@
+{
+  "twitchUsername": "0baratta",
+  "twitchOAuth": "uzuolxv2bgj68ls9h01qolfhr8b4uv",
+  "twitchChannel": "0baratta",
+  "mongoPath": "C:\\Program Files\\MongoDB\\Server\\7.0\\bin\\mongod.exe",
+  "mongoUri": "mongodb://localhost:27017/digibot"
+}

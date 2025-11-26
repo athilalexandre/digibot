@@ -361,4 +361,32 @@ function getStatus() {
   };
 }
 
-module.exports = { initializeBot, getStatus, client };
+async function restartBot() {
+  try {
+    console.log('Reiniciando bot...');
+
+    // Desconecta o bot atual
+    if (client && client.readyState() === 'OPEN') {
+      await client.disconnect();
+      console.log('Bot desconectado');
+    }
+
+    // Recarrega as configurações
+    const configModule = require('../config');
+    const newConfig = configModule.reloadConfig();
+
+    // Atualiza as configurações do cliente
+    Object.assign(config, newConfig);
+
+    // Reconecta com as novas configurações
+    await initializeBot();
+
+    console.log('Bot reiniciado com sucesso');
+    return true;
+  } catch (error) {
+    console.error('Erro ao reiniciar bot:', error);
+    throw error;
+  }
+}
+
+module.exports = { initializeBot, getStatus, restartBot, client };

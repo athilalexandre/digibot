@@ -16,6 +16,7 @@
               <i class="fas fa-user-plus"></i> Criar
             </a>
           </div>
+          <small><strong>Importante:</strong> Crie uma conta separada na Twitch para o bot (recomendado) ou use sua própria conta. O nome de usuário é o login da conta.</small>
         </div>
         <div class="form-group">
           <label>Token OAuth</label>
@@ -35,6 +36,7 @@
               <i class="fas fa-external-link-alt"></i> Canal
             </a>
           </div>
+          <small>O canal onde o bot vai operar (geralmente seu canal).</small>
         </div>
       </div>
 
@@ -62,32 +64,32 @@
       <div class="steps-grid">
         <div class="step-card">
           <div class="step-number">1</div>
-          <h3>Gerar Token</h3>
-          <p>Clique em <strong>"Gerar Token"</strong> acima para abrir o <em>Twitch Token Generator</em>. Selecione "Bot Chat Token".</p>
+          <h3>Criar Conta do Bot</h3>
+          <p><strong>Recomendado:</strong> Crie uma conta separada na Twitch para o bot clicando em "Criar" acima. Use um nome como "SeuNomeBot".</p>
         </div>
         <div class="step-card">
           <div class="step-number">2</div>
-          <h3>Copiar Access Token</h3>
-          <p>Autorize o aplicativo. Na página de resultados, copie o <strong>ACCESS TOKEN</strong> (o primeiro campo verde).</p>
+          <h3>Gerar Token</h3>
+          <p>Clique em <strong>"Gerar Token"</strong> acima. Faça login com a conta do bot e selecione "Bot Chat Token".</p>
         </div>
         <div class="step-card">
           <div class="step-number">3</div>
-          <h3>Colar no Bot</h3>
-          <p>Cole no campo "Token OAuth". <strong>Importante:</strong> Se o token não começar com "oauth:", adicione antes (ex: <code>oauth:seu_token_aqui</code>).</p>
+          <h3>Copiar Access Token</h3>
+          <p>Na página de resultados, copie o <strong>ACCESS TOKEN</strong> (primeiro campo verde). Se não começar com "oauth:", adicione antes.</p>
         </div>
         <div class="step-card">
           <div class="step-number">4</div>
-          <h3>Salvar</h3>
-          <p>Preencha o nome do bot e do canal, depois clique em "Salvar Configurações".</p>
+          <h3>Salvar e Conectar</h3>
+          <p>Preencha todos os campos e clique em "Salvar". O bot será reiniciado automaticamente e aparecerá no chat!</p>
         </div>
       </div>
     </div>
 
     <!-- Botões de Ação -->
     <div class="action-buttons">
-      <button @click="saveConfig" class="save-button">
+      <button @click="saveConfig" class="save-button" :disabled="isSaving">
         <i class="fas fa-save"></i>
-        Salvar Configurações
+        {{ isSaving ? 'Salvando...' : 'Salvar Configurações' }}
       </button>
     </div>
   </div>
@@ -107,42 +109,66 @@ export default {
         twitchOAuth: '',
         twitchChannel: '',
         mongoPath: 'C:\\Program Files\\MongoDB\\Server\\7.0\\bin\\mongod.exe',
-        mongoUri: 'mongodb://localhost:27017/digibot',
-        showChat: true,
-        chatMode: 'embed'
+        mongoUri: 'mongodb://localhost:27017/digibot'
       },
-      window: window,
       statusMessage: '',
       statusError: '',
-      isStartingBot: false
+      isSaving: false
     }
   },
-  created() {
-    // Carregar configurações do localStorage se existirem
-    const saved = localStorage.getItem(CONFIG_KEY);
-    if (saved) {
-      try {
-        this.config = { ...this.config, ...JSON.parse(saved) };
-      } catch (e) {}
+  async created() {
+    // Carregar configurações do backend
+    try {
+      const response = await api.get('/config');
+      if (response.data) {
+        this.config = { ...this.config, ...response.data };
+      }
+    } catch (error) {
+      console.error('Erro ao carregar configurações:', error);
+      // Fallback para localStorage
+      const saved = localStorage.getItem(CONFIG_KEY);
+      if (saved) {
+        try {
+          this.config = { ...this.config, ...JSON.parse(saved) };
+        } catch (e) {}
+      }
     }
   },
   methods: {
     async saveConfig() {
+      this.isSaving = true;
+      this.statusMessage = '';
+      this.statusError = '';
+      
       try {
-        localStorage.setItem(CONFIG_KEY, JSON.stringify(this.config));
-        // (Opcional) Salvar no backend futuramente
-        this.statusMessage = 'Configurações salvas com sucesso!';
-        this.statusError = '';
+        // Salva no backend
+        const response = await api.post('/config/save', this.config);
+        
+        if (response.data.success) {
+          this.statusMessage = response.data.message;
+          if (response.data.warning) {
+            this.statusMessage += ' Aviso: ' + response.data.warning;
+          }
+          // Também salva no localStorage como backup
+          localStorage.setItem(CONFIG_KEY, JSON.stringify(this.config));
+        } else {
+          this.statusError = response.data.error || 'Erro desconhecido';
+        }
       } catch (error) {
-        this.statusError = 'Erro ao salvar configurações.';
-        this.statusMessage = '';
+        console.error('Erro ao salvar configurações:', error);
+        this.statusError = error.response?.data?.error || 'Erro ao salvar configurações. Verifique se o backend está rodando.';
+      } finally {
+        this.isSaving = false;
       }
     },
     async testMongoConnection() {
       try {
-        // Futuramente: await api.post('/config/test-mongodb', { path: this.config.mongoPath })
-        this.statusMessage = 'Conexão com MongoDB testada com sucesso!';
+        this.statusMessage = 'Testando conexão com MongoDB...';
         this.statusError = '';
+        // TODO: Implementar teste real
+        setTimeout(() => {
+          this.statusMessage = 'Função de teste será implementada em breve.';
+        }, 1000);
       } catch (error) {
         this.statusError = 'Erro ao conectar com MongoDB.';
         this.statusMessage = '';
@@ -339,11 +365,16 @@ export default {
   gap: 0.5rem;
 }
 
-.save-button:hover {
+.save-button:hover:not(:disabled) {
   background: linear-gradient(90deg, #00c6fb 0%, #2196f3 100%);
   color: #232428;
   transform: scale(1.05);
   box-shadow: 0 4px 16px 0 rgba(33,150,243,0.18);
+}
+
+.save-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .test-button {

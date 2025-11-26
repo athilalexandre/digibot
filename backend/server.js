@@ -15,6 +15,7 @@ const botRoutes = require('./routes/bot')
 const commandRoutes = require('./routes/command')
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
+const configRoutes = require('./routes/config')
 
 const app = express()
 
@@ -50,6 +51,7 @@ app.use('/api/bot', botRoutes)
 app.use('/api/commands', commandRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/admin', adminRoutes)
+app.use('/api/config', configRoutes)
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -146,4 +148,4 @@ process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
-startServer() 
+startServer()
